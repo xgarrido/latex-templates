@@ -1,0 +1,80 @@
+#+TITLE:  LaTeX templates
+#+AUTHOR: Xavier Garrido
+#+OPTIONS: toc:nil
+#+BABEL: :results silent
+
+* Introduction
+This file should provide a saner set of LaTeX templates for articles, memos or
+beamer templates. It uses all the versatility of =org-mode= from Emacs,
+especially all the tangling power of =org-babel=.
+
+The document firstly introduces some general options for LaTeX to work with
+=org-mode= and =xelatex=. The second part defines some /chapter/ styles.
+
+Most of the code come from [[https://github.com/kjhealy/latex-custom-kjh][Kieran Healy's LaTeX custom files]].
+
+* Org preamble
+:PROPERTIES:
+:CUSTOM_ID: org_preamble
+:TANGLE: org-preamble.sty
+:END:
+
+This section defines =org= preamble and settings for documents exported from
+=.org= to =.tex= files. The basic use is to add =\usepackage{org-preamble.sty}=
+in your LaTeX document.
+
+** Basics
+#+BEGIN_SRC latex
+  \NeedsTeXFormat{LaTeX2e}
+  \ProvidesPackage{org-preamble}[2013/03/03 v0.01 Bundling of Preamble items for Org to XeLaTeX export]
+#+END_SRC
+
+** Style options
+Options can be passed to =org-preamble= style file within =\usepackage[options]=
+call. For the time being, I have only copied/pasted how to declare such options
+but do not use it.
+#+BEGIN_SRC latex :tangle no
+  \RequirePackage{ifthen}
+  \newboolean{@fr} %
+  \setboolean{@fr}{false} %
+  \DeclareOption{fr}{
+    \setboolean{@fr}{true}
+  }
+  \ProcessOptions
+#+END_SRC
+
+** Packages requirements
+*** Hyperref settings
+#+BEGIN_SRC latex
+  \RequirePackage[
+    xetex,
+    colorlinks=true,
+    urlcolor=DarkSlateBlue,
+    citecolor=DarkSlateBlue,
+    filecolor=DarkSlateBlue,
+    plainpages=false,
+    pdfpagelabels,
+    bookmarksnumbered]{hyperref}
+#+END_SRC
+
+* Article styles
+:PROPERTIES:
+:CUSTOM_ID: article_styles
+:TANGLE: memoir-article-styles.sty
+:END:
+Some article styles and page layout tweaks for the [[http://www.ctan.org/tex-archive/macros/latex/contrib/memoir/][memoir]] LaTeX class.
+
+** Blank footnote
+This piece of code is pretty useful for adding a /blank/ footnote to be used for
+corresponding author reference... Use =\symbolfoonote[0]{Footnote text}=.
+#+BEGIN_SRC latex
+  \long\def\symbolfootnote[#1]#2{%
+    \begingroup%
+    \def\thefootnote{\fnsymbol{footnote}}\footnote[#1]{#2}%
+    \endgroup}
+#+END_SRC
+* Exporting styles
+:PROPERTIES:
+:CUSTOM_ID: export_styles
+:END:
+Given the generation of LaTeX styles from the previous item
