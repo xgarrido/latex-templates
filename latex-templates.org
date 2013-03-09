@@ -1,8 +1,7 @@
-#+TITLE:  LaTeX templates
+#+TITLE:  LaTeX Templates
 #+AUTHOR: Xavier Garrido
 #+OPTIONS: toc:nil
-#+BABEL: :results silent
-
+#+
 * Introduction
 This file should provide a saner set of LaTeX templates for articles, memos or
 beamer templates. It uses all the versatility of =org-mode= from Emacs,
@@ -55,6 +54,9 @@ but do not use it.
     plainpages=false,
     pdfpagelabels,
     bookmarksnumbered]{hyperref}
+  \RequirePackage{fontspec}
+  \RequirePackage{xunicode}
+  \RequirePackage{minted}
 #+END_SRC
 
 * Article styles
@@ -73,8 +75,90 @@ corresponding author reference... Use =\symbolfoonote[0]{Footnote text}=.
     \def\thefootnote{\fnsymbol{footnote}}\footnote[#1]{#2}%
     \endgroup}
 #+END_SRC
+
+** Test chapter style
+#+BEGIN_SRC latex
+  \makechapterstyle{article-4-sans}{
+   \setsecheadstyle{\sffamily\bfseries}
+   \setsubsecheadstyle{\normalsize\sffamily\itshape}
+       \setaftersubsubsecskip{-1em}
+   \setsubsubsecheadstyle{\small}
+   \renewcommand{\printchaptername}{}
+   \renewcommand{\chapternamenum}{}
+   \renewcommand{\chapnumfont}{\chaptitlefont}
+   \renewcommand{\printchapternum}{\chapnumfont \thechapter\space}
+   \renewcommand{\afterchapternum}{}
+   \renewcommand{\printchaptername}{\secheadstyle}
+   \renewcommand{\cftchapterfont}{\normalfont}
+   \renewcommand{\cftchapterpagefont}{\normalfont\sffamily}
+   \renewcommand{\cftchapterpresnum}{\sffamily}
+   %\renewcommand{\cftchapterleader}{}
+   %\renewcommand{\cftchapterafterpnum}{\cftparfillskip}
+   \captiontitlefont{\small}
+   %\settocdepth{chapter}
+   \maxsecnumdepth{chapter}
+   \setsecnumdepth{chapter}
+
+   %% reduce skip after section heading
+   \setaftersecskip{1.7ex}
+
+   %% set name of bibliography to 'references'
+   %%\renewcommand{\bibname}{\mdseries\Large\sffamily References}
+
+   % % Title flush left
+   \pretitle{\par\vskip 3em
+       \begin{flushleft}\LARGE\sffamily\bfseries}
+   \posttitle{\end{flushleft}\par\vskip 0.5em}
+   \preauthor{\begin{flushleft}\Large}
+   \postauthor{\end{flushleft}}
+   \predate{\begin{flushleft}\normalsize}
+   \postdate{\end{flushleft}}
+
+   %% 'abstract' bigger skip from title
+   \addto\captionsamerican{\renewcommand*{\abstractname}{}}
+   \renewcommand{\abstractnamefont}{\normalfont\scriptsize}
+   \renewcommand{\abstracttextfont}{\normalfont\scriptsize}
+   \abstractrunin
+  }
+#+END_SRC
 * Exporting styles
 :PROPERTIES:
 :CUSTOM_ID: export_styles
+:TANGLE: latex-templates.sh
 :END:
-Given the generation of LaTeX styles from the previous item
+Given the generation of LaTeX styles from the previous items, the files are
+exported to =$TEXMFHOME= to make them available from everywhere.
+
+** List of file to export
+#+TBLNAME: style_files
+| org-preamble.sty          |
+| memoir-article-styles.sty |
+
+** Script to do the export
+#+NAME: export_script(files=style_files)
+#+BEGIN_SRC sh :shebang #!/bin/bash
+  if [ ! -d $TEXMFHOME ]; then
+      echo "ERROR: No TEXMFHOME installation !"
+      return 1
+  fi
+
+  latex_dir=$TEXMFHOME/tex/latex/commonstuff
+  mode="install"
+
+  if [ "$1" == "clean" ]; then
+      mode="clean"
+  else
+      mkdir -p ${latex_dir}
+  fi
+
+  for f in $files
+  do
+      if [ $mode = install ]; then
+          echo "NOTICE: Installing $f into ${latex_dir}"
+          cp $f ${latex_dir}/.
+      elif [ $mode = clean ]; then
+          echo "NOTICE: Removing $f from ${latex_dir}"
+          rm -f ${latex_dir}/$f
+      fi
+  done
+#+END_SRC
