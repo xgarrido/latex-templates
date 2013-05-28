@@ -1,0 +1,3 @@
+*.sty
+/latex-templates.sh
+/.latex-templates.tangle
