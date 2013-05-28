@@ -273,6 +273,165 @@ Adobe. Inconsolata is used as monospace font.
 #+END_SRC
 
 * KOMA/LaTeX letter styles
+:PROPERTIES:
+:CUSTOM_ID: koma_letter
+:END:
+
+This part holds some LaTeX styles for cover letter. This is mainly inspired by
+this [[http://stefano.italians.nl/archives/55][tutorial]]. First, the basics are defined namely the layout of the cover
+letter. Then /personal data/ informations are set given the usecase
+(french/english).
+
+** Cover letter layout
+*** Packages
+#+NAME: kpackages
+#+BEGIN_SRC latex :results none :tangle no
+  \usepackage{fontspec}
+  \usepackage{xltxtra}
+  \usepackage{marvosym}
+  \usepackage{graphicx}
+  \usepackage[dvipdfm]{geometry}
+  \usepackage{pst-barcode}
+#+END_SRC
+*** Fonts
+#+NAME: kfonts
+#+BEGIN_SRC latex :results none :tangle no
+  \setmainfont{GaramondNo8}
+#+END_SRC
+*** Lengths
+#+NAME: klengths
+#+BEGIN_SRC latex :results none :tangle no
+  \@setplength{firstheadvpos}{0pt}%
+  \@setplength{firstheadwidth}{\paperwidth}%
+  \@setplength{firstfootvpos}{\paperheight}%
+  \@addtoplength[-]{firstfootvpos}{\useplength{toaddrvpos}}%
+  \@addtoplength{refvpos}{-1.5\baselineskip}%
+  \@newplength{infocolwidth}%
+  % Kohm & Morawski 2005, C.7. Modifikationen (Modifications)
+  \ifdim \textwidth<0.666\paperwidth
+   \@setplength{infocolwidth}{.22222\paperwidth}%
+  \else
+   \@setplength{infocolwidth}{0.1667\paperwidth}%
+   \fi
+#+END_SRC
+
+*** Page body
+Shift the page body on the left to make room for personal data and logo.
+#+NAME: kbody
+#+BEGIN_SRC latex :results none :tangle no
+  \setlength{\parindent}{0cm}
+  \setlength{\oddsidemargin}{\useplength{toaddrhpos}}%
+  \addtolength{\oddsidemargin}{-1in}%
+  % Take care that the shift stays intact even after recalculating the page
+  % layout (see Kohm & Morawski 2005, section C.7)
+  \l@addto@macro{\@typearea@end}{%
+    \setlength{\oddsidemargin}{\useplength{toaddrhpos}}%
+   \addtolength{\oddsidemargin}{-1in}%
+  }
+#+END_SRC
+
+*** Fancy header
+#+NAME: kheader
+#+BEGIN_SRC latex :results none :tangle no
+  \firsthead{%
+   \fontsize{8}{9}\sffamily
+   \hspace*{\fill}%
+   \begin{picture}(0,0)%
+   \put(0,0){\parbox[t]{\useplength{infocolwidth}}{%
+   \vspace{\useplength{toaddrvpos}}%
+   \usekomavar{fromlogo}%
+   }%
+   }%
+   \put(0,0){\parbox[t]{\useplength{infocolwidth}}{%
+   \raggedright
+   \vspace{\useplength{refvpos}}%
+   \vspace{\useplength{refaftervskip}}%
+   \usekomavar{place}\usekomavar{placeseparator}\\
+   \usekomavar{date}\\[10\baselineskip]
+   \usekomavar{fromname}\\
+   \usekomavar{fromaddress}\\
+   [\baselineskip]
+   \Telefon~\usekomavar{fromphone}\\
+   \Letter~\usekomavar{fromemail}
+   }%
+  }%
+   \end{picture}%
+   \hspace*{\useplength{infocolwidth}}%
+  }%
+
+  % avoid the display of the date in the default position
+  \l@addto@macro\@firstheadfootfield{\setkomavar{date}{}}
+#+END_SRC
+
+** Personal data
+*** English
+:PROPERTIES:
+:TANGLE: english.lco
+:END:
+
+#+BEGIN_SRC latex
+  \ProvidesFile{english.lco}[]
+  \usepackage[english]{babel}
+#+END_SRC
+
+#+BEGIN_SRC latex :noweb yes
+  <<kpackages>>
+  <<kfonts>>
+  <<klengths>>
+  <<kbody>>
+  <<kheader>>
+#+END_SRC
+
+#+BEGIN_SRC latex
+  \setkomavar{fromname}{Xavier Garrido}
+  \setkomavar{fromaddress}{Laboratoire de l'Accélérateur Linéaire\\Centre Scientifique d'Orsay\\91898 Orsay Cedex}
+  \setkomavar{fromemail}{garrido@lal.in2p3.fr}
+  \setkomavar{fromphone}{+33 1 64 46 84 28}
+  \setkomavar{fromfax}{}
+  \setkomavar{fromurl}{}
+  %%\setkomavar{fromlogo}{\includegraphics[width=3cm]{logo_upsud_bw}}
+  \setkomavar{place}{Orsay}
+  \setkomavar{signature}{Xavier Garrido\\Assistant professor at University Paris-Sud}
+#+END_SRC
+
+#+BEGIN_SRC latex
+  \endinput
+#+END_SRC
+
+*** French
+:PROPERTIES:
+:TANGLE: french.lco
+:END:
+
+#+BEGIN_SRC latex
+  \ProvidesFile{french.lco}[]
+  \usepackage[frenchb]{babel}
+#+END_SRC
+
+#+BEGIN_SRC latex :noweb yes
+  <<kpackages>>
+  <<kfonts>>
+  <<klengths>>
+  <<kbody>>
+  <<kheader>>
+#+END_SRC
+
+#+BEGIN_SRC latex
+  \setkomavar{fromname}{Xavier Garrido}
+  \setkomavar{fromaddress}{Laboratoire de l'Accélérateur Linéaire\\Centre Scientifique d'Orsay\\91898 Orsay Cedex}
+  \setkomavar{fromemail}{garrido@lal.in2p3.fr}
+  \setkomavar{fromphone}{+33 1 64 46 84 28}
+  \setkomavar{fromfax}{}
+  \setkomavar{fromurl}{}
+  %%\setkomavar{fromlogo}{\includegraphics[width=3cm]{logo_upsud_bw}}
+  \setkomavar{place}{Orsay}
+  \setkomavar{signature}{Xavier Garrido\\Maître de Conférence à l'Université Paris-Sud}
+#+END_SRC
+
+#+BEGIN_SRC latex
+  \endinput
+#+END_SRC
+
 * Exporting styles
 :PROPERTIES:
 :CUSTOM_ID: export_styles
@@ -284,9 +443,11 @@ exported to =$TEXMFHOME= to make them available from everywhere.
 
 ** List of files to export
 #+TBLNAME: style_files
-| $TEXMFHOME | org-preamble.sty          |
-| $TEXMFHOME | memoir-article-styles.sty |
-| $TEXMFHOME | cv_style.sty              |
+| $TEXMFHOME/tex/latex/commonstuff                 | org-preamble.sty          |
+| $TEXMFHOME/tex/latex/commonstuff                 | memoir-article-styles.sty |
+| $TEXMFHOME/tex/latex/commonstuff                 | cv_style.sty              |
+| $TEXMFHOME/tex/latex/commonstuff/koma-letter-lco | english.lco               |
+| $TEXMFHOME/tex/latex/commonstuff/koma-letter-lco | french.lco                |
 
 ** Script to do the export
 #+NAME: export_script(dirs=style_files[,0], files=style_files[,1])
