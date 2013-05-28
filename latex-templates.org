@@ -43,6 +43,11 @@ but do not use it.
 #+END_SRC
 
 ** Packages requirements
+*** AMS packages
+#+BEGIN_SRC latex
+  \RequirePackage{amsmath}
+#+END_SRC
+
 *** Hyperref settings
 #+BEGIN_SRC latex
   \RequirePackage[svgnames]{xcolor}
@@ -178,6 +183,16 @@ command.
   \setlength{\parindent}{0cm}
 #+END_SRC
 
+** Fonts
+Choose fonts for use with xelatex. Minion and Myriad are widely available, from
+Adobe. Inconsolata is used as monospace font.
+
+#+BEGIN_SRC latex
+  \setromanfont[Mapping={tex-text},Numbers={OldStyle},Ligatures={Common}]{Minion Pro}
+  \setsansfont[Mapping=tex-text,Colour=theMainColor]{Myriad Pro}
+  \setmonofont[Mapping=tex-text,Scale=0.9]{Inconsolata}
+#+END_SRC
+
 ** Document title
 #+BEGIN_SRC latex
   \renewcommand*{\maketitle}{%
@@ -204,7 +219,7 @@ command.
 #+END_SRC
 
 *** =section=
-#+BEGIN_SRC latex
+#+BEGIN_SRC latex :tangle no
   \titleformat{\section} %command
               {\large\sf\raggedright} %format
               {} %label
@@ -214,16 +229,26 @@ command.
   \titlespacing{\section}{0pt}{10pt}{5pt}
 #+END_SRC
 
+#+BEGIN_SRC latex
+  \titleformat{\section} %command
+              [leftmargin] %shape
+              {\footnotesize\sf\raggedleft} %format
+              {} %label
+              {0pt} %sep
+              {\lowercase} %before
+              [] %after
+  \titlespacing{\section}{90pt}{5pt}{15pt}
+#+END_SRC
+
 *** =subsection=
 #+BEGIN_SRC latex
   \titleformat{\subsection} %command
-              [leftmargin] %shape
-              {\small\raggedleft} %format
-              {\thesection} %label
+              {\normalsize\it} %format
+              {} %label
               {0pt} %sep
-              {\color{theMainColor}} %before
+              {} %before
               [] %after
-  \titlespacing{\subsection}{90pt}{5pt}{15pt}
+  \titlespacing{\subsection}{0pt}{-5mm}{0pt}
 #+END_SRC
 
 *** =itemize=
@@ -235,19 +260,19 @@ command.
         \setlength{\parskip}{0in}
         \setlength{\topsep}{0in}
         \setlength{\partopsep}{0in}
-        \setlength{\leftmargin}{0.1in}}}{\end{list}}
+        \setlength{\leftmargin}{0.1in}}
+      \vspace{-5mm}}{\end{list}}
+%%  \renewenvironment{enumerate}{
+%%    \begin{list}{}{%
+%%        \setlength{\itemsep}{0.05in}
+%%        \setlength{\parsep}{0in}
+%%        \setlength{\parskip}{0in}
+%%        \setlength{\topsep}{0in}
+%%        \setlength{\partopsep}{0in}
+%%        \setlength{\leftmargin}{0.1in}}}{\end{list}}
 #+END_SRC
 
-** Fonts
-Choose fonts for use with xelatex Minion and Myriad are widely available, from
-Adobe. Inconsolata is used as monospace font.
-
-#+BEGIN_SRC latex
-  \setromanfont[Mapping={tex-text},Numbers={OldStyle},Ligatures={Common}]{Minion Pro}
-  \setsansfont[Mapping=tex-text,Colour=theMainColor]{Myriad Pro}
-  \setmonofont[Mapping=tex-text,Scale=0.9]{Inconsolata}
-#+END_SRC
-
+* KOMA/LaTeX letter styles
 * Exporting styles
 :PROPERTIES:
 :CUSTOM_ID: export_styles
@@ -257,37 +282,43 @@ Adobe. Inconsolata is used as monospace font.
 Given the generation of LaTeX styles from the previous items, the files are
 exported to =$TEXMFHOME= to make them available from everywhere.
 
-** List of file to export
+** List of files to export
 #+TBLNAME: style_files
-| org-preamble.sty          |
-| memoir-article-styles.sty |
-| cv_style.sty              |
+| $TEXMFHOME | org-preamble.sty          |
+| $TEXMFHOME | memoir-article-styles.sty |
+| $TEXMFHOME | cv_style.sty              |
 
 ** Script to do the export
-#+NAME: export_script(files=style_files)
+#+NAME: export_script(dirs=style_files[,0], files=style_files[,1])
 #+BEGIN_SRC sh :shebang #!/bin/bash
   if [ ! -d $TEXMFHOME ]; then
       echo "ERROR: No TEXMFHOME installation !"
       return 1
   fi
 
-  latex_dir=$TEXMFHOME/tex/latex/commonstuff
   mode="install"
 
   if [ "$1" == "clean" ]; then
       mode="clean"
-  else
-      mkdir -p ${latex_dir}
   fi
 
-  for f in $files
+  ff=( $files )
+  dd=( $dirs )
+
+  for i in ${!ff[*]}
   do
+      a_dir=$(eval echo ${dd[$i]})
+      a_file=${ff[$i]}
       if [ $mode = install ]; then
-          echo "NOTICE: Installing $f into ${latex_dir}"
-          cp $f ${latex_dir}/.
+          echo "NOTICE: Installing ${a_file} into ${a_dir}"
+          if [ ! -d ${a_dir} ]; then
+              echo "NOTICE: Creating directory ${a_dir}"
+              mkdir -p ${a_dir}
+          fi
+          cp ${a_file} ${a_dir}
       elif [ $mode = clean ]; then
-          echo "NOTICE: Removing $f from ${latex_dir}"
-          rm -f ${latex_dir}/$f
+          echo "NOTICE: Removing ${a_file} from ${a_dir}"
+          rm -f ${a_dir}/${a_file}
       fi
   done
 #+END_SRC
