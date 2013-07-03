@@ -334,9 +334,7 @@ footnote style of author/affiliation input.
 
 *** Caption
 #+BEGIN_SRC latex
-  \RequirePackage[bf,footnotesize]{caption2}
-  \setlength{\captionmargin}{20pt}
-  \renewcommand{\captionlabeldelim}{ -}
+  \RequirePackage[margin=20pt,labelfont=bf,font=footnotesize,labelsep=endash]{caption}
 #+END_SRC
 
 * CV style
