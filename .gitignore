@@ -1,3 +1,5 @@
 *.sty
 /latex-templates.sh
 /.latex-templates.tangle
+/english.lco
+/french.lco

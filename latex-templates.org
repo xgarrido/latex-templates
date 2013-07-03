@@ -19,13 +19,13 @@ Most of the code come from [[https://github.com/kjhealy/latex-custom-kjh][Kieran
 :END:
 
 This section defines =org= preamble and settings for documents exported from
-=.org= to =.tex= files. The basic use is to add =\usepackage{org-preamble.sty}=
-in your LaTeX document.
+=.org= to =.tex= files. The basic use is to add =\usepackage{org-preamble}= in
+your LaTeX document.
 
 ** Basics
 #+BEGIN_SRC latex
   \NeedsTeXFormat{LaTeX2e}
-  \ProvidesPackage{org-preamble}[2013/03/03 v0.01 Bundling of Preamble items for Org to XeLaTeX export]
+  \ProvidesPackage{org-preamble}[2013/03/03 v0.01 Bundling of Preamble items for Org to LaTeX export]
 #+END_SRC
 
 ** Style options
@@ -46,29 +46,47 @@ but do not use it.
 *** AMS packages
 #+BEGIN_SRC latex
   \RequirePackage{amsmath}
+  \RequirePackage{minted}
+#+END_SRC
+*** Listings package
+[[https://code.google.com/p/minted/][minted]] is a package that facilitates expressive syntax highlighting in LaTeX
+using the powerful Pygments library. The package also provides options to
+customize the highlighted source code output using =fancyvrb=.
+#+BEGIN_SRC latex
+  \RequirePackage{minted}
 #+END_SRC
 
 *** Hyperref settings
 #+BEGIN_SRC latex
-  \RequirePackage[svgnames]{xcolor}
+  \RequirePackage{ifxetex}
+  \ifxetex
   \RequirePackage[
     xetex,
+    backref,
+    pagebackref,
+    naturalnames=true,
     colorlinks=true,
-    urlcolor=DarkSlateBlue,
-    citecolor=DarkSlateBlue,
-    filecolor=DarkSlateBlue,
     plainpages=false,
     pdfpagelabels,
     bookmarksnumbered]{hyperref}
   \RequirePackage{fontspec}
   \RequirePackage{xunicode}
-  \RequirePackage{minted}
+  \else
+  \RequirePackage[
+    backref,
+    pagebackref,
+    naturalnames=true,
+    colorlinks=true,
+    plainpages=false,
+    pdfpagelabels,
+    bookmarksnumbered]{hyperref}
+  \fi
 #+END_SRC
 
-* Article styles
+* Memoir article styles :DEVELOPMENT:
 :PROPERTIES:
-:CUSTOM_ID: article_styles
-:TANGLE: memoir-article-styles.sty
+:CUSTOM_ID: memoir_article_style
+:TANGLE: memoir-article-style.sty
 :END:
 
 Some article styles and page layout tweaks for the [[http://www.ctan.org/tex-archive/macros/latex/contrib/memoir/][memoir]] LaTeX class.
@@ -134,6 +152,191 @@ corresponding author reference... Use =\symbolfoonote[0]{Footnote text}=.
    \renewcommand{\abstracttextfont}{\normalfont\scriptsize}
    \abstractrunin
   }
+#+END_SRC
+
+* SuperNEMO article style
+:PROPERTIES:
+:CUSTOM_ID: supernemo_article_style
+:TANGLE: supernemo-article-style.sty
+:END:
+
+** Basics
+#+BEGIN_SRC latex
+  \NeedsTeXFormat{LaTeX2e}
+  \ProvidesPackage{supernemo-article-style}[2013/07/03 v0.01 Bundling of SuperNEMO article items]
+#+END_SRC
+
+** Set fonts
+#+BEGIN_SRC latex
+  \RequirePackage{lmodern}
+  \RequirePackage{mathpazo}
+  \RequirePackage[scaled=.95]{helvet}
+  \RequirePackage{courier}
+#+END_SRC
+
+** Graphics packages
+#+BEGIN_SRC latex
+  \RequirePackage{graphicx}
+  \RequirePackage{wrapfig}
+  \RequirePackage{tikz}
+#+END_SRC
+
+** Color
+#+BEGIN_SRC latex
+  %%\usepackage{color}
+  \definecolor{gris25}{gray}{0.25}
+  \definecolor{sncolor}{rgb}{0.0,0.0,0.0}
+#+END_SRC
+
+** Geometry
+#+BEGIN_SRC latex
+  \RequirePackage{a4wide}
+  \linespread{1.02}
+  \setlength{\textwidth}{15.5cm}
+  \setlength{\textheight}{690pt}
+  \setlength{\evensidemargin}{0cm}
+  \addtolength{\voffset}{-0.5cm}
+  \setlength{\headheight}{15pt}
+#+END_SRC
+
+** Authoring & bibliography
+[[http://www.ctan.org/pkg/authblk][The package]] redefines the =\author= command to work as normal or to allow a
+footnote style of author/affiliation input.
+#+BEGIN_SRC latex
+  \RequirePackage{authblk}
+#+END_SRC
+
+#+BEGIN_SRC latex
+  \RequirePackage[nottoc,notlof,notlot]{tocbibind}
+#+END_SRC
+
+** Layout
+#+BEGIN_SRC latex
+  \RequirePackage{fancyhdr}
+#+END_SRC
+
+*** Logo
+#+BEGIN_SRC latex
+  \newcommand{\snlogo}{
+    \resizebox{!}{35mm}{
+      \begin{tikzpicture}[y=-1cm]
+        \tikzstyle{line}=[line width=3.5pt, sncolor]
+
+        \path[fill=white] (3.5,0.5) rectangle (16.5,13);
+        \draw[line,cap=round,sncolor] (15.77099,10.87346) +(-146:5.28649) arc (-146:-94:5.28649);
+        \draw[line,cap=round,sncolor] (14.21807,12.1247) +(-123:5.16183) arc (-123:-77:5.16183);
+        \draw[line] (5.94556,9.46111) +(139:0.23466) arc (139:319:0.23466);
+        \draw[line] (6.29889,9.15444) +(139:0.2332) arc (139:-41:0.2332);
+        \draw[line] (6.65333,8.85017) +(139:0.23393) arc (139:319:0.23393);
+        \draw[line] (7.00556,8.54222) +(139:0.23393) arc (139:-41:0.23393);
+        \draw[line] (7.36,8.23796) +(140:0.23321) arc (140:319:0.23321);
+        \draw[line] (7.71222,7.93) +(139:0.23466) arc (139:-41:0.23466);
+        \draw[line] (8.06667,7.62462) +(140:0.23321) arc (140:319:0.23321);
+        \draw[line] (5.94556,3.93889) +(-139:0.23466) arc (-139:-319:0.23466);
+        \draw[line] (6.29889,4.24556) +(-139:0.2332) arc (-139:41:0.2332);
+        \draw[line] (6.65333,4.54983) +(-139:0.23393) arc (-139:-319:0.23393);
+        \draw[line] (7.00556,4.85778) +(-139:0.23393) arc (-139:41:0.23393);
+        \draw[line] (7.36,5.16204) +(-140:0.23321) arc (-140:-319:0.23321);
+        \draw[line] (7.71222,5.47) +(-139:0.23466) arc (-139:41:0.23466);
+        \draw[line] (8.06667,5.77538) +(-140:0.23321) arc (-140:-319:0.23321);
+
+        \draw[line] (4.66667,9.66667) -- (15.36667,9.66667);
+        \draw[line] (4.66667,9.96667) -- (15.36667,9.96667);
+        \draw[line] (4.66667,10.26667) -- (15.36667,10.26667);
+        \draw[line] (4.66667,3.16667) -- (15.36667,3.16667);
+        \draw[line] (4.66667,3.46667) -- (15.36667,3.46667);
+        \draw[line] (4.66667,3.76667) -- (15.36667,3.76667);
+
+        \path[draw=sncolor,line,fill=white] (9.98667,6.56222) circle (2cm);
+
+        \draw[line,cap=round] (9.91952,6.72683) +(149:1.52587) arc (149:229:1.52587);
+        \draw[line,cap=round] (9.96484,6.84433) +(-129:1.64987) arc (-129:-85:1.64987);
+        \draw[line,cap=round] (10.20558,6.59684) +(55:1.8469) arc (55:151:1.8469);
+        \draw[line,cap=round] (9.96256,6.58451) +(-85:1.39531) arc (-85:-33:1.39531);
+        \draw[line,cap=round] (10.05707,6.51492) +(-35:1.28299) arc (-35:31:1.28299);
+        \draw[line,cap=round] (10.09998,6.44356) +(35:1.28202) arc (35:97:1.28202);
+        \draw[line,cap=round] (10.09126,6.72875) +(99:1.00595) arc (99:170:1.00595);
+        \draw[line,cap=round] (10.03469,6.72368) +(169:0.95117) arc (169:237:0.95117);
+        \draw[line,cap=round] (9.94585,6.58108) +(-124:0.77764) arc (-124:-44:0.77764);
+        \draw[line,cap=round] (9.93399,6.50534) +(-41:0.72926) arc (-41:36:0.72926);
+        \draw[line,cap=round] (10.03246,6.57945) +(35:0.60217) arc (35:126:0.60217);
+        \draw[line,cap=round] (10.01821,6.63888) +(130:0.54491) arc (130:224:0.54491);
+        \draw[line,cap=round] (9.91514,6.60478) +(-121:0.45168) arc (-121:-56:0.45168);
+        \draw[line,cap=round] (10.00024,6.51523) +(-49:0.32865) arc (-49:43:0.32865);
+        \draw[line,cap=round] (10.00457,6.53792) +(44:0.3094) arc (44:156:0.3094);
+        \draw[line,cap=round] (9.85985,6.60767) +(162:0.13797) arc (162:337:0.13797);
+
+        \fontfamily{phv}\fontseries{b}
+        \fontsize{30.0}{36.0}\selectfont{}
+        \path (10.1,11.8) node[text=sncolor,anchor=base] {c~o~l~l~a~b~o~r~a~t~i~o~n};
+        \path (10,2.28889) node[text=sncolor,anchor=base] {s~~u~~p~~e~~r~~n~~e~~m~~o};
+
+      \end{tikzpicture}%
+    }
+  }
+#+END_SRC
+
+*** Cover page
+#+BEGIN_SRC latex
+  \makeatletter
+  \newcommand{\HRule}{\rule{\linewidth}{1mm}}
+  \renewcommand*{\maketitle}{}
+  \renewenvironment{abstract}{%
+    \pagestyle{empty}
+    \vspace*{\stretch{2}}
+    \begin{flushright}
+      \HRule
+      \\[9mm]
+        {
+          \bf \Huge \@title
+        }
+        \\[15mm]
+        \large
+
+        \snlogo\hfill%
+        %%\includegraphics[height=35mm]{supernemo_logo} \hfill%
+        \parbox[b]{10cm}{\begin{flushright}
+            \@author
+        \end{flushright}}
+        \\[5mm]
+        \HRule
+        \\[9mm]
+    \end{flushright}
+    \begin{center}
+      \bf\large \abstractname
+    \end{center}
+    \begin{center}
+      \begin{minipage}[b]{12cm}
+        \small
+  }%
+  {%
+      \end{minipage}
+    \end{center}
+    \vspace*{\stretch{2}}
+    \begin{center}
+      Document version 0.1\\
+      %% Document revision \SVNrevision
+    \end{center}
+    %% \pagestyle{plain}
+    \newpage
+  }
+  \makeatother
+#+END_SRC
+
+*** Footnote
+#+BEGIN_SRC latex
+  \renewcommand{\footnoterule}{\color{gris25}%
+    \vskip-\footruleskip\vskip-\footrulewidth%
+    \vspace{10pt}\hrule width\columnwidth height1.5pt \vspace{5pt} \color{gris25}}
+  \renewcommand{\thefootnote}{\alph{footnote}}
+  \interfootnotelinepenalty=10000
+#+END_SRC
+
+*** Caption
+#+BEGIN_SRC latex
+  \RequirePackage[bf,footnotesize]{caption2}
+  \setlength{\captionmargin}{20pt}
+  \renewcommand{\captionlabeldelim}{ -}
 #+END_SRC
 
 * CV style
@@ -443,11 +646,12 @@ exported to =$TEXMFHOME= to make them available from everywhere.
 
 ** List of files to export
 #+TBLNAME: style_files
-| $TEXMFHOME/tex/latex/commonstuff                 | org-preamble.sty          |
-| $TEXMFHOME/tex/latex/commonstuff                 | memoir-article-styles.sty |
-| $TEXMFHOME/tex/latex/commonstuff                 | cv_style.sty              |
-| $TEXMFHOME/tex/latex/commonstuff/koma-letter-lco | english.lco               |
-| $TEXMFHOME/tex/latex/commonstuff/koma-letter-lco | french.lco                |
+| $TEXMFHOME/tex/latex/commonstuff                 | org-preamble.sty             |
+| $TEXMFHOME/tex/latex/commonstuff                 | memoir-article-style.sty     |
+| $TEXMFHOME/tex/latex/commonstuff                 | supernemo-article-style.sty  |
+| $TEXMFHOME/tex/latex/commonstuff                 | cv_style.sty                 |
+| $TEXMFHOME/tex/latex/commonstuff/koma-letter-lco | english.lco                  |
+| $TEXMFHOME/tex/latex/commonstuff/koma-letter-lco | french.lco                   |
 
 ** Script to do the export
 #+NAME: export_script(dirs=style_files[,0], files=style_files[,1])
