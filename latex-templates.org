@@ -564,6 +564,16 @@ Shift the page body on the left to make room for personal data and logo.
   \l@addto@macro\@firstheadfootfield{\setkomavar{date}{}}
 #+END_SRC
 
+*** Full layout
+#+NAME: klayout
+#+BEGIN_SRC latex :results none :tangle no
+  <<kpackages>>
+  <<kfonts>>
+  <<klengths>>
+  <<kbody>>
+  <<kheader>>
+#+END_SRC
+
 ** Personal data
 *** English
 :PROPERTIES:
@@ -576,11 +586,7 @@ Shift the page body on the left to make room for personal data and logo.
 #+END_SRC
 
 #+BEGIN_SRC latex :noweb yes
-  <<kpackages>>
-  <<kfonts>>
-  <<klengths>>
-  <<kbody>>
-  <<kheader>>
+  <<klayout>>
 #+END_SRC
 
 #+BEGIN_SRC latex
@@ -610,11 +616,7 @@ Shift the page body on the left to make room for personal data and logo.
 #+END_SRC
 
 #+BEGIN_SRC latex :noweb yes
-  <<kpackages>>
-  <<kfonts>>
-  <<klengths>>
-  <<kbody>>
-  <<kheader>>
+  <<klayout>>
 #+END_SRC
 
 #+BEGIN_SRC latex
