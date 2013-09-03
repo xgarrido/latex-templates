@@ -46,7 +46,6 @@ but do not use it.
 *** AMS packages
 #+BEGIN_SRC latex
   \RequirePackage{amsmath}
-  \RequirePackage{minted}
 #+END_SRC
 *** Listings package
 [[https://code.google.com/p/minted/][minted]] is a package that facilitates expressive syntax highlighting in LaTeX
@@ -58,14 +57,25 @@ customize the highlighted source code output using =fancyvrb=.
 
 *** Hyperref settings
 #+BEGIN_SRC latex
-  \RequirePackage[
-    backref,
-    pagebackref,
-    naturalnames=true,
-    colorlinks=true,
-    plainpages=false,
-    pdfpagelabels,
-    bookmarksnumbered]{hyperref}
+  %%\RequirePackage[
+  %%  backref,
+  %%  pagebackref,
+  %%  naturalnames=true,
+  %%  colorlinks=true,
+  %%  plainpages=false,
+  %%  pdfpagelabels,
+  %%  bookmarksnumbered]{hyperref}
+  %%\hypersetup{
+  %%  backref,
+  %%  pagebackref,
+  %%  naturalnames=true,
+  %%  colorlinks=true,
+  %%  plainpages=false,
+  %%  pdfpagelabels,
+  %%  bookmarksnumbered}
+#+END_SRC
+*** Unicode typesettings aka XeTeX
+#+BEGIN_SRC latex
   \RequirePackage{ifxetex}
   \ifxetex
   \RequirePackage{fontspec}
@@ -74,6 +84,10 @@ customize the highlighted source code output using =fancyvrb=.
   \fi
 #+END_SRC
 
+*** [[http://www.ctan.org/pkg/pifont][pifont]] package
+#+BEGIN_SRC latex
+  \RequirePackage{pifont}
+#+END_SRC
 * Memoir article styles :DEVELOPMENT:
 :PROPERTIES:
 :CUSTOM_ID: memoir_article_style
@@ -634,6 +648,153 @@ Shift the page body on the left to make room for personal data and logo.
   \endinput
 #+END_SRC
 
+* Beamer styles
+** Special progress bar in footline
+#+NAME: footbarline
+#+HEADERS: :var color="gray"
+#+BEGIN_SRC sh :results output :tangle no
+  echo '\defbeamertemplate{footline}{footbarline}{%'
+  echo '  \usebeamerfont{page number in head/foot}'
+  echo '  \hspace{1em}\insertshortdate\,-\,\insertshortauthor\hfill'
+  echo '  \insertpagenumber\,/\,\insertpresentationendpage'
+  echo '  \kern1em\vskip-1pt'
+  echo '  \color{'$color'}% to color the progressbar'
+  echo '  \hspace*{-\beamer@leftmargin}%'
+  echo '  \rule{\beamer@leftmargin}{2pt}%'
+  echo '  \rlap{\rule{\dimexpr'
+  echo '      \beamer@startpageofframe\dimexpr'
+  echo '      \beamer@rightmargin+\textwidth\relax/\beamer@endpageofdocument}{1pt}}'
+  echo '  % next empty line is mandatory!'
+  echo ' '
+  echo '  \vspace{.0\baselineskip}'
+  echo '         {}'
+  echo '}'
+#+END_SRC
+** D2PFO template
+:PROPERTIES:
+:CUSTOM_ID: d2pfo_beamer
+:TANGLE:    d2pfo-beamer.sty
+:END:
+*** Basics
+#+BEGIN_SRC latex
+  \NeedsTeXFormat{LaTeX2e}
+  \ProvidesPackage{d2pfo-beamer}[2013/09/03 v0.01 Beamer template for D2PFO]
+#+END_SRC
+*** Package options
+#+BEGIN_SRC latex
+  \RequirePackage{ifthen}
+  \newboolean{@footbarline}
+  \setboolean{@footbarline}{true}
+  \DeclareOption{nofootbarline}{\setboolean{@footbarline}{false}}
+  \DeclareOption{footbarline}{\setboolean{@footbarline}{true}}
+  \ProcessOptions
+#+END_SRC
+*** Themes
+#+BEGIN_SRC latex
+  \usetheme{default}
+  \usecolortheme{whale}
+#+END_SRC
+*** Color definitions
+#+BEGIN_SRC latex
+  \definecolor{upsud_blue}{RGB}{0,72,112}
+  \definecolor{upsud_green}{RGB}{132,184,24}
+  \definecolor{upsud_gray}{RGB}{107,108,110}
+  \definecolor{upsud_red}{RGB}{221,42,43}
+
+  \setbeamercolor{block title}{use=structure,fg=structure.bg, bg=structure.fg}
+  \setbeamercolor{block body}{use=structure, fg=structure.fg, bg=structure.bg}
+  \setbeamercolor{frametitle}{use=structure, fg=structure.fg, bg=}
+  \setbeamercolor{alerted text}{fg=upsud_green}
+  \setbeamercolor{example text}{fg=upsud_green}
+  \setbeamercolor{example title}{use=example,fg=example.bg, bg=example.fg}
+  \setbeamercolor{example body}{use=example, fg=example.fg, bg=example.bg}
+  \setbeamercolor{structure}{fg=upsud_blue}
+  \setbeamercolor{itemize item}{fg=upsud_blue}
+
+  \setbeamercolor{buc_upper}{fg=white,bg=upsud_blue}
+  \setbeamercolor{buc_lower}{fg=upsud_blue,bg=white}
+  \setbeamercolor{guc_upper}{fg=white,bg=upsud_green}
+  \setbeamercolor{guc_lower}{fg=upsud_green,bg=white}
+  \setbeamercolor{lbuc}{fg=white,bg=upsud_blue!10}
+  \setbeamercolor{lguc}{fg=white,bg=upsud_green!10}
+  \setbeamercolor{lbtuc}{fg=upsud_blue,bg=upsud_blue!10}
+  \setbeamercolor{lgtuc}{fg=upsud_green,bg=upsud_green!10}
+#+END_SRC
+*** Beamer options
+#+BEGIN_SRC latex
+  \DeclareOptionBeamer{shadow}[true]{\def\beamer@themerounded@shadow{#1}}
+  \ExecuteOptionsBeamer{shadow=true}
+  \ProcessOptionsBeamer
+
+  \setbeamercovered{transparent}
+
+  \setbeamertemplate{part page}[default][colsep=-4bp,rounded=true,shadow=\beamer@themerounded@shadow]
+  \setbeamertemplate{blocks}[rounded][shadow=\beamer@themerounded@shadow]
+#+END_SRC
+*** Title page definition
+First, make title frame plain (no page number, not footline...)
+#+BEGIN_SRC latex
+  \def\maketitle{\ifbeamer@inframe\titlepage\else\frame[plain,noframenumbering]{\titlepage}\fi}
+#+END_SRC
+
+Also add a logo of the University of Paris South
+#+BEGIN_SRC latex
+  \titlegraphic{\includegraphics[scale=0.2]{logo_upsud}}
+#+END_SRC
+
+Then define the custom beamer template
+#+BEGIN_SRC latex
+  \defbeamertemplate*{title page}{custom}[1][colsep=-4bp,
+    rounded=true,shadow=\beamer@themerounded@shadow]{
+    \vbox{}
+    \vfill
+    \begin{centering}
+      \begin{beamercolorbox}[sep=8pt,center,#1]{title}
+        \usebeamerfont{title}\inserttitle\par%
+        \ifx\insertsubtitle\@empty%
+        \else%
+        \vskip0.25em%
+               {\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle\par}%
+               \fi%
+      \end{beamercolorbox}%
+      \vskip1em\par
+      %%\begin{beamercolorbox}[sep=8pt,center,#1]{author}
+      %%  \usebeamerfont{author}\insertauthor
+      %%\end{beamercolorbox}
+      %%\begin{beamercolorbox}[sep=8pt,center,#1]{institute}
+      %%  \usebeamerfont{institute}\insertinstitute
+      %%\end{beamercolorbox}
+      %%\begin{beamercolorbox}[sep=8pt,center,#1]{date}
+      %%  \usebeamerfont{date}\insertdate
+      %%\end{beamercolorbox}
+      \vskip0.5em{\usebeamercolor[fg]{titlegraphic}\inserttitlegraphic\par}
+    \end{centering}
+    \vfill
+  }
+#+END_SRC
+*** Adding logo to frametitle
+#+BEGIN_SRC latex
+  \RequirePackage[absolute,overlay]{textpos}
+  \addtobeamertemplate{frametitle}{}{%
+    \begin{textblock}{14}(13.5,0.25)
+      \includegraphics[height=1.2cm]{logo_upsud}
+  \end{textblock}}
+#+END_SRC
+*** Footline
+Remove navigation symbols
+#+BEGIN_SRC latex
+  \beamertemplatenavigationsymbolsempty
+#+END_SRC
+
+Add special footline with a slick progress bar
+#+BEGIN_SRC latex :noweb yes
+  \ifthenelse{\boolean{@footbarline}}{
+    <<footbarline("upsud_gray")>>
+    \setbeamertemplate{footline}[footbarline]{}
+    \setbeamercolor{footline}{use=structure, fg=upsud_gray, bg=structure.bg}
+  }{}
+#+END_SRC
+
 * Exporting styles
 :PROPERTIES:
 :CUSTOM_ID: export_styles
@@ -645,12 +806,13 @@ exported to =$TEXMFHOME= to make them available from everywhere.
 
 ** List of files to export
 #+TBLNAME: style_files
-| $TEXMFHOME/tex/latex/commonstuff                 | org-preamble.sty             |
-| $TEXMFHOME/tex/latex/commonstuff                 | memoir-article-style.sty     |
-| $TEXMFHOME/tex/latex/commonstuff                 | supernemo-article-style.sty  |
-| $TEXMFHOME/tex/latex/commonstuff                 | cv_style.sty                 |
-| $TEXMFHOME/tex/latex/commonstuff/koma-letter-lco | english.lco                  |
-| $TEXMFHOME/tex/latex/commonstuff/koma-letter-lco | french.lco                   |
+| $TEXMFHOME/tex/latex/commonstuff                 | org-preamble.sty            |
+| $TEXMFHOME/tex/latex/commonstuff                 | memoir-article-style.sty    |
+| $TEXMFHOME/tex/latex/commonstuff                 | supernemo-article-style.sty |
+| $TEXMFHOME/tex/latex/commonstuff                 | cv_style.sty                |
+| $TEXMFHOME/tex/latex/commonstuff/koma-letter-lco | english.lco                 |
+| $TEXMFHOME/tex/latex/commonstuff/koma-letter-lco | french.lco                  |
+| $TEXMFHOME/tex/latex/commonstuff                 | d2pfo-beamer.sty            |
 
 ** Script to do the export
 #+NAME: export_script(dirs=style_files[,0], files=style_files[,1])
