@@ -727,8 +727,6 @@ Shift the page body on the left to make room for personal data and logo.
   \ProcessOptionsBeamer
 
   \setbeamercovered{transparent}
-
-  \setbeamertemplate{part page}[default][colsep=-4bp,rounded=true,shadow=\beamer@themerounded@shadow]
   \setbeamertemplate{blocks}[rounded][shadow=\beamer@themerounded@shadow]
 #+END_SRC
 *** Title page definition
@@ -772,6 +770,29 @@ Then define the custom beamer template
     \vfill
   }
 #+END_SRC
+*** Part page definition
+This tweak is used to include =appendix= page with the name style as =title=
+page. First, rename the =appendix= name :
+#+BEGIN_SRC latex
+  \renewcommand{\appendixname}{Annexes}
+#+END_SRC
+
+Then use almost the default part page style but include the command =\appendi=
+in order to keep the total page number unchanged.
+#+BEGIN_SRC latex
+  \defbeamertemplate*{part page}{custom}[1][colsep=-4bp,
+    rounded=true,shadow=\beamer@themerounded@shadow]
+                     {
+                       \appendix
+                       \begin{centering}
+                         \vskip1em\par
+                         \begin{beamercolorbox}[sep=16pt,center,#1]{part title}
+                           \usebeamerfont{part title}\insertpart\par
+                         \end{beamercolorbox}
+                       \end{centering}
+                     }
+
+#+END_SRC
 *** Adding logo to frametitle
 #+BEGIN_SRC latex
   \RequirePackage[absolute,overlay]{textpos}
@@ -779,6 +800,22 @@ Then define the custom beamer template
     \begin{textblock}{14}(13.5,0.25)
       \includegraphics[height=1.2cm]{logo_upsud}
   \end{textblock}}
+#+END_SRC
+*** Colored block environment
+#+BEGIN_SRC latex
+  \RequirePackage{xparse}
+  \NewDocumentEnvironment{cbox}{O{0.9\linewidth} O{lbtuc} O{\centering} D(){}}
+                 {\begin{center}
+                     \begin{minipage}[c]{#1}
+                       \begin{beamerboxesrounded}[upper=#2,lower=#2,shadow=false]
+                         {#4}
+                         #3
+                 }
+                 {
+                       \end{beamerboxesrounded}
+                     \end{minipage}
+                   \end{center}
+                 }
 #+END_SRC
 *** Footline
 Remove navigation symbols
