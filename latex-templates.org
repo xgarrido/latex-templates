@@ -670,7 +670,7 @@ Shift the page body on the left to make room for personal data and logo.
   echo '         {}'
   echo '}'
 #+END_SRC
-** D2PFO template
+** Template
 :PROPERTIES:
 :CUSTOM_ID: custom_beamer
 :TANGLE:    custom-beamer.sty
@@ -690,7 +690,7 @@ Shift the page body on the left to make room for personal data and logo.
    \RequirePackage{ifthen}
    \DeclareBoolOption[false]{noheaderlogo}
    \DeclareBoolOption[false]{nofootbarline}
-   \DeclareStringOption[d2pfo]{driver}
+   \DeclareStringOption[]{driver}
    \ProcessKeyvalOptions*
 #+END_SRC
 *** Default themes
@@ -705,25 +705,49 @@ a beamer presentation.
   \newboolean{has_driver_name}
   \setboolean{has_driver_name}{false}
   \ifthenelse{\equal{\cb@driver}{\@empty}}{
-    \PackageError{d2pfo-beamer}{'driver' option is missing !}{You must specify a 'driver' name}}{
-    \ifthenelse{\equal{\cb@driver}{d2pfo}}{
-      \setboolean{has_driver_name}{true}
-      \definecolor{red}{RGB}{221,42,43}
-      \definecolor{green}{RGB}{132,184,24}
-      \definecolor{blue}{RGB}{0,72,112}
-      \definecolor{gray}{RGB}{107,108,110}
+    \PackageError{custom-beamer}{'driver' option is missing !}{You must specify a 'driver' name}}{}
+#+END_SRC
 
-      \colorlet{generic0}{green}
-      \colorlet{generic1}{green}
-      \colorlet{generic2}{blue}
-      \colorlet{generic3}{gray}
-    }{}
-  }
+**** D2PFO colors
+#+BEGIN_SRC latex
+  \ifthenelse{\equal{\cb@driver}{d2pfo}}{
+    \setboolean{has_driver_name}{true}
+    \definecolor{red}{RGB}{221,42,43}
+    \definecolor{green}{RGB}{132,184,24}
+    \definecolor{blue}{RGB}{0,72,112}
+    \definecolor{gray}{RGB}{107,108,110}
+
+    \colorlet{generic0}{green}
+    \colorlet{generic1}{green}
+    \colorlet{generic2}{blue}
+    \colorlet{generic3}{gray}
+  }{}
+#+END_SRC
+
+**** SuperNEMO colors
+#+BEGIN_SRC latex
+  \ifthenelse{\equal{\cb@driver}{nemo}}{
+    \setboolean{has_driver_name}{true}
+    \definecolor{red}{RGB}{221,42,43}
+    \definecolor{green}{RGB}{132,184,24}
+    \definecolor{blue}{RGB}{0,72,112}
+    \definecolor{gray}{RGB}{107,108,110}
+
+    \colorlet{generic0}{green}
+    \colorlet{generic1}{green}
+    \colorlet{generic2}{blue}
+    \colorlet{generic3}{gray}
+  }{}
+#+END_SRC
+
+If no known driver has been found then generate an error.
+#+BEGIN_SRC latex
   \ifthenelse{\boolean{has_driver_name}}{}{
-    \PackageError{d2pfo-beamer}{'\cb@driver' name is unkown !}{You must specify a know 'driver' name}}{
+    \PackageError{custom-beamer}{'\cb@driver' name is unkown !}{You must specify a know 'driver' name}}{
   }
 #+END_SRC
 
+Finally apply the color settings to beamer elements:
 #+BEGIN_SRC latex
   \setbeamercolor{structure}{fg=generic2}
   \setbeamercolor{alerted text}{fg=generic0}
