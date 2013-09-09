@@ -651,7 +651,7 @@ Shift the page body on the left to make room for personal data and logo.
 * Beamer styles
 ** Special progress bar in footline
 #+NAME: footbarline
-#+HEADERS: :var color="gray"
+#+HEADERS: :var color="generic3"
 #+BEGIN_SRC sh :results output :tangle no
   echo '\defbeamertemplate{footline}{footbarline}{%'
   echo '  \usebeamerfont{page number in head/foot}'
@@ -672,53 +672,82 @@ Shift the page body on the left to make room for personal data and logo.
 #+END_SRC
 ** D2PFO template
 :PROPERTIES:
-:CUSTOM_ID: d2pfo_beamer
-:TANGLE:    d2pfo-beamer.sty
+:CUSTOM_ID: custom_beamer
+:TANGLE:    custom-beamer.sty
 :END:
 *** Basics
 #+BEGIN_SRC latex
   \NeedsTeXFormat{LaTeX2e}
-  \ProvidesPackage{d2pfo-beamer}[2013/09/03 v0.01 Beamer template for D2PFO]
+  \ProvidesPackage{custom-beamer}[2013/09/03 v0.01 Custom beamer templates]
 #+END_SRC
 *** Package options
 #+BEGIN_SRC latex
-  \RequirePackage{ifthen}
-  \newboolean{@footbarline}
-  \setboolean{@footbarline}{true}
-  \DeclareOption{nofootbarline}{\setboolean{@footbarline}{false}}
-  \DeclareOption{footbarline}{\setboolean{@footbarline}{true}}
-  \ProcessOptions
+  \RequirePackage{kvoptions}
+  \SetupKeyvalOptions{
+     family=cb,
+     prefix=cb@
+   }
+   \RequirePackage{ifthen}
+   \DeclareBoolOption[false]{noheaderlogo}
+   \DeclareBoolOption[false]{nofootbarline}
+   \DeclareStringOption[d2pfo]{driver}
+   \ProcessKeyvalOptions*
 #+END_SRC
-*** Themes
+*** Default themes
 #+BEGIN_SRC latex
   \usetheme{default}
   \usecolortheme{whale}
 #+END_SRC
 *** Color definitions
+Given the =driver= to be used, generic colors are set to the most common part of
+a beamer presentation.
 #+BEGIN_SRC latex
-  \definecolor{upsud_blue}{RGB}{0,72,112}
-  \definecolor{upsud_green}{RGB}{132,184,24}
-  \definecolor{upsud_gray}{RGB}{107,108,110}
-  \definecolor{upsud_red}{RGB}{221,42,43}
+  \newboolean{has_driver_name}
+  \setboolean{has_driver_name}{false}
+  \ifthenelse{\equal{\cb@driver}{\@empty}}{
+    \PackageError{d2pfo-beamer}{'driver' option is missing !}{You must specify a 'driver' name}}{
+    \ifthenelse{\equal{\cb@driver}{d2pfo}}{
+      \setboolean{has_driver_name}{true}
+      \definecolor{red}{RGB}{221,42,43}
+      \definecolor{green}{RGB}{132,184,24}
+      \definecolor{blue}{RGB}{0,72,112}
+      \definecolor{gray}{RGB}{107,108,110}
 
+      \colorlet{generic0}{green}
+      \colorlet{generic1}{green}
+      \colorlet{generic2}{blue}
+      \colorlet{generic3}{gray}
+    }{}
+  }
+  \ifthenelse{\boolean{has_driver_name}}{}{
+    \PackageError{d2pfo-beamer}{'\cb@driver' name is unkown !}{You must specify a know 'driver' name}}{
+  }
+#+END_SRC
+
+#+BEGIN_SRC latex
+  \setbeamercolor{structure}{fg=generic2}
+  \setbeamercolor{alerted text}{fg=generic0}
+  \setbeamercolor{example text}{fg=generic1}
   \setbeamercolor{block title}{use=structure,fg=structure.bg, bg=structure.fg}
   \setbeamercolor{block body}{use=structure, fg=structure.fg, bg=structure.bg}
   \setbeamercolor{frametitle}{use=structure, fg=structure.fg, bg=}
-  \setbeamercolor{alerted text}{fg=upsud_green}
-  \setbeamercolor{example text}{fg=upsud_green}
   \setbeamercolor{example title}{use=example,fg=example.bg, bg=example.fg}
   \setbeamercolor{example body}{use=example, fg=example.fg, bg=example.bg}
-  \setbeamercolor{structure}{fg=upsud_blue}
-  \setbeamercolor{itemize item}{fg=upsud_blue}
+  \setbeamercolor{itemize item}{fg=generic2}
 
-  \setbeamercolor{buc_upper}{fg=white,bg=upsud_blue}
-  \setbeamercolor{buc_lower}{fg=upsud_blue,bg=white}
-  \setbeamercolor{guc_upper}{fg=white,bg=upsud_green}
-  \setbeamercolor{guc_lower}{fg=upsud_green,bg=white}
-  \setbeamercolor{lbuc}{fg=white,bg=upsud_blue!10}
-  \setbeamercolor{lguc}{fg=white,bg=upsud_green!10}
-  \setbeamercolor{lbtuc}{fg=upsud_blue,bg=upsud_blue!10}
-  \setbeamercolor{lgtuc}{fg=upsud_green,bg=upsud_green!10}
+  \setbeamercolor{ruc_upper}{fg=white,bg=red}
+  \setbeamercolor{ruc_lower}{fg=red,bg=white}
+  \setbeamercolor{guc_upper}{fg=white,bg=green}
+  \setbeamercolor{guc_lower}{fg=green,bg=white}
+  \setbeamercolor{buc_upper}{fg=white,bg=blue}
+  \setbeamercolor{buc_lower}{fg=blue,bg=white}
+
+  \setbeamercolor{lruc}{fg=white,bg=red!10}
+  \setbeamercolor{lrtuc}{fg=red,bg=red!10}
+  \setbeamercolor{lguc}{fg=white,bg=green!10}
+  \setbeamercolor{lgtuc}{fg=green,bg=green!10}
+  \setbeamercolor{lbuc}{fg=white,bg=blue!10}
+  \setbeamercolor{lbtuc}{fg=blue,bg=blue!10}
 #+END_SRC
 *** Beamer options
 #+BEGIN_SRC latex
@@ -825,11 +854,17 @@ Remove navigation symbols
 
 Add special footline with a slick progress bar
 #+BEGIN_SRC latex :noweb yes
-  \ifthenelse{\boolean{@footbarline}}{
-    <<footbarline("upsud_gray")>>
-    \setbeamertemplate{footline}[footbarline]{}
-    \setbeamercolor{footline}{use=structure, fg=upsud_gray, bg=structure.bg}
-  }{}
+  \ifthenelse{\boolean{cb@nofootbarline}}{
+    \defbeamertemplate{footline}{footbarline}{%
+      \usebeamerfont{page number in head/foot}
+      \hspace{1em}\insertshortdate\,-\,\insertshortauthor\hfill
+      \insertpagenumber\,/\,\insertpresentationendpage
+      \kern1em}
+  }{
+    <<footbarline()>>
+  }
+  \setbeamertemplate{footline}[footbarline]{}
+  \setbeamercolor{footline}{use=structure, fg=generic3, bg=structure.bg}
 #+END_SRC
 
 * Exporting styles
@@ -849,7 +884,7 @@ exported to =$TEXMFHOME= to make them available from everywhere.
 | $TEXMFHOME/tex/latex/commonstuff                 | cv_style.sty                |
 | $TEXMFHOME/tex/latex/commonstuff/koma-letter-lco | english.lco                 |
 | $TEXMFHOME/tex/latex/commonstuff/koma-letter-lco | french.lco                  |
-| $TEXMFHOME/tex/latex/commonstuff                 | d2pfo-beamer.sty            |
+| $TEXMFHOME/tex/latex/commonstuff                 | custom-beamer.sty           |
 
 ** Script to do the export
 #+NAME: export_script(dirs=style_files[,0], files=style_files[,1])
