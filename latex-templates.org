@@ -651,7 +651,7 @@ Shift the page body on the left to make room for personal data and logo.
 * Beamer styles
 ** Special progress bar in footline
 #+NAME: footbarline
-#+HEADERS: :var color="generic3"
+#+HEADERS: :var style="default" :var color="generic3"
 #+BEGIN_SRC sh :results output :tangle no
   echo '\defbeamertemplate{footline}{footbarline}{%'
   echo '  \usebeamerfont{page number in head/foot}'
@@ -687,11 +687,23 @@ Shift the page body on the left to make room for personal data and logo.
      family=cb,
      prefix=cb@
    }
-   \RequirePackage{ifthen}
+   \DeclareBoolOption[false]{nologo}
+   \DeclareBoolOption[false]{notitlelogo}
    \DeclareBoolOption[false]{noheaderlogo}
    \DeclareBoolOption[false]{nofootbarline}
-   \DeclareStringOption[]{driver}
+   \DeclareBoolOption[false]{ddpfo}
+   \DeclareBoolOption[false]{nemo}
    \ProcessKeyvalOptions*
+#+END_SRC
+**** General options
+#+BEGIN_SRC latex
+  \RequirePackage{ifthen}
+  \ifthenelse{\boolean{cb@nologo}}{
+    \setboolean{cb@notitlelogo}{true}
+    \setboolean{cb@noheaderlogo}{true}
+  }{}
+  \newboolean{has_driver_name}
+  \setboolean{has_driver_name}{false}
 #+END_SRC
 *** Default themes
 #+BEGIN_SRC latex
@@ -701,16 +713,10 @@ Shift the page body on the left to make room for personal data and logo.
 *** Color definitions
 Given the =driver= to be used, generic colors are set to the most common part of
 a beamer presentation.
-#+BEGIN_SRC latex
-  \newboolean{has_driver_name}
-  \setboolean{has_driver_name}{false}
-  \ifthenelse{\equal{\cb@driver}{\@empty}}{
-    \PackageError{custom-beamer}{'driver' option is missing !}{You must specify a 'driver' name}}{}
-#+END_SRC
 
 **** D2PFO colors
 #+BEGIN_SRC latex
-  \ifthenelse{\equal{\cb@driver}{d2pfo}}{
+  \ifthenelse{\boolean{cb@ddpfo}}{
     \setboolean{has_driver_name}{true}
     \definecolor{red}{RGB}{221,42,43}
     \definecolor{green}{RGB}{132,184,24}
@@ -726,11 +732,11 @@ a beamer presentation.
 
 **** SuperNEMO colors
 #+BEGIN_SRC latex
-  \ifthenelse{\equal{\cb@driver}{nemo}}{
+  \ifthenelse{\boolean{cb@nemo}}{
     \setboolean{has_driver_name}{true}
     \definecolor{red}{RGB}{221,42,43}
     \definecolor{green}{RGB}{132,184,24}
-    \definecolor{blue}{RGB}{0,72,112}
+    \definecolor{blue}{RGB}{60,72,112}
     \definecolor{gray}{RGB}{107,108,110}
 
     \colorlet{generic0}{green}
@@ -743,7 +749,7 @@ a beamer presentation.
 If no known driver has been found then generate an error.
 #+BEGIN_SRC latex
   \ifthenelse{\boolean{has_driver_name}}{}{
-    \PackageError{custom-beamer}{'\cb@driver' name is unkown !}{You must specify a know 'driver' name}}{
+    \PackageError{custom-beamer}{You must specify a 'driver' name !}{You must specify a know 'driver' name}}{
   }
 #+END_SRC
 
@@ -790,7 +796,8 @@ First, make title frame plain (no page number, not footline...)
 
 Also add a logo of the University of Paris South
 #+BEGIN_SRC latex
-  \titlegraphic{\includegraphics[scale=0.2]{logo_upsud}}
+  \ifthenelse{\boolean{cb@notitlelogo}}{}{
+    \titlegraphic{\includegraphics[scale=0.2]{logo_upsud}}}
 #+END_SRC
 
 Then define the custom beamer template
@@ -848,11 +855,12 @@ in order to keep the total page number unchanged.
 #+END_SRC
 *** Adding logo to frametitle
 #+BEGIN_SRC latex
-  \RequirePackage[absolute,overlay]{textpos}
-  \addtobeamertemplate{frametitle}{}{%
-    \begin{textblock}{14}(13.5,0.25)
-      \includegraphics[height=1.2cm]{logo_upsud}
-  \end{textblock}}
+  \ifthenelse{\boolean{cb@noheaderlogo}}{}{
+    \RequirePackage[absolute,overlay]{textpos}
+    \addtobeamertemplate{frametitle}{}{%
+      \begin{textblock}{14}(13.5,0.25)
+        \includegraphics[height=1.2cm]{logo_upsud}
+    \end{textblock}}}
 #+END_SRC
 *** Colored block environment
 #+BEGIN_SRC latex
