@@ -650,14 +650,9 @@ Shift the page body on the left to make room for personal data and logo.
 
 * Beamer styles
 ** Special progress bar in footline
-#+NAME: footbarline
-#+HEADERS: :var style="default" :var color="generic3"
+#+NAME: line
+#+HEADERS: :var color="gray"
 #+BEGIN_SRC sh :results output :tangle no
-  echo '\defbeamertemplate{footline}{footbarline}{%'
-  echo '  \usebeamerfont{page number in head/foot}'
-  echo '  \hspace{1em}\insertshortdate\,-\,\insertshortauthor\hfill'
-  echo '  \insertpagenumber\,/\,\insertpresentationendpage'
-  echo '  \kern1em\vskip-1pt'
   echo '  \color{'$color'}% to color the progressbar'
   echo '  \hspace*{-\beamer@leftmargin}%'
   echo '  \rule{\beamer@leftmargin}{2pt}%'
@@ -668,6 +663,27 @@ Shift the page body on the left to make room for personal data and logo.
   echo ' '
   echo '  \vspace{.0\baselineskip}'
   echo '         {}'
+#+END_SRC
+
+#+NAME: footline
+#+HEADERS: :var style="default" :var color="gray"
+#+BEGIN_SRC sh :results output :tangle no :noweb yes
+  echo '\defbeamertemplate{footline}{cbfootline}{%'
+  if [ "${style}" == "ddpfo" ]; then
+      echo '  \usebeamerfont{page number in head/foot}'
+      echo '  \hspace{1em}\insertshortdate\,-\,\insertshortauthor\hfill'
+      echo '  \insertpagenumber\,/\,\insertpresentationendpage'
+      echo '  \kern1em\vskip-1pt'
+      <<line>>
+  elif [ "${style}" == "snemo" ]; then
+      echo ''
+  elif [ "${style}" == "cpp_teaching" ]; then
+      echo '  \usebeamerfont{page number in head/foot}'
+      echo '  \hspace{1em}\inserttitle\hfill'
+      echo '  \insertpagenumber'
+      echo '  \kern1em\vskip2pt'
+      <<line>>
+  fi
   echo '}'
 #+END_SRC
 ** Template
@@ -690,9 +706,9 @@ Shift the page body on the left to make room for personal data and logo.
    \DeclareBoolOption[false]{nologo}
    \DeclareBoolOption[false]{notitlelogo}
    \DeclareBoolOption[false]{noheaderlogo}
-   \DeclareBoolOption[false]{nofootbarline}
    \DeclareBoolOption[false]{ddpfo}
-   \DeclareBoolOption[false]{nemo}
+   \DeclareBoolOption[false]{snemo}
+   \DeclareBoolOption[false]{cpp_teaching}
    \ProcessKeyvalOptions*
 #+END_SRC
 **** General options
@@ -732,7 +748,7 @@ a beamer presentation.
 
 **** SuperNEMO colors
 #+BEGIN_SRC latex
-  \ifthenelse{\boolean{cb@nemo}}{
+  \ifthenelse{\boolean{cb@snemo}}{
     \setboolean{has_driver_name}{true}
     \definecolor{red}{RGB}{221,42,43}
     \definecolor{green}{RGB}{132,184,24}
@@ -745,39 +761,51 @@ a beamer presentation.
     \colorlet{generic3}{gray}
   }{}
 #+END_SRC
-
-If no known driver has been found then generate an error.
+**** C++ teaching colors
 #+BEGIN_SRC latex
-  \ifthenelse{\boolean{has_driver_name}}{}{
-    \PackageError{custom-beamer}{You must specify a 'driver' name !}{You must specify a know 'driver' name}}{
-  }
+  \ifthenelse{\boolean{cb@cpp_teaching}}{
+    \setboolean{has_driver_name}{true}
+    \definecolor{red}{RGB}{221,42,43}
+    \definecolor{green}{RGB}{132,184,24}
+    \definecolor{blue}{RGB}{0,72,112}
+    \definecolor{gray}{RGB}{107,108,110}
+
+    \colorlet{generic0}{green}
+    \colorlet{generic1}{green}
+    \colorlet{generic2}{blue}
+    \colorlet{generic3}{gray}
+  }{}
 #+END_SRC
 
 Finally apply the color settings to beamer elements:
 #+BEGIN_SRC latex
-  \setbeamercolor{structure}{fg=generic2}
-  \setbeamercolor{alerted text}{fg=generic0}
-  \setbeamercolor{example text}{fg=generic1}
-  \setbeamercolor{block title}{use=structure,fg=structure.bg, bg=structure.fg}
-  \setbeamercolor{block body}{use=structure, fg=structure.fg, bg=structure.bg}
-  \setbeamercolor{frametitle}{use=structure, fg=structure.fg, bg=}
-  \setbeamercolor{example title}{use=example,fg=example.bg, bg=example.fg}
-  \setbeamercolor{example body}{use=example, fg=example.fg, bg=example.bg}
-  \setbeamercolor{itemize item}{fg=generic2}
+  \ifthenelse{\boolean{has_driver_name}}{
+    \setbeamercolor{structure}{fg=generic2}
+    \setbeamercolor{alerted text}{fg=generic0}
+    \setbeamercolor{example text}{fg=generic1}
+    \setbeamercolor{block title}{use=structure,fg=structure.bg, bg=structure.fg}
+    \setbeamercolor{block body}{use=structure, fg=structure.fg, bg=structure.bg}
+    \setbeamercolor{frametitle}{use=structure, fg=structure.fg, bg=}
+    \setbeamercolor{example title}{use=example,fg=example.bg, bg=example.fg}
+    \setbeamercolor{example body}{use=example, fg=example.fg, bg=example.bg}
+    \setbeamercolor{itemize item}{fg=generic2}
 
-  \setbeamercolor{ruc_upper}{fg=white,bg=red}
-  \setbeamercolor{ruc_lower}{fg=red,bg=white}
-  \setbeamercolor{guc_upper}{fg=white,bg=green}
-  \setbeamercolor{guc_lower}{fg=green,bg=white}
-  \setbeamercolor{buc_upper}{fg=white,bg=blue}
-  \setbeamercolor{buc_lower}{fg=blue,bg=white}
+    \setbeamercolor{ruc_upper}{fg=white,bg=red}
+    \setbeamercolor{ruc_lower}{fg=red,bg=white}
+    \setbeamercolor{guc_upper}{fg=white,bg=green}
+    \setbeamercolor{guc_lower}{fg=green,bg=white}
+    \setbeamercolor{buc_upper}{fg=white,bg=blue}
+    \setbeamercolor{buc_lower}{fg=blue,bg=white}
 
-  \setbeamercolor{lruc}{fg=white,bg=red!10}
-  \setbeamercolor{lrtuc}{fg=red,bg=red!10}
-  \setbeamercolor{lguc}{fg=white,bg=green!10}
-  \setbeamercolor{lgtuc}{fg=green,bg=green!10}
-  \setbeamercolor{lbuc}{fg=white,bg=blue!10}
-  \setbeamercolor{lbtuc}{fg=blue,bg=blue!10}
+    \setbeamercolor{lruc}{fg=white,bg=red!10}
+    \setbeamercolor{lrtuc}{fg=red,bg=red!10}
+    \setbeamercolor{lguc}{fg=white,bg=green!10}
+    \setbeamercolor{lgtuc}{fg=green,bg=green!10}
+    \setbeamercolor{lbuc}{fg=white,bg=blue!10}
+    \setbeamercolor{lbtuc}{fg=blue,bg=blue!10}
+  }{
+    %%\PackageWarning{custom-beamer}{You must specify a 'driver' name !}{You must specify a know 'driver' name}}{
+  }
 #+END_SRC
 *** Beamer options
 #+BEGIN_SRC latex
@@ -808,7 +836,7 @@ Then define the custom beamer template
     \vfill
     \begin{centering}
       \begin{beamercolorbox}[sep=8pt,center,#1]{title}
-        \usebeamerfont{title}\inserttitle\par%
+        \usebeamerfont{title}\insertprefixtitle\inserttitle\par%
         \ifx\insertsubtitle\@empty%
         \else%
         \vskip0.25em%
@@ -829,6 +857,15 @@ Then define the custom beamer template
     \end{centering}
     \vfill
   }
+#+END_SRC
+
+**** Insert prefix to title
+#+BEGIN_SRC latex
+  \newcommand{\insertprefixtitle}{}
+  \ifthenelse{\boolean{cb@cpp_teaching}}{
+    \newcommand{\Cpp}{\mbox{C\vspace{.5em}\protect\raisebox{.2ex}{\footnotesize++~}}}
+    \renewcommand{\insertprefixtitle}{\textbf{Cours \Cpp}\vskip0.25em\usebeamerfont{subtitle}}
+  }{}
 #+END_SRC
 *** Part page definition
 This tweak is used to include =appendix= page with the name style as =title=
@@ -886,17 +923,19 @@ Remove navigation symbols
 
 Add special footline with a slick progress bar
 #+BEGIN_SRC latex :noweb yes
-  \ifthenelse{\boolean{cb@nofootbarline}}{
-    \defbeamertemplate{footline}{footbarline}{%
-      \usebeamerfont{page number in head/foot}
-      \hspace{1em}\insertshortdate\,-\,\insertshortauthor\hfill
-      \insertpagenumber\,/\,\insertpresentationendpage
-      \kern1em}
-  }{
-    <<footbarline()>>
-  }
-  \setbeamertemplate{footline}[footbarline]{}
-  \setbeamercolor{footline}{use=structure, fg=generic3, bg=structure.bg}
+  \ifthenelse{\boolean{has_driver_name}}{
+    \ifthenelse{\boolean{cb@ddpfo}}{
+      <<footline(style="ddpfo", color="generic3")>>
+    }{}
+    \ifthenelse{\boolean{cb@snemo}}{
+      <<footline(style="snemo", color="generic3")>>
+    }{}
+    \ifthenelse{\boolean{cb@cpp_teaching}}{
+      <<footline(style="cpp_teaching", color="generic3")>>
+    }{}
+    \setbeamertemplate{footline}[cbfootline]{}
+    \setbeamercolor{footline}{use=structure, fg=generic3, bg=structure.bg}
+  }{}
 #+END_SRC
 
 * Exporting styles
