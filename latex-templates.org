@@ -89,9 +89,22 @@ customize the highlighted source code output using =fancyvrb=.
 *** [[http://www.texample.net/tikz/][tikz]] package
 #+BEGIN_SRC latex
   \RequirePackage{tikz}
-  \usetikzlibrary{positioning,arrows,snakes,backgrounds,patterns,matrix,shapes,fit,calc,shadows,plotmarks,spy}
+  \usetikzlibrary{positioning,arrows,snakes,backgrounds,patterns,matrix,shapes,fit,calc,shadows,plotmarks,spy,external}
 #+END_SRC
-* Memoir article styles :DEVELOPMENT:
+
+We use the external library from =tikz= to cache i.e. produce a =pdf= file of
+each =tikzpicture=. =tikz/external= looks if the pdf exist and if not, export it.
+#+BEGIN_SRC latex
+  \tikzset{
+    external/system call={%
+      xelatex \tikzexternalcheckshellescape
+      -halt-on-error -interaction=batchmode --shell-escape
+      -jobname "\image" "\texsource"}}
+  \tikzexternalize[prefix=tikz.d/]
+  \input "|mkdir -p tikz.d"
+#+END_SRC
+* Article styles
+** Memoir article styles                                       :DEVELOPMENT:
 :PROPERTIES:
 :CUSTOM_ID: memoir_article_style
 :TANGLE: memoir-article-style.sty
@@ -101,7 +114,7 @@ Some article styles and page layout tweaks for the [[http://www.ctan.org/tex-arc
 
 Most of the code come from [[https://github.com/kjhealy/latex-custom-kjh][Kieran Healy's LaTeX custom files]].
 
-** Blank footnote
+*** Blank footnote
 This piece of code is pretty useful for adding a /blank/ footnote to be used for
 corresponding author reference... Use =\symbolfoonote[0]{Footnote text}=.
 #+BEGIN_SRC latex
@@ -111,20 +124,20 @@ corresponding author reference... Use =\symbolfoonote[0]{Footnote text}=.
     \endgroup}
 #+END_SRC
 
-** Set font
+*** Set font
 #+BEGIN_SRC latex
   \setsansfont[Mapping=tex-text]{Myriad Pro}
   \setmonofont[Mapping=tex-text,Scale=MatchLowercase]{Inconsolata}
   \setromanfont[Mapping=tex-text, Numbers=OldStyle]{Minion Pro}
 #+END_SRC
-** Smaller table font size
+*** Smaller table font size
 #+BEGIN_SRC latex :tangle no
   \usepackage{floatrow}
   \DeclareFloatFont{tiny}{\tiny}% "scriptsize" is defined by floatrow, "tiny" not
   \floatsetup[table]{font=tiny}
 #+END_SRC
 
-** Chapter style
+*** Chapter style
 #+BEGIN_SRC latex
   \makechapterstyle{article-sans}{
     \setsecheadstyle{\sffamily\bfseries}
@@ -172,19 +185,19 @@ corresponding author reference... Use =\symbolfoonote[0]{Footnote text}=.
 \chapterstyle{article-sans}
 #+END_SRC
 
-* SuperNEMO article style
+** SuperNEMO article style
 :PROPERTIES:
 :CUSTOM_ID: supernemo_article_style
 :TANGLE: supernemo-article-style.sty
 :END:
 
-** Basics
+*** Basics
 #+BEGIN_SRC latex
   \NeedsTeXFormat{LaTeX2e}
   \ProvidesPackage{supernemo-article-style}[2013/07/03 v0.01 Bundling of SuperNEMO article items]
 #+END_SRC
 
-** Set fonts
+*** Set fonts
 #+BEGIN_SRC latex
   \RequirePackage{lmodern}
   \RequirePackage{mathpazo}
@@ -192,21 +205,21 @@ corresponding author reference... Use =\symbolfoonote[0]{Footnote text}=.
   \RequirePackage{courier}
 #+END_SRC
 
-** Graphics packages
+*** Graphics packages
 #+BEGIN_SRC latex
   \RequirePackage{graphicx}
   \RequirePackage{wrapfig}
   \RequirePackage{tikz}
 #+END_SRC
 
-** Color
+*** Color
 #+BEGIN_SRC latex
   %%\usepackage{color}
   \definecolor{gris25}{gray}{0.25}
   \definecolor{sncolor}{rgb}{0.0,0.0,0.0}
 #+END_SRC
 
-** Geometry
+*** Geometry
 #+BEGIN_SRC latex
   \RequirePackage{a4wide}
   \linespread{1.02}
@@ -217,7 +230,7 @@ corresponding author reference... Use =\symbolfoonote[0]{Footnote text}=.
   \setlength{\headheight}{15pt}
 #+END_SRC
 
-** Authoring & bibliography
+*** Authoring & bibliography
 [[http://www.ctan.org/pkg/authblk][The package]] redefines the =\author= command to work as normal or to allow a
 footnote style of author/affiliation input.
 #+BEGIN_SRC latex
@@ -228,12 +241,12 @@ footnote style of author/affiliation input.
   \RequirePackage[nottoc,notlof,notlot]{tocbibind}
 #+END_SRC
 
-** Layout
+*** Layout
 #+BEGIN_SRC latex
   \RequirePackage{fancyhdr}
 #+END_SRC
 
-*** Logo
+**** Logo
 #+BEGIN_SRC latex
   \newcommand{\snlogo}{
     \resizebox{!}{35mm}{
@@ -294,7 +307,7 @@ footnote style of author/affiliation input.
   }
 #+END_SRC
 
-*** Cover page
+**** Cover page
 #+BEGIN_SRC latex
   \makeatletter
   \newcommand{\HRule}{\rule{\linewidth}{1mm}}
@@ -341,7 +354,7 @@ footnote style of author/affiliation input.
   \makeatother
 #+END_SRC
 
-*** Footnote
+**** Footnote
 #+BEGIN_SRC latex
   \renewcommand{\footnoterule}{\color{gris25}%
     \vskip-\footruleskip\vskip-\footrulewidth%
@@ -350,7 +363,7 @@ footnote style of author/affiliation input.
   \interfootnotelinepenalty=10000
 #+END_SRC
 
-*** Caption
+**** Caption
 #+BEGIN_SRC latex
   \RequirePackage[margin=20pt,labelfont=bf,font=footnotesize,labelsep=endash]{caption}
 #+END_SRC
@@ -916,10 +929,11 @@ up. Practically, everything can be done within this section.
 #+END_SRC
 **** University Paris Sud logo
 #+BEGIN_SRC latex
-  \definecolor{c6ec72e}{RGB}{110,199,46}
-  \definecolor{c094268}{RGB}{9,66,104}
-  \definecolor{c615e5e}{RGB}{97,94,94}
   \renewcommand{\logo}{
+    \definecolor{c6ec72e}{RGB}{110,199,46}
+    \definecolor{c094268}{RGB}{9,66,104}
+    \definecolor{c615e5e}{RGB}{97,94,94}
+    \tikzsetnextfilename{upsud_logo}
     \begin{tikzpicture}[y=0.80pt,x=0.80pt,yscale=-1, inner sep=0pt, outer sep=0pt]
       \begin{scope}[cm={{1.25,0.0,0.0,-1.25,(0.0,259.175)}}]
         \begin{scope}[scale=0.100]
@@ -1078,7 +1092,6 @@ up. Practically, everything can be done within this section.
           .. (2382.4900,117.1290) -- (2336.9600,26.7617);
         \end{scope}
       \end{scope}
-
     \end{tikzpicture}
   }
 #+END_SRC
@@ -1152,6 +1165,7 @@ up. Practically, everything can be done within this section.
   <<generate_beamer_colors>>
   }{}
 #+END_SRC
+
 * Exporting styles
 :PROPERTIES:
 :CUSTOM_ID: export_styles

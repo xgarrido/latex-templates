@@ -14,7 +14,7 @@ all: org
 org: $(FILESO)
 
 .%.tangle: %.org
-	@echo "NOTICE: Tangling $< file"
+	@echo "NOTICE: Tangling $< file..."
 	@$(BATCH) --eval '(org-babel-tangle-file "$<")' > /dev/null 2>&1
 	@if [ -x latex-templates.sh ]; then ./latex-templates.sh; fi
 	@touch $@
