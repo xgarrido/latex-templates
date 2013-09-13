@@ -50,7 +50,7 @@ but do not use it.
 using the powerful Pygments library. The package also provides options to
 customize the highlighted source code output using =fancyvrb=.
 #+BEGIN_SRC latex
-  \RequirePackage{minted}
+  \RequirePackage[cache]{minted}
 #+END_SRC
 
 *** Hyperref settings
