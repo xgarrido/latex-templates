@@ -14,8 +14,8 @@ all: org
 org: $(FILESO)
 
 .%.tangle: %.org
-	@echo "Tangling $< file"
-	@$(BATCH) --eval '(org-babel-tangle-file "$<")'
+	@echo "NOTICE: Tangling $< file"
+	@$(BATCH) --eval '(org-babel-tangle-file "$<")' > /dev/null 2>&1
 	@if [ -x latex-templates.sh ]; then ./latex-templates.sh; fi
 	@touch $@
 
@@ -26,10 +26,10 @@ doc/index.html:
 	$(EMACS) --batch -Q --eval '(org-babel-load-file "starter-kit-publish.org")'
 	rm starter-kit-publish.el
 	cp doc/starter-kit.html doc/index.html
-	echo "Documentation published to doc/"
+	echo "NOTICE: Documentation published to doc/"
 
 clean: org
 	@if [ -x latex-templates.sh ]; then ./latex-templates.sh clean; fi
 	@rm -f .*.tangle *.tar.gz *.conf *.aux *.tex *.fls *fdb_latexmk *.log *.pdf doc/*html *~
 	@rm -f *.sty *.sh
-	@rm -rf doc current $(GIT_BRANCH)
+	@rm -rf doc
