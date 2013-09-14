@@ -86,6 +86,13 @@ customize the highlighted source code output using =fancyvrb=.
 #+BEGIN_SRC latex
   \RequirePackage{pifont}
 #+END_SRC
+*** graphics package
+#+BEGIN_SRC latex
+  \graphicspath{
+    {./plot/}
+    {./figures/}
+  }
+#+END_SRC
 *** [[http://www.texample.net/tikz/][tikz]] package
 #+BEGIN_SRC latex
   \RequirePackage{tikz}
@@ -669,7 +676,7 @@ Shift the page body on the left to make room for personal data and logo.
 * Beamer styles
 :PROPERTIES:
 :CUSTOM_ID: custom_beamer
-:TANGLE:   custom-beamer.sty
+:TANGLE:    custom-beamer.sty
 :END:
 ** Special progress bar in footline
 #+NAME: generate_line
