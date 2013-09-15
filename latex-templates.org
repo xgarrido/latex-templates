@@ -780,6 +780,8 @@ called within =postamble= part of [[Template settings]]
   \setbeamercolor{example title}{use=example,fg=example.bg, bg=example.fg}
   \setbeamercolor{example body}{use=example, fg=example.fg, bg=example.bg}
   \setbeamercolor{itemize item}{fg=generic2}
+  \setbeamercolor{footnote}{fg=generic3}
+  \setbeamercolor{footnote mark}{fg=generic3}
 
   \setbeamercolor{ruc_upper}{fg=white,bg=red}
   \setbeamercolor{ruc_lower}{fg=red,bg=white}
@@ -924,6 +926,38 @@ Add special footline with a slick progress bar
     \setbeamertemplate{footline}[cbfootline]{}
     \setbeamercolor{footline}{use=structure, fg=generic3, bg=structure.bg}
   }{}
+#+END_SRC
+*** Footnote
+Redefine footnote template for beamer
+#+BEGIN_SRC latex
+  \defbeamertemplate*{footnote}{custom}
+                     {
+                       \parindent 1em\noindent%
+                       \raggedright
+                       \hbox to 18em{\hfil\insertfootnotemark}\insertfootnotetext%
+                     }
+#+END_SRC
+
+Use personal footnote symbol starting with dagger and not with asterisk.
+#+BEGIN_SRC latex
+  \def\@fnsymbol#1{\ensuremath{\ifcase#1\or \dagger\or \ddagger\or
+    \mathsection\or \mathparagraph\or \|\or **\or \dagger\dagger
+     \or \ddagger\ddagger \else\@ctrerr\fi}}
+  \renewcommand{\thefootnote}{\fnsymbol{footnote}}
+  \renewcommand{\footnoterule}{}
+#+END_SRC
+
+Reset counter for every beamer frame
+#+BEGIN_SRC latex
+  \RequirePackage{perpage}
+  \MakePerPage{footnote}
+#+END_SRC
+
+If the text within the footnote is very long, LaTeX may split the footnote over
+several pages. You can prevent LaTeX from doing so by increasing the penalty for
+such an operation.
+#+BEGIN_SRC latex
+  \interfootnotelinepenalty=10000
 #+END_SRC
 ** Template settings
 Given the =driver= to be used, generic colors, special title inclusion are set
