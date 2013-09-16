@@ -891,19 +891,19 @@ in order to keep the total page number unchanged.
 #+END_SRC
 *** Colored block environment
 #+BEGIN_SRC latex
+  \newcommand{\IfNoValueOrEmptyTF}[3]{\IfNoValueTF{#1}{#2}{\if\relax\detokenize{#1}\relax#2\else#3\fi}}
   \RequirePackage{xparse}
-  \NewDocumentEnvironment{cbox}{O{0.9\linewidth} O{lbtuc} O{\centering} D(){}}
-                 {\begin{center}
-                     \begin{minipage}[c]{#1}
-                       \begin{beamerboxesrounded}[upper=#2,lower=#2,shadow=false]
-                         {#4}
-                         #3
-                 }
-                 {
-                       \end{beamerboxesrounded}
-                     \end{minipage}
-                   \end{center}
-                 }
+  \NewDocumentEnvironment{cbox}{o o o d()}{
+    \begin{center}
+      \begin{minipage}[c]{\IfNoValueOrEmptyTF{#1}{0.9\linewidth}{#1}}
+        \begin{beamerboxesrounded}[upper=\IfNoValueOrEmptyTF{#2}{lbtuc}{#2}, lower=\IfNoValueOrEmptyTF{#2}{lbtuc}{#2}, shadow=false]
+          {\IfNoValueOrEmptyTF{#3}{}{#3}\IfNoValueOrEmptyTF{#4}{}{#4}}
+          \IfNoValueOrEmptyTF{#3}{}{#3}
+  }{
+        \end{beamerboxesrounded}
+      \end{minipage}
+    \end{center}
+  }
 #+END_SRC
 *** Footline
 Remove navigation symbols
