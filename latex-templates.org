@@ -96,7 +96,7 @@ customize the highlighted source code output using =fancyvrb=.
 *** [[http://www.texample.net/tikz/][tikz]] package
 #+BEGIN_SRC latex
   \RequirePackage{tikz}
-  \usetikzlibrary{positioning,arrows,snakes,backgrounds,patterns,matrix,shapes,fit,calc,shadows,plotmarks,spy,external}
+  \usetikzlibrary{positioning,arrows,decorations,backgrounds,patterns,matrix,shapes,fit,calc,shadows,plotmarks,spy,external}
 #+END_SRC
 
 We use the external library from =tikz= to cache i.e. produce a =pdf= file of
@@ -741,10 +741,6 @@ Here we parse result of =ProcessKeyvalOptions= done previously in order to set
 different booleans used in the nex section.
 #+BEGIN_SRC latex
   \RequirePackage{ifthen}
-  \ifthenelse{\boolean{cb@nologo}}{
-    \setboolean{cb@notitlelogo}{true}
-    \setboolean{cb@noheaderlogo}{true}
-  }{}
   \newboolean{has_driver_name}
   \setboolean{has_driver_name}{false}
   \ifthenelse{\boolean{cb@ddpfo}}{
@@ -755,11 +751,16 @@ different booleans used in the nex section.
   }{}
   \ifthenelse{\boolean{cb@cpp_teaching}}{
     \setboolean{has_driver_name}{true}
+    \setboolean{cb@nologo}{true}
   }{}
   \ifthenelse{\boolean{has_driver_name}}{
   }{
     \PackageWarning{custom-beamer}{You do not specify a 'driver' name !}}{
   }
+  \ifthenelse{\boolean{cb@nologo}}{
+    \setboolean{cb@notitlelogo}{true}
+    \setboolean{cb@noheaderlogo}{true}
+  }{}
 #+END_SRC
 *** Default themes
 #+BEGIN_SRC latex
@@ -796,6 +797,7 @@ called within =postamble= part of [[Template settings]]
   \setbeamercolor{lgtuc}{fg=green,bg=green!10}
   \setbeamercolor{lbuc}{fg=white,bg=blue!10}
   \setbeamercolor{lbtuc}{fg=blue,bg=blue!10}
+  \setbeamercolor{lwuc}{fg=blue,bg=white}
 #+END_SRC
 
 *** Font
@@ -880,8 +882,8 @@ in order to keep the total page number unchanged.
 #+END_SRC
 *** Adding logo to frametitle
 #+BEGIN_SRC latex
+  \RequirePackage[absolute,overlay]{textpos}
   \ifthenelse{\boolean{cb@noheaderlogo}}{}{
-    \RequirePackage[absolute,overlay]{textpos}
     \addtobeamertemplate{frametitle}{}{%
       \begin{textblock}{14}(13.9,0.25)
         \resizebox{!}{8mm}{\logo}
@@ -890,20 +892,64 @@ in order to keep the total page number unchanged.
   }
 #+END_SRC
 *** Colored block environment
+We define a new colored bow environment that can be also used for =orgmode=
+headline. The parameters are the following one :
+- box width,
+- box color,
+- text options such as =\centering= of text size,
+- =x= and =y= positions,
+- box title.
+
+The last parameters, if specified, are used within a =textblock=
+environment, otherwise a =minipage= is defined.
 #+BEGIN_SRC latex
   \newcommand{\IfNoValueOrEmptyTF}[3]{\IfNoValueTF{#1}{#2}{\if\relax\detokenize{#1}\relax#2\else#3\fi}}
   \RequirePackage{xparse}
-  \NewDocumentEnvironment{cbox}{o o o d()}{
-    \begin{center}
-      \begin{minipage}[c]{\IfNoValueOrEmptyTF{#1}{0.9\linewidth}{#1}}
-        \begin{beamerboxesrounded}[upper=\IfNoValueOrEmptyTF{#2}{lbtuc}{#2}, lower=\IfNoValueOrEmptyTF{#2}{lbtuc}{#2}, shadow=false]
-          {\IfNoValueOrEmptyTF{#3}{}{#3}\IfNoValueOrEmptyTF{#4}{}{#4}}
-          \IfNoValueOrEmptyTF{#3}{}{#3}
+  \NewDocumentEnvironment{cbox}{o o o o o d()}{
+    \IfNoValueOrEmptyTF{#4}{
+      \begin{center}
+        \begin{minipage}[c]{\IfNoValueOrEmptyTF{#1}{0.9\linewidth}{#1}}}{
+      \begin{textblock}{\IfNoValueOrEmptyTF{#1}{10}{#1}}(#4,#5)}
+    \begin{beamerboxesrounded}[upper=\IfNoValueOrEmptyTF{#2}{lbtuc}{#2}, lower=\IfNoValueOrEmptyTF{#2}{lbtuc}{#2}, shadow=false]
+      {\IfNoValueOrEmptyTF{#3}{}{#3}\IfNoValueOrEmptyTF{#6}{}{#6}}
+      \IfNoValueOrEmptyTF{#3}{}{#3}
   }{
-        \end{beamerboxesrounded}
-      \end{minipage}
-    \end{center}
+    \end{beamerboxesrounded}
+    \IfNoValueOrEmptyTF{#4}{\end{minipage}\end{center}}{\end{textblock}}
   }
+#+END_SRC
+
+*** Animated prompt environment
+Taken from this [[http://tex.stackexchange.com/questions/37869/beamer-animations-how-to-simulate-terminal-input-and-output][post forum]] on stackexchange. For some obscure reasons, this
+piece of code can not be included into the [[C++ teaching style]].
+#+BEGIN_SRC latex
+  \RequirePackage{animate}
+  \RequirePackage{expl3}
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %commands for simulating terminal in/output
+  %\scroll[<line separator string>]{<width as TeX dim>}
+  %                             {<number of lines>}{terminal text line}
+  %\clearbuf  %clears line buffer
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \ExplSyntaxOn
+  \seq_new:N\g_linebuffer_seq
+  \seq_new:N\g_inputline_seq
+  \newcommand\scroll[4][§§]{
+    \color{generic2}
+    \seq_set_split:Nnn\g_inputline_seq{#1}{#4}
+    \seq_map_inline:Nn\g_inputline_seq{
+      \seq_gput_right:Nx\g_linebuffer_seq{##1}
+      \int_compare:nT{\seq_count:N\g_linebuffer_seq>#3}{
+        \seq_gpop_left:NN\g_linebuffer_seq\dummy
+      }
+    }
+    \mbox{\begin{minipage}[t][#3\baselineskip]{#2}
+        \ttfamily
+        \seq_map_inline:Nn\g_linebuffer_seq{\mbox{##1}\\}
+    \end{minipage}}
+  }
+  \newcommand\clearbuf{\seq_gclear:N\g_linebuffer_seq}
+  \ExplSyntaxOff
 #+END_SRC
 *** Footline
 Remove navigation symbols
@@ -932,9 +978,12 @@ Redefine footnote template for beamer
 #+BEGIN_SRC latex
   \defbeamertemplate*{footnote}{custom}
                      {
-                       \parindent 1em\noindent%
-                       \raggedright
-                       \hbox to 18em{\hfil\insertfootnotemark}\insertfootnotetext%
+                       \parbox{11.5cm}{\raggedleft
+                           \tiny
+                           \parindent 1em\noindent%
+                           \hbox to 1em{\hfil\insertfootnotemark}\insertfootnotetext%
+                       }
+                       \vskip +1pt
                      }
 #+END_SRC
 
@@ -1175,15 +1224,16 @@ up. Practically, everything can be done within this section.
 #+END_SRC
 **** Colors
 #+BEGIN_SRC latex
-    \definecolor{red}{RGB}{221,42,43}
-    \definecolor{green}{RGB}{132,184,24}
-    \definecolor{blue}{RGB}{0,72,112}
-    \definecolor{gray}{RGB}{107,108,110}
+  \definecolor{red}{RGB}{221,42,43}
+  \definecolor{green}{RGB}{132,184,24}
+  \definecolor{blue}{RGB}{0,72,112}
+  \definecolor{orange}{RGB}{192,128,64}
+  \definecolor{gray}{RGB}{107,108,110}
 
-    \colorlet{generic0}{green}
-    \colorlet{generic1}{green}
-    \colorlet{generic2}{blue}
-    \colorlet{generic3}{gray}
+  \colorlet{generic0}{green}
+  \colorlet{generic1}{green}
+  \colorlet{generic2}{blue}
+  \colorlet{generic3}{gray}
 #+END_SRC
 **** Title prefix
 #+BEGIN_SRC latex
