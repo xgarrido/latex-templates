@@ -12,7 +12,6 @@ The document firstly introduces some general options for LaTeX to work with
 
 * Org preamble
 :PROPERTIES:
-:CUSTOM_ID: org_preamble
 :TANGLE:   org-preamble.sty
 :END:
 
@@ -113,7 +112,6 @@ each =tikzpicture=. =tikz/external= looks if the pdf exist and if not, export it
 * Article styles
 ** Memoir article styles                                       :DEVELOPMENT:
 :PROPERTIES:
-:CUSTOM_ID: memoir_article_style
 :TANGLE: memoir-article-style.sty
 :END:
 
@@ -194,7 +192,6 @@ corresponding author reference... Use =\symbolfoonote[0]{Footnote text}=.
 
 ** SuperNEMO article style
 :PROPERTIES:
-:CUSTOM_ID: supernemo_article_style
 :TANGLE: supernemo-article-style.sty
 :END:
 
@@ -377,7 +374,6 @@ footnote style of author/affiliation input.
 
 * CV style
 :PROPERTIES:
-:CUSTOM_ID: cv_style
 :TANGLE: cv_style.sty
 :END:
 
@@ -512,9 +508,6 @@ Adobe. Inconsolata is used as monospace font.
 #+END_SRC
 
 * KOMA/LaTeX letter styles
-:PROPERTIES:
-:CUSTOM_ID: koma_letter
-:END:
 
 This part holds some LaTeX styles for cover letter. This is mainly inspired by
 this [[http://stefano.italians.nl/archives/55][tutorial]]. First, the basics are defined namely the layout of the cover
@@ -675,7 +668,6 @@ Shift the page body on the left to make room for personal data and logo.
 
 * Beamer styles
 :PROPERTIES:
-:CUSTOM_ID: custom_beamer
 :TANGLE:    custom-beamer.sty
 :END:
 ** Special progress bar in footline
@@ -736,7 +728,7 @@ Shift the page body on the left to make room for personal data and logo.
    \DeclareBoolOption[false]{cpp_teaching}
    \ProcessKeyvalOptions*
 #+END_SRC
-**** General options
+*** Parsing options
 Here we parse result of =ProcessKeyvalOptions= done previously in order to set
 different booleans used in the nex section.
 #+BEGIN_SRC latex
@@ -1257,9 +1249,194 @@ up. Practically, everything can be done within this section.
   }{}
 #+END_SRC
 
+* Lectures/Courses styles
+:PROPERTIES:
+:TANGLE: lecture-style.sty
+:END:
+** General settings
+*** Basics
+#+BEGIN_SRC latex
+  \NeedsTeXFormat{LaTeX2e}
+  \ProvidesPackage{lecture-style}[2013/09/18 v0.01 Custom lecture/course templates]
+#+END_SRC
+*** Package options
+#+BEGIN_SRC latex
+  \RequirePackage{kvoptions}
+  \SetupKeyvalOptions{
+    family=ls,
+    prefix=ls@
+  }
+  \DeclareBoolOption[false]{nologo}
+  \DeclareBoolOption[false]{cpp_teaching}
+  \ProcessKeyvalOptions*
+#+END_SRC
+*** Parsing options
+Here we parse result of =ProcessKeyvalOptions= done previously in order to set
+different booleans used in the nex section.
+#+BEGIN_SRC latex
+  \RequirePackage{ifthen}
+  \newboolean{has_driver_name}
+  \setboolean{has_driver_name}{false}
+  \ifthenelse{\boolean{ls@cpp_teaching}}{
+    \setboolean{has_driver_name}{true}
+  }{}
+  \ifthenelse{\boolean{has_driver_name}}{
+  }{
+    \PackageWarning{lecture-style}{You do not specify a 'driver' name !}}{
+  }
+#+END_SRC
+*** Package requirements
+**** =hyperref= package
+#+BEGIN_SRC latex
+  \RequirePackage{hyperref}
+  \hypersetup{
+    xetex,
+    colorlinks=true,
+    urlcolor=theRefColor,
+    plainpages=false,
+    pdfpagelabels,
+    bookmarksnumbered,
+    pagebackref
+  }
+#+END_SRC
+** Template settings
+Given the =driver= to be used, generic colors, special title inclusion are set
+up. Practically, everything can be done within this section.
+*** C++ teaching style
+**** Preamble
+#+BEGIN_SRC latex
+  \ifthenelse{\boolean{ls@cpp_teaching}}{
+#+END_SRC
+**** Colors
+#+BEGIN_SRC latex
+  \definecolor{red}{RGB}{221,42,43}
+  \definecolor{green}{RGB}{132,184,24}
+  \definecolor{blue}{RGB}{0,72,112}
+  \definecolor{orange}{RGB}{192,128,64}
+  \definecolor{gray}{RGB}{107,108,110}
+#+END_SRC
+**** Fonts
+#+BEGIN_SRC latex
+  \setmonofont[Scale=0.9]{Inconsolata}
+  \RequirePackage{mathpazo}
+  \setsansfont[Mapping=tex-text]{Myriad Pro}
+  \setromanfont[Mapping=tex-text, Numbers=OldStyle]{Minion Pro}
+
+  %%\setmainfont
+  %%    [ BoldFont       = texgyrepagella-bold.otf ,
+  %%      ItalicFont     = texgyrepagella-italic.otf ,
+  %%      BoldItalicFont = texgyrepagella-bolditalic.otf ]
+  %%    {texgyrepagella-regular.otf}
+#+END_SRC
+**** Minted lexer
+#+BEGIN_SRC latex
+  \usemintedstyle{upsud}
+#+END_SRC
+**** Fancy headings
+#+BEGIN_SRC latex
+  \RequirePackage{fancyhdr}
+  \RequirePackage[Sonny]{fncychap}
+  \ChTitleVar{\Huge\bfseries\sffamily\color{blue}}
+  %%\ChNameVar{\fontsize{14}{16}\usefont{OT1}{ptm}{b}{n}\selectfont}
+  %%\ChNumVar{\fontsize{60}{62}\usefont{OT1}{ptm}{b}{n}\selectfont}
+  \ChNameVar{\fontsize{14}{16}\selectfont\sffamily\color{blue}}
+  \ChNumVar{\fontsize{60}{62}\selectfont\sffamily\color{blue}}
+  \ChRuleWidth{0pt}
+  \renewcommand{\DOCH}{%
+    \vspace{-2cm}
+    \raggedleft
+    \CNV\FmN{\@chapapp}\space \CNoV\thechapter
+    \par\nobreak
+    \vspace{-3cm}
+    }
+#+END_SRC
+**** Layout
+***** Title tweak
+No title
+#+BEGIN_SRC latex
+  \renewcommand*{\maketitle}{}
+#+END_SRC
+***** Paragraph indent
+No paragraph indent
+#+BEGIN_SRC latex
+  \setlength{\parindent}{0cm}
+#+END_SRC
+***** Chapter style
+We want chapter with fancy style (see [[Fancy headings]]) but we do not want
+explicit call of =\chapter= command within the =org= document. Thus we use a
+LaTeX hook to automatically add this command at the begin of the document.
+#+BEGIN_SRC latex
+  \renewcommand{\chaptername}{Exercice}
+  \AtBeginDocument{\chapter{}}
+#+END_SRC
+No page number for first chapter pages
+#+BEGIN_SRC latex
+  \let\ps@plain=\ps@empty
+#+END_SRC
+***** Section style
+We change the sections style using =titlesec= package
+#+BEGIN_SRC latex
+  \RequirePackage{titlesec}
+  \titleformat*{\section}{\Large\bfseries\sffamily\color{blue}}
+#+END_SRC
+***** Make page wider
+#+BEGIN_SRC latex
+  \RequirePackage{a4wide}
+#+END_SRC
+***** Set space line
+#+BEGIN_SRC latex
+  \RequirePackage[onehalfspacing]{setspace}
+  \setstretch{1.02}
+#+END_SRC
+***** Footnote style
+#+BEGIN_SRC latex
+  \renewcommand{\footnoterule}{\color{blue}%
+    \vskip-\footruleskip\vskip-\footrulewidth%
+    \vspace{10pt}\hrule width\columnwidth height1.5pt \vspace{5pt} \color{gris25}}
+  \renewcommand{\thefootnote}{\alph{footnote}}
+  \interfootnotelinepenalty=10000
+#+END_SRC
+***** Header style
+#+BEGIN_SRC latex
+  \renewcommand{\headrulewidth}{1.5pt}
+#+END_SRC
+***** Caption setup
+#+BEGIN_SRC latex
+  \RequirePackage{ccaption}
+  \captionnamefont{\footnotesize\bfseries}
+  \captiontitlefont{\footnotesize}
+
+  \renewcommand{\fnum@figure}[1]{Figure~\thefigure~-- }
+#+END_SRC
+***** Tweaking geometry
+This has to be set here for obscure (maybe =fncychap= redefines geometry layout)
+#+BEGIN_SRC latex
+  \RequirePackage[top=1.0cm, width=16cm]{geometry}
+#+END_SRC
+**** New environment
+***** Remark
+#+BEGIN_SRC latex
+  \newenvironment{remark}
+                 {\begin{quote}\ding{47}\emph\small}
+                 {\end{quote}}
+#+END_SRC
+***** Prompt
+#+BEGIN_SRC latex
+  \newenvironment{prompt}
+                 {\begin{quote}\tt\$\;}
+                 {\end{quote}}
+#+END_SRC
+**** New command
+#+BEGIN_SRC latex
+  \newcommand{\Cpp}{\mbox{C\vspace{.5em}\protect\raisebox{.2ex}{\footnotesize++~}}}
+#+END_SRC
+**** Postamble
+#+BEGIN_SRC latex
+  }{}
+#+END_SRC
+
 * Exporting styles
 :PROPERTIES:
-:CUSTOM_ID: export_styles
 :TANGLE: latex-templates.sh
 :END:
 
@@ -1275,6 +1452,7 @@ exported to =$TEXMFHOME= to make them available from everywhere.
 | $TEXMFHOME/tex/latex/commonstuff/koma-letter-lco | english.lco                 |
 | $TEXMFHOME/tex/latex/commonstuff/koma-letter-lco | french.lco                  |
 | $TEXMFHOME/tex/latex/commonstuff                 | custom-beamer.sty           |
+| $TEXMFHOME/tex/latex/commonstuff                 | lecture-style.sty           |
 
 ** Script to do the export
 #+NAME: export_script(dirs=style_files[,0], files=style_files[,1])
