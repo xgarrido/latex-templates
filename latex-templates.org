@@ -1267,7 +1267,9 @@ up. Practically, everything can be done within this section.
     prefix=ls@
   }
   \DeclareBoolOption[false]{nologo}
-  \DeclareBoolOption[false]{cpp_teaching}
+  \DeclareBoolOption[false]{oldstyle}
+  \DeclareBoolOption[false]{cpp_teaching_lectures}
+  \DeclareBoolOption[false]{cpp_teaching_classes}
   \ProcessKeyvalOptions*
 #+END_SRC
 *** Parsing options
@@ -1277,7 +1279,10 @@ different booleans used in the nex section.
   \RequirePackage{ifthen}
   \newboolean{has_driver_name}
   \setboolean{has_driver_name}{false}
-  \ifthenelse{\boolean{ls@cpp_teaching}}{
+  \ifthenelse{\boolean{ls@cpp_teaching_lectures}}{
+    \setboolean{has_driver_name}{true}
+  }{}
+  \ifthenelse{\boolean{ls@cpp_teaching_classes}}{
     \setboolean{has_driver_name}{true}
   }{}
   \ifthenelse{\boolean{has_driver_name}}{
@@ -1305,7 +1310,7 @@ up. Practically, everything can be done within this section.
 *** C++ teaching style
 **** Preamble
 #+BEGIN_SRC latex
-  \ifthenelse{\boolean{ls@cpp_teaching}}{
+  \ifthenelse{\boolean{has_driver_name}}{
 #+END_SRC
 **** Colors
 #+BEGIN_SRC latex
@@ -1319,14 +1324,17 @@ up. Practically, everything can be done within this section.
 #+BEGIN_SRC latex
   \setmonofont[Scale=0.9]{Inconsolata}
   \RequirePackage{mathpazo}
-  \setsansfont[Mapping=tex-text]{Myriad Pro}
-  \setromanfont[Mapping=tex-text, Numbers=OldStyle]{Minion Pro}
 
-  %%\setmainfont
-  %%    [ BoldFont       = texgyrepagella-bold.otf ,
-  %%      ItalicFont     = texgyrepagella-italic.otf ,
-  %%      BoldItalicFont = texgyrepagella-bolditalic.otf ]
-  %%    {texgyrepagella-regular.otf}
+  \ifthenelse{\boolean{ls@oldstyle}}{
+    \setmainfont
+        [ BoldFont       = texgyrepagella-bold.otf ,
+          ItalicFont     = texgyrepagella-italic.otf ,
+          BoldItalicFont = texgyrepagella-bolditalic.otf ]
+        {texgyrepagella-regular.otf}
+  }{
+    \setsansfont[Mapping=tex-text]{Myriad Pro}
+    \setromanfont[Mapping=tex-text, Numbers=OldStyle]{Minion Pro}
+  }
 #+END_SRC
 **** Minted lexer
 #+BEGIN_SRC latex
@@ -1335,20 +1343,27 @@ up. Practically, everything can be done within this section.
 **** Fancy headings
 #+BEGIN_SRC latex
   \RequirePackage{fancyhdr}
-  \RequirePackage[Sonny]{fncychap}
-  \ChTitleVar{\Huge\bfseries\sffamily\color{blue}}
-  %%\ChNameVar{\fontsize{14}{16}\usefont{OT1}{ptm}{b}{n}\selectfont}
-  %%\ChNumVar{\fontsize{60}{62}\usefont{OT1}{ptm}{b}{n}\selectfont}
-  \ChNameVar{\fontsize{14}{16}\selectfont\sffamily\color{blue}}
-  \ChNumVar{\fontsize{60}{62}\selectfont\sffamily\color{blue}}
-  \ChRuleWidth{0pt}
-  \renewcommand{\DOCH}{%
-    \vspace{-2cm}
-    \raggedleft
-    \CNV\FmN{\@chapapp}\space \CNoV\thechapter
-    \par\nobreak
-    \vspace{-3cm}
-    }
+  \ifthenelse{\boolean{ls@oldstyle}}{
+    \RequirePackage[Lenny]{fncychap}
+    \ChTitleVar{\Huge\bfseries}
+    \ChNameVar{\fontsize{14}{16}\usefont{OT1}{ptm}{b}{n}\selectfont}
+    \ChNumVar{\fontsize{60}{62}\usefont{OT1}{ptm}{b}{n}\selectfont}
+  }{
+    \RequirePackage[Sonny]{fncychap}
+    \ChTitleVar{\Huge\bfseries\sffamily\color{blue}}
+    \ChNameVar{\fontsize{14}{16}\selectfont\sffamily\color{blue}}
+    \ChNumVar{\fontsize{60}{62}\selectfont\sffamily\color{blue}}
+    \ChRuleWidth{0pt}
+    \ifthenelse{\boolean{ls@cpp_teaching_classes}}{
+      \renewcommand{\DOCH}{%
+        \vspace{-2cm}
+        \raggedleft
+        \CNV\FmN{\@chapapp}\space \CNoV\thechapter
+        \par\nobreak
+        \vspace{-3cm}
+      }
+    }{}
+  }
 #+END_SRC
 **** Layout
 ***** Title tweak
@@ -1366,8 +1381,14 @@ We want chapter with fancy style (see [[Fancy headings]]) but we do not want
 explicit call of =\chapter= command within the =org= document. Thus we use a
 LaTeX hook to automatically add this command at the begin of the document.
 #+BEGIN_SRC latex
-  \renewcommand{\chaptername}{Exercice}
-  \AtBeginDocument{\chapter{}}
+  \ifthenelse{\boolean{ls@cpp_teaching_classes}}{
+    \renewcommand{\chaptername}{Exercice}
+    \ifthenelse{\boolean{ls@oldstyle}}{
+      \AtBeginDocument{\chapter{}\vspace{-1.5cm}}
+    }{
+      \AtBeginDocument{\chapter{}}
+    }
+  }{}
 #+END_SRC
 No page number for first chapter pages
 #+BEGIN_SRC latex
@@ -1376,8 +1397,10 @@ No page number for first chapter pages
 ***** Section style
 We change the sections style using =titlesec= package
 #+BEGIN_SRC latex
-  \RequirePackage{titlesec}
-  \titleformat*{\section}{\Large\bfseries\sffamily\color{blue}}
+  \ifthenelse{\boolean{ls@oldstyle}}{}{
+    \RequirePackage{titlesec}
+    \titleformat*{\section}{\Large\bfseries\sffamily\color{blue}}
+  }
 #+END_SRC
 ***** Make page wider
 #+BEGIN_SRC latex
@@ -1392,7 +1415,7 @@ We change the sections style using =titlesec= package
 #+BEGIN_SRC latex
   \renewcommand{\footnoterule}{\color{blue}%
     \vskip-\footruleskip\vskip-\footrulewidth%
-    \vspace{10pt}\hrule width\columnwidth height1.5pt \vspace{5pt} \color{gris25}}
+    \vspace{10pt}\hrule width\columnwidth height1.5pt \vspace{5pt} \color{gray}}
   \renewcommand{\thefootnote}{\alph{footnote}}
   \interfootnotelinepenalty=10000
 #+END_SRC
@@ -1411,7 +1434,9 @@ We change the sections style using =titlesec= package
 ***** Tweaking geometry
 This has to be set here for obscure (maybe =fncychap= redefines geometry layout)
 #+BEGIN_SRC latex
-  \RequirePackage[top=1.0cm, width=16cm]{geometry}
+  \ifthenelse{\boolean{ls@cpp_teaching_classes}}{
+    \RequirePackage[top=1.0cm, width=16cm]{geometry}
+  }{}
 #+END_SRC
 **** New environment
 ***** Remark
