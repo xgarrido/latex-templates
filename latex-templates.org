@@ -1400,6 +1400,7 @@ We change the sections style using =titlesec= package
   \ifthenelse{\boolean{ls@oldstyle}}{}{
     \RequirePackage{titlesec}
     \titleformat*{\section}{\Large\bfseries\sffamily\color{blue}}
+    \titleformat*{\subsection}{\large\bfseries\sffamily\color{blue!75}}
   }
 #+END_SRC
 ***** Make page wider
