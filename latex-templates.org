@@ -1298,7 +1298,7 @@ different booleans used in the nex section.
   \hypersetup{
     xetex,
     colorlinks=true,
-    urlcolor=theRefColor,
+    urlcolor=green,
     plainpages=false,
     pdfpagelabels,
     bookmarksnumbered,
@@ -1378,7 +1378,9 @@ No title
 ***** Paragraph indent
 No paragraph indent
 #+BEGIN_SRC latex
-  \setlength{\parindent}{0cm}
+  \ifthenelse{\boolean{ls@cpp_teaching_classes}}{
+    \setlength{\parindent}{0cm}
+  }{}
 #+END_SRC
 ***** Chapter style
 We want chapter with fancy style (see [[Fancy headings]]) but we do not want
@@ -1397,8 +1399,10 @@ LaTeX hook to automatically add this command at the begin of the document.
     \renewcommand{\chaptername}{Fiche}
     \ifthenelse{\boolean{ls@oldstyle}}{
       \AtBeginDocument{\chapter{\@title}}
+      \AtEndDocument{\clearemptydoublepage}
     }{
       \AtBeginDocument{\chapter{\@title}}
+      \AtEndDocument{\clearemptydoublepage}
     }
   }{}
 #+END_SRC
@@ -1468,6 +1472,7 @@ This has to be set here for obscure (maybe =fncychap= redefines geometry layout)
 **** New command
 #+BEGIN_SRC latex
   \newcommand{\Cpp}{\mbox{C\vspace{.5em}\protect\raisebox{.2ex}{\footnotesize++~}}}
+  \newcommand{\clearemptydoublepage}{\newpage{\pagestyle{empty}\cleardoublepage}}
 #+END_SRC
 **** Postamble
 #+BEGIN_SRC latex
