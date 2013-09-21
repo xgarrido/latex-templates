@@ -1299,6 +1299,8 @@ different booleans used in the nex section.
     xetex,
     colorlinks=true,
     urlcolor=green,
+    filecolor=green,
+    linkcolor=red,
     plainpages=false,
     pdfpagelabels,
     bookmarksnumbered,
