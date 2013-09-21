@@ -8,7 +8,8 @@ beamer templates. It uses all the versatility of =org-mode= from Emacs,
 especially all the tangling power of =org-babel=.
 
 The document firstly introduces some general options for LaTeX to work with
-=org-mode= and =xelatex=. The second part defines some /chapter/ styles.
+=org-mode= and =xelatex=. The second part defines some templates to be used
+either with pure LaTeX document or Beamer class.
 
 * Org preamble
 :PROPERTIES:
@@ -1353,8 +1354,8 @@ up. Practically, everything can be done within this section.
     \ChTitleVar{\Huge\bfseries\sffamily\color{blue}}
     \ChNameVar{\fontsize{14}{16}\selectfont\sffamily\color{blue}}
     \ChNumVar{\fontsize{60}{62}\selectfont\sffamily\color{blue}}
-    \ChRuleWidth{0pt}
     \ifthenelse{\boolean{ls@cpp_teaching_classes}}{
+      \ChRuleWidth{0pt}
       \renewcommand{\DOCH}{%
         \vspace{-2cm}
         \raggedleft
@@ -1362,6 +1363,9 @@ up. Practically, everything can be done within this section.
         \par\nobreak
         \vspace{-3cm}
       }
+    }{}
+    \ifthenelse{\boolean{ls@cpp_teaching_lectures}}{
+      \ChRuleWidth{1.5pt}
     }{}
   }
 #+END_SRC
@@ -1389,6 +1393,14 @@ LaTeX hook to automatically add this command at the begin of the document.
       \AtBeginDocument{\chapter{}}
     }
   }{}
+  \ifthenelse{\boolean{ls@cpp_teaching_lectures}}{
+    \renewcommand{\chaptername}{Fiche}
+    \ifthenelse{\boolean{ls@oldstyle}}{
+      \AtBeginDocument{\chapter{\@title}}
+    }{
+      \AtBeginDocument{\chapter{\@title}}
+    }
+  }{}
 #+END_SRC
 No page number for first chapter pages
 #+BEGIN_SRC latex
@@ -1401,16 +1413,17 @@ We change the sections style using =titlesec= package
     \RequirePackage{titlesec}
     \titleformat*{\section}{\Large\bfseries\sffamily\color{blue}}
     \titleformat*{\subsection}{\large\bfseries\sffamily\color{blue!75}}
+    \titleformat*{\subsubsection}{\itshape\subsubsectionfont\color{blue!60}}
   }
-#+END_SRC
-***** Make page wider
-#+BEGIN_SRC latex
-  \RequirePackage{a4wide}
 #+END_SRC
 ***** Set space line
 #+BEGIN_SRC latex
   \RequirePackage[onehalfspacing]{setspace}
   \setstretch{1.02}
+#+END_SRC
+***** Make page wider
+#+BEGIN_SRC latex
+  \RequirePackage{a4wide}
 #+END_SRC
 ***** Footnote style
 #+BEGIN_SRC latex
@@ -1449,7 +1462,7 @@ This has to be set here for obscure (maybe =fncychap= redefines geometry layout)
 ***** Prompt
 #+BEGIN_SRC latex
   \newenvironment{prompt}
-                 {\begin{quote}\tt\$\;}
+                 {\begin{quote}\color{blue!75}\tt\$\;}
                  {\end{quote}}
 #+END_SRC
 **** New command
