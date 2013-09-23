@@ -1,5 +1,6 @@
 #+TITLE:  LaTeX Templates
 #+AUTHOR: Xavier Garrido
+#+EMAIL:  xavier.garrido@gmail.com
 #+OPTIONS: toc:nil
 
 * Introduction
@@ -7,9 +8,28 @@ This file should provide a saner set of LaTeX templates for articles, memos or
 beamer templates. It uses all the versatility of =org-mode= from Emacs,
 especially all the tangling power of =org-babel=.
 
-The document firstly introduces some general options for LaTeX to work with
-=org-mode= and =xelatex=. The second part defines some templates to be used
-either with pure LaTeX document or Beamer class.
+The document firstly explains how to install the style files. The [[Org preamble]]
+section introduces some general options for LaTeX to work with =org-mode= and
+=xelatex=. Finally, each secton define some templates to be used either with
+pure LaTeX document or Beamer class.
+
+* Installation
+LaTeX =*.sty= files will be installed in =TEXMFHOME= which normally points to
+your personal LaTeX home directory. All files within this directory will be see
+by any =(xe/pdf)latex= compilation process. If =TEXMFHOME= is not properly defined then
+export it to some place
+#+BEGIN_SRC sh
+  export TEXMFHOME="/some/place/on/your/computer"
+#+END_SRC
+
+Given the definition of =TEXMFHOME= environment variable, you can just use the
+Makefile shipped with this package and run the following command
+#+BEGIN_SRC sh
+  make
+#+END_SRC
+It will install all the style files defined in this unique file.
+
+You can also tweak what you really want to be exported by changing the [[style_files][export table]].
 
 * Org preamble
 :PROPERTIES:
@@ -53,25 +73,6 @@ customize the highlighted source code output using =fancyvrb=.
   \RequirePackage[cache]{minted}
 #+END_SRC
 
-*** Hyperref settings
-#+BEGIN_SRC latex
-  %%\RequirePackage[
-  %%  backref,
-  %%  pagebackref,
-  %%  naturalnames=true,
-  %%  colorlinks=true,
-  %%  plainpages=false,
-  %%  pdfpagelabels,
-  %%  bookmarksnumbered]{hyperref}
-  %%\hypersetup{
-  %%  backref,
-  %%  pagebackref,
-  %%  naturalnames=true,
-  %%  colorlinks=true,
-  %%  plainpages=false,
-  %%  pdfpagelabels,
-  %%  bookmarksnumbered}
-#+END_SRC
 *** Unicode typesettings aka XeTeX
 #+BEGIN_SRC latex
   \RequirePackage{ifxetex}
@@ -1490,7 +1491,7 @@ Given the generation of LaTeX styles from the previous items, the files are
 exported to =$TEXMFHOME= to make them available from everywhere.
 
 ** List of files to export
-#+TBLNAME: style_files
+#+NAME: style_files
 | $TEXMFHOME/tex/latex/commonstuff                 | org-preamble.sty            |
 | $TEXMFHOME/tex/latex/commonstuff                 | memoir-article-style.sty    |
 | $TEXMFHOME/tex/latex/commonstuff                 | supernemo-article-style.sty |
