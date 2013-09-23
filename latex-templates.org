@@ -1463,7 +1463,7 @@ This has to be set here for obscure (maybe =fncychap= redefines geometry layout)
 ***** Remark
 #+BEGIN_SRC latex
   \newenvironment{remark}
-                 {\begin{quote}\ding{47}\emph\small}
+                 {\begin{quote}\ding{47}\itshape\small}
                  {\end{quote}}
 #+END_SRC
 ***** Prompt
