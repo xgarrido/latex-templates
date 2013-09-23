@@ -1420,7 +1420,7 @@ We change the sections style using =titlesec= package
     \RequirePackage{titlesec}
     \titleformat*{\section}{\Large\bfseries\sffamily\color{blue}}
     \titleformat*{\subsection}{\large\bfseries\sffamily\color{blue!75}}
-    \titleformat*{\subsubsection}{\itshape\subsubsectionfont\color{blue!60}}
+    \titleformat*{\subsubsection}{\itshape\color{blue!60}}
   }
 #+END_SRC
 ***** Set space line
@@ -1495,7 +1495,7 @@ exported to =$TEXMFHOME= to make them available from everywhere.
 | $TEXMFHOME/tex/latex/commonstuff                 | org-preamble.sty            |
 | $TEXMFHOME/tex/latex/commonstuff                 | memoir-article-style.sty    |
 | $TEXMFHOME/tex/latex/commonstuff                 | supernemo-article-style.sty |
-| $TEXMFHOME/tex/latex/commonstuff                 | cv_style.sty                |
+| $TEXMFHOME/tex/latex/commonstuff                 | cv-style.sty                |
 | $TEXMFHOME/tex/latex/commonstuff/koma-letter-lco | english.lco                 |
 | $TEXMFHOME/tex/latex/commonstuff/koma-letter-lco | french.lco                  |
 | $TEXMFHOME/tex/latex/commonstuff                 | custom-beamer.sty           |
