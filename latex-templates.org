@@ -106,11 +106,11 @@ each =tikzpicture=. =tikz/external= looks if the pdf exist and if not, export it
 #+BEGIN_SRC latex
   \tikzset{
     external/system call={%
-      xelatex \tikzexternalcheckshellescape
-      -halt-on-error -interaction=batchmode --shell-escape
+      xelatex -shell-escape
+      -halt-on-error -interaction=batchmode
       -jobname "\image" "\texsource"}}
-  \tikzexternalize[prefix=tikz.d/]
-  \input "|mkdir -p tikz.d"
+  \tikzexternalize[prefix=latex.d/]
+  \input "|mkdir -p latex.d"
 #+END_SRC
 * Article styles
 ** Memoir article styles                                       :DEVELOPMENT:
