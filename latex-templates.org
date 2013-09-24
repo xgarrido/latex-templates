@@ -89,6 +89,7 @@ customize the highlighted source code output using =fancyvrb=.
 #+END_SRC
 *** graphics package
 #+BEGIN_SRC latex
+  \RequirePackage{graphicx}
   \graphicspath{
     {./plot/}
     {./figures/}
