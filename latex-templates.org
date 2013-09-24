@@ -377,7 +377,7 @@ footnote style of author/affiliation input.
 
 * CV style
 :PROPERTIES:
-:TANGLE: cv_style.sty
+:TANGLE: cv-style.sty
 :END:
 
 A homemade style for producing nice looking vit\ae with =org-mode=. The main
