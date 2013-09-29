@@ -757,6 +757,22 @@ different booleans used in the nex section.
     \setboolean{cb@noheaderlogo}{true}
   }{}
 #+END_SRC
+*** Package requirements
+**** =hyperref= package
+#+BEGIN_SRC latex
+  \RequirePackage{hyperref}
+  \hypersetup{
+    xetex,
+    colorlinks=true,
+    urlcolor=green,
+    filecolor=green,
+    linkcolor=red,
+    plainpages=false,
+    pdfpagelabels,
+    bookmarksnumbered,
+    pagebackref
+  }
+#+END_SRC
 *** Default themes
 #+BEGIN_SRC latex
   \usetheme{default}
