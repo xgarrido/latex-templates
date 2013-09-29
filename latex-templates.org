@@ -808,6 +808,8 @@ called within =postamble= part of [[Template settings]]
   \setbeamercolor{lgtuc}{fg=green,bg=green!10}
   \setbeamercolor{lbuc}{fg=white,bg=blue!10}
   \setbeamercolor{lbtuc}{fg=blue,bg=blue!10}
+  \setbeamercolor{louc}{fg=white,bg=orange!10}
+  \setbeamercolor{lotuc}{fg=orange,bg=orange!10}
   \setbeamercolor{lwuc}{fg=blue,bg=white}
 #+END_SRC
 
