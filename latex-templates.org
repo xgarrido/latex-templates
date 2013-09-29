@@ -877,21 +877,19 @@ page. First, rename the =appendix= name :
   \renewcommand{\appendixname}{Annexes}
 #+END_SRC
 
-Then use almost the default part page style but include the command =\appendi=
+Then use almost the default part page style but include the command =\appendix=
 in order to keep the total page number unchanged.
 #+BEGIN_SRC latex
   \defbeamertemplate*{part page}{custom}[1][colsep=-4bp,
-    rounded=true,shadow=\beamer@themerounded@shadow]
-                     {
-                       \appendix
-                       \begin{centering}
-                         \vskip1em\par
-                         \begin{beamercolorbox}[sep=16pt,center,#1]{part title}
-                           \usebeamerfont{part title}\insertpart\par
-                         \end{beamercolorbox}
-                       \end{centering}
-                     }
-
+    rounded=true,shadow=\beamer@themerounded@shadow]{
+    \appendix
+    \begin{centering}
+      \vskip1em\par
+      \begin{beamercolorbox}[sep=16pt,center,#1]{part title}
+        \usebeamerfont{part title}\appendixname\par
+      \end{beamercolorbox}
+    \end{centering}
+  }
 #+END_SRC
 *** Adding logo to frametitle
 #+BEGIN_SRC latex
