@@ -111,6 +111,7 @@ each =tikzpicture=. =tikz/external= looks if the pdf exist and if not, export it
       -jobname "\image" "\texsource"}}
   \tikzexternalize[prefix=latex.d/]
   \input "|mkdir -p latex.d"
+  \input "|mkdir -p /tmp/latex.d"
 #+END_SRC
 * Article styles
 ** Memoir article styles                                       :DEVELOPMENT:
