@@ -113,8 +113,13 @@ each =tikzpicture=. =tikz/external= looks if the pdf exist and if not, export it
   \input "|mkdir -p latex.d"
   \input "|mkdir -p /tmp/latex.d"
 #+END_SRC
+*** rotating package
+This since to be needed if =sidewaystable= are used
+#+BEGIN_SRC latex
+  \RequirePackage{rotating}
+#+END_SRC
 * Article styles
-** Memoir article styles                                       :DEVELOPMENT:
+** Memoir article styles                                       :development:
 :PROPERTIES:
 :TANGLE: memoir-article-style.sty
 :END:
@@ -205,6 +210,22 @@ corresponding author reference... Use =\symbolfoonote[0]{Footnote text}=.
   \ProvidesPackage{supernemo-article-style}[2013/07/03 v0.01 Bundling of SuperNEMO article items]
 #+END_SRC
 
+*** Package requirements
+**** =hyperref= package
+#+BEGIN_SRC latex
+  \RequirePackage{hyperref}
+  \hypersetup{
+    xetex,
+    colorlinks=true,
+    urlcolor=blue,
+    filecolor=blue,
+    linkcolor=red,
+    plainpages=false,
+    pdfpagelabels,
+    bookmarksnumbered,
+    pagebackref
+  }
+#+END_SRC
 *** Set fonts
 #+BEGIN_SRC latex
   \RequirePackage{lmodern}
@@ -672,7 +693,7 @@ Shift the page body on the left to make room for personal data and logo.
 
 * Beamer styles
 :PROPERTIES:
-:TANGLE:    custom-beamer.sty
+:TANGLE: custom-beamer.sty
 :END:
 ** Special progress bar in footline
 #+NAME: generate_line
