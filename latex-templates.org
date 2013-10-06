@@ -1488,11 +1488,11 @@ We change the sections style using =titlesec= package
   \RequirePackage{ccaption}
   \captionnamefont{\footnotesize\bfseries}
   \captiontitlefont{\footnotesize}
-
   \renewcommand{\fnum@figure}[1]{Figure~\thefigure~-- }
 #+END_SRC
 ***** Tweaking geometry
-This has to be set here for obscure (maybe =fncychap= redefines geometry layout)
+This has to be set here for obscure reasons (maybe =fncychap= redefines geometry
+layout)
 #+BEGIN_SRC latex
   \ifthenelse{\boolean{ls@cpp_teaching_classes}}{
     \RequirePackage[top=1.0cm, width=16cm]{geometry}
