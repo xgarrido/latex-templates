@@ -239,35 +239,29 @@ corresponding author reference... Use =\symbolfoonote[0]{Footnote text}=.
 #+END_SRC
 *** Set fonts
 #+BEGIN_SRC latex
-  \RequirePackage{lmodern}
+  \setmonofont[Scale=0.9]{Inconsolata}
   \RequirePackage{mathpazo}
-  \RequirePackage[scaled=.95]{helvet}
-  \RequirePackage{courier}
+
+  \ifthenelse{\boolean{snemo@classic}}{
+    \setmainfont
+        [ BoldFont       = texgyrepagella-bold.otf ,
+          ItalicFont     = texgyrepagella-italic.otf ,
+          BoldItalicFont = texgyrepagella-bolditalic.otf ]
+        {texgyrepagella-regular.otf}
+  }{
+    \setsansfont[Mapping=tex-text]{Myriad Pro}
+    \setromanfont[Mapping=tex-text, Numbers=OldStyle]{Minion Pro}
+  }
 #+END_SRC
 
 *** Graphics packages
 #+BEGIN_SRC latex
-  \RequirePackage{graphicx}
   \RequirePackage{wrapfig}
-  \RequirePackage{tikz}
 #+END_SRC
 
 *** Color
 #+BEGIN_SRC latex
-  %%\usepackage{color}
-  \definecolor{gris25}{gray}{0.25}
-  \definecolor{sncolor}{rgb}{0.0,0.0,0.0}
-#+END_SRC
-
-*** Geometry
-#+BEGIN_SRC latex
-  \RequirePackage{a4wide}
-  \linespread{1.02}
-  \setlength{\textwidth}{15.5cm}
-  \setlength{\textheight}{690pt}
-  \setlength{\evensidemargin}{0cm}
-  \addtolength{\voffset}{-0.5cm}
-  \setlength{\headheight}{15pt}
+  \definecolor{sncolor}{rgb}{0,0,0}
 #+END_SRC
 
 *** Authoring & bibliography
@@ -281,17 +275,19 @@ footnote style of author/affiliation input.
   \RequirePackage[nottoc,notlof,notlot]{tocbibind}
 #+END_SRC
 
-*** Layout
+*** Geometry
 #+BEGIN_SRC latex
-  \RequirePackage{fancyhdr}
+  \RequirePackage{a4wide}
+  \linespread{1.02}
 #+END_SRC
 
+*** Layout
 **** Logo
 #+BEGIN_SRC latex
   \newcommand{\snlogo}{
     \resizebox{!}{35mm}{
       \begin{tikzpicture}[y=-1cm]
-        \tikzstyle{line}=[line width=3.5pt, sncolor]
+        \tikzstyle{line}=[line width=3.5pt]
 
         \path[fill=white] (3.5,0.5) rectangle (16.5,13);
         \draw[line,cap=round,sncolor] (15.77099,10.87346) +(-146:5.28649) arc (-146:-94:5.28649);
@@ -337,8 +333,8 @@ footnote style of author/affiliation input.
         \draw[line,cap=round] (10.00457,6.53792) +(44:0.3094) arc (44:156:0.3094);
         \draw[line,cap=round] (9.85985,6.60767) +(162:0.13797) arc (162:337:0.13797);
 
-        \fontfamily{phv}\fontseries{b}
-        \fontsize{30.0}{36.0}\selectfont{}
+        %%\fontfamily{phv}\fontseries{b}
+        \sf\fontsize{30.0}{36.0}\selectfont{}
         \path (10.1,11.8) node[text=sncolor,anchor=base] {c~o~l~l~a~b~o~r~a~t~i~o~n};
         \path (10,2.28889) node[text=sncolor,anchor=base] {s~~u~~p~~e~~r~~n~~e~~m~~o};
 
@@ -353,6 +349,7 @@ footnote style of author/affiliation input.
   \newcommand{\HRule}{\rule{\linewidth}{1mm}}
   \renewcommand*{\maketitle}{}
   \renewenvironment{abstract}{%
+    \color{sncolor}
     \pagestyle{empty}
     \vspace*{\stretch{2}}
     \begin{flushright}
@@ -396,9 +393,10 @@ footnote style of author/affiliation input.
 
 **** Footnote
 #+BEGIN_SRC latex
-  \renewcommand{\footnoterule}{\color{gris25}%
+  \RequirePackage{fancyhdr}
+  \renewcommand{\footnoterule}{\color{sncolor!90}%
     \vskip-\footruleskip\vskip-\footrulewidth%
-    \vspace{10pt}\hrule width\columnwidth height1.5pt \vspace{5pt} \color{gris25}}
+    \vspace{10pt}\hrule width\columnwidth height1.5pt \vspace{5pt} \color{sncolor!90}}
   \renewcommand{\thefootnote}{\alph{footnote}}
   \interfootnotelinepenalty=10000
 #+END_SRC
@@ -733,7 +731,11 @@ Shift the page body on the left to make room for personal data and logo.
       echo '  \kern1em\vskip-1pt'
       <<generate_line>>
   elif [ "${style}" == "snemo" ]; then
-      echo ''
+      echo '  \usebeamerfont{page number in head/foot}'
+      echo '  \hspace{1em}\insertshortdate\,-\,\insertshortauthor\hfill'
+      echo '  \insertpagenumber\,/\,\insertpresentationendpage'
+      echo '  \kern1em\vskip-1pt'
+      <<generate_line>>
   elif [ "${style}" == "cpp_teaching" ]; then
       echo '  \usebeamerfont{page number in head/foot}'
       echo '  \hspace{1em}\inserttitle\hfill'
@@ -865,10 +867,15 @@ First, make title frame plain (no page number, not footline...)
   \def\maketitle{\ifbeamer@inframe\titlepage\else\frame[plain,noframenumbering]{\titlepage}\fi}
 #+END_SRC
 
-Also add a logo of the University of Paris South
+Also add a logo if any
 #+BEGIN_SRC latex
   \ifthenelse{\boolean{cb@notitlelogo}}{}{
     \titlegraphic{\resizebox{!}{15mm}{\logo}}}
+#+END_SRC
+
+Set =subtitle= font to =\scriptsize=
+#+BEGIN_SRC latex
+  \setbeamerfont{subtitle}{size=\scriptsize,parent=title}
 #+END_SRC
 
 Then define the custom beamer template
@@ -884,16 +891,16 @@ Then define the custom beamer template
         \ifx\insertsubtitle\@empty%
         \else%
         \vskip0.25em%
-               {\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle\par}%
+               {\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\vspace{2ex}\insertsubtitle\par}%
                \fi%
       \end{beamercolorbox}%
       \vskip1em\par
-      %%\begin{beamercolorbox}[sep=8pt,center,#1]{author}
-      %%  \usebeamerfont{author}\insertauthor
-      %%\end{beamercolorbox}
-      %%\begin{beamercolorbox}[sep=8pt,center,#1]{institute}
-      %%  \usebeamerfont{institute}\insertinstitute
-      %%\end{beamercolorbox}
+      \begin{beamercolorbox}[sep=8pt,center,#1]{author}
+        \usebeamerfont{author}\usebeamercolor[bg]{title}\insertauthor
+      \end{beamercolorbox}
+      \begin{beamercolorbox}[sep=8pt,center,#1]{institute}
+        \usebeamerfont{institute}\usebeamercolor[bg]{title}\insertinstitute
+      \end{beamercolorbox}
       %%\begin{beamercolorbox}[sep=8pt,center,#1]{date}
       %%  \usebeamerfont{date}\insertdate
       %%\end{beamercolorbox}
@@ -1247,18 +1254,25 @@ up. Practically, everything can be done within this section.
   }{}
 #+END_SRC
 *** SuperNEMO style
-**** Colors
+**** Preamble
 #+BEGIN_SRC latex
   \ifthenelse{\boolean{cb@snemo}}{
-    \definecolor{red}{RGB}{221,42,43}
-    \definecolor{green}{RGB}{132,184,24}
-    \definecolor{blue}{RGB}{60,72,112}
-    \definecolor{gray}{RGB}{107,108,110}
+#+END_SRC
+**** Colors
+#+BEGIN_SRC latex
+  \definecolor{red}{RGB}{221,42,43}
+  \definecolor{green}{RGB}{132,184,24}
+  \definecolor{blue}{RGB}{60,72,112}
+  \definecolor{gray}{RGB}{107,108,110}
 
-    \colorlet{generic0}{green}
-    \colorlet{generic1}{green}
-    \colorlet{generic2}{blue}
-    \colorlet{generic3}{gray}
+  \colorlet{generic0}{green}
+  \colorlet{generic1}{green}
+  \colorlet{generic2}{blue}
+  \colorlet{generic3}{gray}
+#+END_SRC
+**** Postamble
+#+BEGIN_SRC latex  :noweb yes
+  <<generate_beamer_colors>>
   }{}
 #+END_SRC
 *** C++ teaching style
