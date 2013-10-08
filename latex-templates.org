@@ -210,6 +210,17 @@ corresponding author reference... Use =\symbolfoonote[0]{Footnote text}=.
   \ProvidesPackage{supernemo-article-style}[2013/07/03 v0.01 Bundling of SuperNEMO article items]
 #+END_SRC
 
+*** Package options
+#+BEGIN_SRC latex
+  \RequirePackage{kvoptions}
+  \SetupKeyvalOptions{
+    family=snemo,
+    prefix=snemo@
+  }
+  \DeclareBoolOption[false]{nologo}
+  \DeclareBoolOption[false]{classic}
+  \ProcessKeyvalOptions*
+#+END_SRC
 *** Package requirements
 **** =hyperref= package
 #+BEGIN_SRC latex
