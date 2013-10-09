@@ -1261,8 +1261,8 @@ up. Practically, everything can be done within this section.
 **** Colors
 #+BEGIN_SRC latex
   \definecolor{red}{RGB}{221,42,43}
-  \definecolor{green}{RGB}{132,184,24}
-  \definecolor{blue}{RGB}{60,72,112}
+  \definecolor{green}{RGB}{105,182,40}
+  \definecolor{blue}{RGB}{51,51,179}
   \definecolor{gray}{RGB}{107,108,110}
 
   \colorlet{generic0}{green}
