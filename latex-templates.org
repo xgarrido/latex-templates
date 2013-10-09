@@ -808,6 +808,11 @@ different booleans used in the nex section.
     pagebackref
   }
 #+END_SRC
+**** Sans math
+#+BEGIN_SRC latex
+  \RequirePackage[eulergreek,EULERGREEK]{sansmath}
+  \sansmath
+#+END_SRC
 *** Default themes
 #+BEGIN_SRC latex
   \usetheme{default}
@@ -1263,7 +1268,7 @@ up. Practically, everything can be done within this section.
   \definecolor{red}{RGB}{221,42,43}
   \definecolor{green}{RGB}{105,182,40}
   \definecolor{blue}{RGB}{51,51,179}
-  \definecolor{gray}{RGB}{107,108,110}
+  \definecolor{gray}{gray}{0.7}
 
   \colorlet{generic0}{red}
   \colorlet{generic1}{green}
