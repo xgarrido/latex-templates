@@ -1269,7 +1269,7 @@ up. Practically, everything can be done within this section.
 #+BEGIN_SRC latex
   \ifthenelse{\boolean{cb@snemo}}{
 #+END_SRC
-******* Logo
+**** Logo
 #+BEGIN_SRC latex
   \newcommand{\snlogo}{
     \resizebox{!}{15mm}{
