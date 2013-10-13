@@ -1277,8 +1277,8 @@ up. Practically, everything can be done within this section.
         \tikzstyle{line}=[line width=3.5pt]
 
         \path[fill=white] (3.5,0.5) rectangle (16.5,13);
-        \draw[line,cap=round,sncolor] (15.77099,10.87346) +(-146:5.28649) arc (-146:-94:5.28649);
-        \draw[line,cap=round,sncolor] (14.21807,12.1247) +(-123:5.16183) arc (-123:-77:5.16183);
+        \draw[line,cap=round] (15.77099,10.87346) +(-146:5.28649) arc (-146:-94:5.28649);
+        \draw[line,cap=round] (14.21807,12.1247) +(-123:5.16183) arc (-123:-77:5.16183);
         \draw[line] (5.94556,9.46111) +(139:0.23466) arc (139:319:0.23466);
         \draw[line] (6.29889,9.15444) +(139:0.2332) arc (139:-41:0.2332);
         \draw[line] (6.65333,8.85017) +(139:0.23393) arc (139:319:0.23393);
@@ -1301,7 +1301,7 @@ up. Practically, everything can be done within this section.
         \draw[line] (4.66667,3.46667) -- (15.36667,3.46667);
         \draw[line] (4.66667,3.76667) -- (15.36667,3.76667);
 
-        \path[draw=sncolor,line,fill=white] (9.98667,6.56222) circle (2cm);
+        \path[line,fill=white] (9.98667,6.56222) circle (2cm);
 
         \draw[line,cap=round] (9.91952,6.72683) +(149:1.52587) arc (149:229:1.52587);
         \draw[line,cap=round] (9.96484,6.84433) +(-129:1.64987) arc (-129:-85:1.64987);
@@ -1321,8 +1321,8 @@ up. Practically, everything can be done within this section.
         \draw[line,cap=round] (9.85985,6.60767) +(162:0.13797) arc (162:337:0.13797);
 
         \sf\bf\fontsize{40.0}{36.0}\selectfont{}
-        \path (10.1,11.8) node[text=sncolor,anchor=base] {collaboration};
-        \path (10,2.48889) node[text=sncolor,anchor=base] {SuperNEMO};
+        \path (10.1,11.8)  node[anchor=base] {collaboration};
+        \path (10,2.48889) node[anchor=base] {SuperNEMO};
 
       \end{tikzpicture}%
     }
