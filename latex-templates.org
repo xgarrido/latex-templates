@@ -1301,7 +1301,7 @@ up. Practically, everything can be done within this section.
         \draw[line] (4.66667,3.46667) -- (15.36667,3.46667);
         \draw[line] (4.66667,3.76667) -- (15.36667,3.76667);
 
-        \path[line,fill=white] (9.98667,6.56222) circle (2cm);
+        \draw[line,fill=white] (9.98667,6.56222) circle (2cm);
 
         \draw[line,cap=round] (9.91952,6.72683) +(149:1.52587) arc (149:229:1.52587);
         \draw[line,cap=round] (9.96484,6.84433) +(-129:1.64987) arc (-129:-85:1.64987);
