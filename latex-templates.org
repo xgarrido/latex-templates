@@ -126,6 +126,14 @@ This since to be needed if =sidewaystable= are used
 #+BEGIN_SRC latex
   \RequirePackage{bm}
 #+END_SRC
+*** =multirow=
+#+BEGIN_SRC latex
+  \RequirePackage{multirow}
+#+END_SRC
+*** units package
+#+BEGIN_SRC latex
+  \RequirePackage{units}
+#+END_SRC
 * Article styles
 ** Memoir article styles                                       :development:
 :PROPERTIES:
@@ -751,7 +759,7 @@ Shift the page body on the left to make room for personal data and logo.
       echo '  \fi'
       echo '  \insertpagenumber\,/\,\insertpresentationendpage'
       echo '  \kern1em'
-      echo '  \progressbar@progressbar'
+      #echo '  \progressbar@progressbar'
   elif [ "${style}" == "cpp_teaching" ]; then
       echo '  \usebeamerfont{page number in head/foot}'
       echo '  \hspace{1em}\inserttitle\hfill'
