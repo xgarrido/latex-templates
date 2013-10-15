@@ -83,6 +83,10 @@ customize the highlighted source code output using =fancyvrb=.
   \fi
 #+END_SRC
 
+*** hyperref package
+#+BEGIN_SRC latex
+  \RequirePackage{hyperref}
+#+END_SRC
 *** [[http://www.ctan.org/pkg/pifont][pifont]] package
 #+BEGIN_SRC latex
   \RequirePackage{pifont}
@@ -240,7 +244,6 @@ corresponding author reference... Use =\symbolfoonote[0]{Footnote text}=.
 *** Package requirements
 **** =hyperref= package
 #+BEGIN_SRC latex
-  \RequirePackage{hyperref}
   \hypersetup{
     xetex,
     colorlinks=true,
@@ -361,7 +364,6 @@ footnote style of author/affiliation input.
 
 **** Cover page
 #+BEGIN_SRC latex
-  \makeatletter
   \newcommand{\HRule}{\rule{\linewidth}{1mm}}
   \renewcommand*{\maketitle}{}
   \renewenvironment{abstract}{%
@@ -404,7 +406,6 @@ footnote style of author/affiliation input.
     %% \pagestyle{plain}
     \newpage
   }
-  \makeatother
 #+END_SRC
 
 **** Footnote
@@ -819,7 +820,6 @@ different booleans used in the nex section.
 *** Package requirements
 **** =hyperref= package
 #+BEGIN_SRC latex
-  \RequirePackage{hyperref}
   \hypersetup{
     xetex,
     colorlinks=true,
@@ -1490,7 +1490,6 @@ different booleans used in the nex section.
 *** Package requirements
 **** =hyperref= package
 #+BEGIN_SRC latex
-  \RequirePackage{hyperref}
   \hypersetup{
     xetex,
     colorlinks=true,
