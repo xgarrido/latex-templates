@@ -1427,7 +1427,7 @@ up. Practically, everything can be done within this section.
 **** Title prefix
 #+BEGIN_SRC latex
   \newcommand{\Cpp}{\mbox{C\vspace{.5em}\protect\raisebox{.2ex}{\footnotesize++~}}}
-  \renewcommand{\insertprefixtitle}{\textbf{Cours \Cpp}\vskip0.25em\usebeamerfont{subtitle}}
+  \renewcommand{\insertprefixtitle}{\textbf{Cours \Cpp}\vskip0.25em\normalsize}
 #+END_SRC
 **** =prompt= environment
 #+BEGIN_SRC latex
