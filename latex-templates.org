@@ -63,7 +63,7 @@ but do not use it.
 ** Packages requirements
 *** AMS packages
 #+BEGIN_SRC latex
-  \RequirePackage{amsmath}
+  \RequirePackage{amsmath,amssymb}
 #+END_SRC
 *** Listings package
 [[https://code.google.com/p/minted/][minted]] is a package that facilitates expressive syntax highlighting in LaTeX
@@ -220,17 +220,18 @@ corresponding author reference... Use =\symbolfoonote[0]{Footnote text}=.
 #+END_SRC
 
 ** SuperNEMO article style
+*** DocDB article
 :PROPERTIES:
 :TANGLE: supernemo-article-style.sty
 :END:
 
-*** Basics
+**** Basics
 #+BEGIN_SRC latex
   \NeedsTeXFormat{LaTeX2e}
   \ProvidesPackage{supernemo-article-style}[2013/07/03 v0.01 Bundling of SuperNEMO article items]
 #+END_SRC
 
-*** Package options
+**** Package options
 #+BEGIN_SRC latex
   \RequirePackage{kvoptions}
   \SetupKeyvalOptions{
@@ -241,8 +242,8 @@ corresponding author reference... Use =\symbolfoonote[0]{Footnote text}=.
   \DeclareBoolOption[false]{classic}
   \ProcessKeyvalOptions*
 #+END_SRC
-*** Package requirements
-**** =hyperref= package
+**** Package requirements
+***** =hyperref= package
 #+BEGIN_SRC latex
   \hypersetup{
     xetex,
@@ -256,7 +257,7 @@ corresponding author reference... Use =\symbolfoonote[0]{Footnote text}=.
     pagebackref
   }
 #+END_SRC
-*** Set fonts
+**** Set fonts
 #+BEGIN_SRC latex
   \setmonofont[Scale=0.9]{Inconsolata}
   \RequirePackage{mathpazo}
@@ -273,17 +274,17 @@ corresponding author reference... Use =\symbolfoonote[0]{Footnote text}=.
   }
 #+END_SRC
 
-*** Graphics packages
+**** Graphics packages
 #+BEGIN_SRC latex
   \RequirePackage{wrapfig}
 #+END_SRC
 
-*** Color
+**** Color
 #+BEGIN_SRC latex
   \definecolor{sncolor}{rgb}{0,0,0}
 #+END_SRC
 
-*** Authoring & bibliography
+**** Authoring & bibliography
 [[http://www.ctan.org/pkg/authblk][The package]] redefines the =\author= command to work as normal or to allow a
 footnote style of author/affiliation input.
 #+BEGIN_SRC latex
@@ -294,14 +295,14 @@ footnote style of author/affiliation input.
   \RequirePackage[nottoc,notlof,notlot]{tocbibind}
 #+END_SRC
 
-*** Geometry
+**** Geometry
 #+BEGIN_SRC latex
   \RequirePackage{a4wide}
   \linespread{1.02}
 #+END_SRC
 
-*** Layout
-**** Logo
+**** Layout
+***** Logo
 #+BEGIN_SRC latex
   \newcommand{\snlogo}{
     \resizebox{!}{35mm}{
@@ -362,7 +363,7 @@ footnote style of author/affiliation input.
   }
 #+END_SRC
 
-**** Cover page
+***** Cover page
 #+BEGIN_SRC latex
   \newcommand{\HRule}{\rule{\linewidth}{1mm}}
   \renewcommand*{\maketitle}{}
@@ -408,7 +409,7 @@ footnote style of author/affiliation input.
   }
 #+END_SRC
 
-**** Footnote
+***** Footnote
 #+BEGIN_SRC latex
   \RequirePackage{fancyhdr}
   \renewcommand{\footnoterule}{\color{sncolor!90}%
@@ -418,9 +419,109 @@ footnote style of author/affiliation input.
   \interfootnotelinepenalty=10000
 #+END_SRC
 
-**** Caption
+***** Caption
 #+BEGIN_SRC latex
   \RequirePackage[margin=20pt,labelfont=bf,font=footnotesize,labelsep=endash]{caption}
+#+END_SRC
+
+*** Notes
+:PROPERTIES:
+:TANGLE: supernemo-note-style.sty
+:END:
+
+**** Basics
+#+BEGIN_SRC latex
+  \NeedsTeXFormat{LaTeX2e}
+  \ProvidesPackage{supernemo-notes-style}[2013/10/16 v0.01 Bundling of SuperNEMO simulation style]
+#+END_SRC
+**** Package requirements
+#+BEGIN_SRC latex
+  \hypersetup{
+    xetex,
+    colorlinks=true,
+    urlcolor=blue,
+    filecolor=blue,
+    linkcolor=blue,
+    plainpages=false,
+    pdfpagelabels,
+    bookmarksnumbered,
+    pagebackref
+  }
+#+END_SRC
+**** Fonts
+#+BEGIN_SRC latex
+  \setmonofont[Scale=0.9]{Inconsolata}
+  \setsansfont[Mapping=tex-text]{Myriad Pro}
+  \setromanfont[Mapping=tex-text, Numbers=OldStyle]{Minion Pro}
+  \RequirePackage[eulergreek,EULERGREEK]{sansmath}
+  \sansmath
+#+END_SRC
+**** Colors
+#+BEGIN_SRC latex
+  \definecolor{red}{RGB}{221,42,43}
+  \definecolor{green}{RGB}{105,182,40}
+  \definecolor{blue}{RGB}{0,51,153}
+  \definecolor{orange}{RGB}{192,128,64}
+  \definecolor{gray}{gray}{0.7}
+#+END_SRC
+**** Minted lexer
+#+BEGIN_SRC latex
+  \usemintedstyle{snemo}
+#+END_SRC
+**** Layout
+***** Geometry
+#+BEGIN_SRC latex
+  \RequirePackage{a4wide}
+  \linespread{1.02}
+#+END_SRC
+***** Cover page
+#+BEGIN_SRC latex
+  \newcommand{\HRule}{\rule{\linewidth}{1mm}}
+  \renewcommand*{\maketitle}{%
+    {\color{blue}
+    \pagestyle{empty}
+    \vspace*{\stretch{2}}
+    \begin{flushright}
+      \HRule
+      \\[9mm]
+        {
+          \bf\sffamily \Huge \@title
+        }
+        \\[5mm]
+        \HRule
+        \\[9mm]
+    \end{flushright}}
+  }
+#+END_SRC
+***** Footnote
+#+BEGIN_SRC latex
+  \RequirePackage{fancyhdr}
+  \renewcommand{\footnoterule}{\color{blue!75}%
+    \vskip-\footruleskip\vskip-\footrulewidth%
+    \vspace{10pt}\hrule width\columnwidth height1.5pt \vspace{5pt} \color{blue!75}}
+  \renewcommand{\thefootnote}{\alph{footnote}}
+  \interfootnotelinepenalty=10000
+#+END_SRC
+***** Caption
+#+BEGIN_SRC latex
+  \RequirePackage[margin=20pt,labelfont=bf,font=footnotesize,labelsep=endash]{caption}
+#+END_SRC
+**** Appearance tweaks
+***** Remove TOC dots
+#+BEGIN_SRC latex
+  \renewcommand\@dotsep{10000}
+#+END_SRC
+***** Change section colors
+#+BEGIN_SRC latex
+  \RequirePackage{titlesec}
+  \titleformat*{\section}{\usekomafont{sectioning}\usekomafont{section}\color{blue}}
+#+END_SRC
+***** SN@ilWare logo
+#+BEGIN_SRC latex
+  \RequirePackage{xspace}
+  \def\Snailware{\mbox{$\overline{\text{SN@il}}$%
+      \hspace{.05em}\protect\raisebox{.2ex}%
+             {$\protect\underline{\text{Ware}}$}}\xspace}
 #+END_SRC
 
 * CV style
@@ -1689,6 +1790,7 @@ exported to =$TEXMFHOME= to make them available from everywhere.
 | $TEXMFHOME/tex/latex/commonstuff                 | org-preamble.sty            |
 | $TEXMFHOME/tex/latex/commonstuff                 | memoir-article-style.sty    |
 | $TEXMFHOME/tex/latex/commonstuff                 | supernemo-article-style.sty |
+| $TEXMFHOME/tex/latex/commonstuff                 | supernemo-note-style.sty    |
 | $TEXMFHOME/tex/latex/commonstuff                 | cv-style.sty                |
 | $TEXMFHOME/tex/latex/commonstuff/koma-letter-lco | english.lco                 |
 | $TEXMFHOME/tex/latex/commonstuff/koma-letter-lco | french.lco                  |
