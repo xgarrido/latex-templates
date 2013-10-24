@@ -887,6 +887,7 @@ Shift the page body on the left to make room for personal data and logo.
    \DeclareBoolOption[false]{nologo}
    \DeclareBoolOption[false]{notitlelogo}
    \DeclareBoolOption[false]{noheaderlogo}
+   \DeclareBoolOption[false]{noauthor}
    \DeclareBoolOption[false]{ddpfo}
    \DeclareBoolOption[false]{snemo}
    \DeclareBoolOption[false]{cpp_teaching}
@@ -908,6 +909,7 @@ different booleans used in the nex section.
   \ifthenelse{\boolean{cb@cpp_teaching}}{
     \setboolean{has_driver_name}{true}
     \setboolean{cb@nologo}{true}
+    \setboolean{cb@noauthor}{true}
   }{}
   \ifthenelse{\boolean{has_driver_name}}{
   }{
@@ -1027,9 +1029,11 @@ Then define the custom beamer template
                \fi%
       \end{beamercolorbox}%
       \vskip1em\par
-      \begin{beamercolorbox}[sep=8pt,center,#1]{author}
-        \usebeamerfont{author}\usebeamercolor[bg]{title}\insertauthor
-      \end{beamercolorbox}
+      \ifthenelse{\boolean{cb@noauthor}}{}{
+        \begin{beamercolorbox}[sep=8pt,center,#1]{author}
+          \usebeamerfont{author}\usebeamercolor[bg]{title}\insertauthor
+        \end{beamercolorbox}
+      }
       \begin{beamercolorbox}[sep=8pt,center,#1]{institute}
         \usebeamerfont{institute}\usebeamercolor[bg]{title}\insertinstitute
       \end{beamercolorbox}
