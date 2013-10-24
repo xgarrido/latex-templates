@@ -1046,11 +1046,15 @@ Then define the custom beamer template
   }
 #+END_SRC
 
-*** Part page definition
+*** Appendix page definition
 This tweak is used to include =appendix= page with the name style as =title=
 page. First, rename the =appendix= name :
 #+BEGIN_SRC latex
-  \renewcommand{\appendixname}{Annexes}
+  \renewcommand{\appendix}{
+    \begin{frame}[plain]{}
+      \partpage
+    \end{frame}
+  }
 #+END_SRC
 
 Then use almost the default part page style but include the command =\appendix=
@@ -1058,7 +1062,6 @@ in order to keep the total page number unchanged.
 #+BEGIN_SRC latex
   \defbeamertemplate*{part page}{custom}[1][colsep=-4bp,
     rounded=true,shadow=\beamer@themerounded@shadow]{
-    \appendix
     \begin{centering}
       \vskip1em\par
       \begin{beamercolorbox}[sep=16pt,center,#1]{part title}
@@ -1408,6 +1411,10 @@ up. Practically, everything can be done within this section.
   \colorlet{generic2}{blue}
   \colorlet{generic3}{gray}
 #+END_SRC
+**** Changing appendix name
+#+BEGIN_SRC latex
+  \renewcommand{\appendixname}{Annexes}
+#+END_SRC
 **** Postamble
 #+BEGIN_SRC latex :noweb yes
   <<generate_beamer_colors>>
@@ -1515,6 +1522,10 @@ up. Practically, everything can be done within this section.
 **** Preamble
 #+BEGIN_SRC latex
   \ifthenelse{\boolean{cb@cpp_teaching}}{
+#+END_SRC
+**** Changing appendix name
+#+BEGIN_SRC latex
+  \renewcommand{\appendixname}{Annexes}
 #+END_SRC
 **** Colors
 #+BEGIN_SRC latex
