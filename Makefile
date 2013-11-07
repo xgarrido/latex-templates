@@ -19,16 +19,7 @@ org: $(FILESO)
 	@if [ -x latex-templates.sh ]; then ./latex-templates.sh; fi
 	@touch $@
 
-doc: doc/index.html
-
-doc/index.html:
-	mkdir -p doc
-	$(EMACS) --batch -Q --eval '(org-babel-load-file "starter-kit-publish.org")'
-	rm starter-kit-publish.el
-	cp doc/starter-kit.html doc/index.html
-	echo "NOTICE: Documentation published to doc/"
-
-clean: org
+clean:
 	@if [ -x latex-templates.sh ]; then ./latex-templates.sh clean; fi
 	@rm -f .*.tangle *.tar.gz *.conf *.aux *.tex *.fls *fdb_latexmk *.log *.pdf doc/*html *~
 	@rm -f *.sty *.sh
