@@ -106,18 +106,18 @@ customize the highlighted source code output using =fancyvrb=.
 *** [[http://www.texample.net/tikz/][tikz]] package
 #+BEGIN_SRC latex
   \RequirePackage{tikz}
-  \usetikzlibrary{positioning,arrows,decorations,backgrounds,patterns,matrix,shapes,fit,calc,shadows,plotmarks,spy,external}
+  \usetikzlibrary{positioning,arrows,decorations,backgrounds,patterns,matrix,shapes,fit,calc,shadows,plotmarks,spy}
 #+END_SRC
 
 We use the external library from =tikz= to cache i.e. produce a =pdf= file of
 each =tikzpicture=. =tikz/external= looks if the pdf exist and if not, export it.
 #+BEGIN_SRC latex
-  \tikzset{
-    external/system call={%
-      xelatex -shell-escape
-      -halt-on-error -interaction=batchmode
-      -jobname "\image" "\texsource"}}
-  \tikzexternalize[prefix=latex.d/]
+  %%\tikzset{
+  %%  external/system call={%
+  %%    xelatex -shell-escape
+  %%    -halt-on-error -interaction=batchmode
+  %%    -jobname "\image" "\texsource"}}
+  %%\tikzexternalize[prefix=latex.d/]
   \input "|mkdir -p latex.d"
   \input "|mkdir -p /tmp/latex.d"
 #+END_SRC
