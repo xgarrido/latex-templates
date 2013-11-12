@@ -160,15 +160,21 @@ corresponding author reference... Use =\symbolfoonote[0]{Footnote text}=.
 
 *** Set font
 #+BEGIN_SRC latex
+  \RequirePackage{eulervm}
   \setsansfont[Mapping=tex-text]{Myriad Pro}
   \setmonofont[Mapping=tex-text,Scale=MatchLowercase]{Inconsolata}
   \setromanfont[Mapping=tex-text, Numbers=OldStyle]{Minion Pro}
 #+END_SRC
+
 *** Smaller table font size
 #+BEGIN_SRC latex :tangle no
-  \usepackage{floatrow}
+  \RequirePackage{floatrow}
   \DeclareFloatFont{tiny}{\tiny}% "scriptsize" is defined by floatrow, "tiny" not
   \floatsetup[table]{font=tiny}
+#+END_SRC
+*** Wider page size
+#+BEGIN_SRC latex
+  \RequirePackage{a4wide}
 #+END_SRC
 
 *** Chapter style
