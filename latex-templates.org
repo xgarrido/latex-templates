@@ -138,6 +138,10 @@ This since to be needed if =sidewaystable= are used
 #+BEGIN_SRC latex
   \RequirePackage{units}
 #+END_SRC
+*** xspace package
+#+BEGIN_SRC latex
+  \RequirePackage{xspace}
+#+END_SRC
 * Article styles
 ** Memoir article styles                                       :development:
 :PROPERTIES:
@@ -158,6 +162,23 @@ corresponding author reference... Use =\symbolfoonote[0]{Footnote text}=.
     \endgroup}
 #+END_SRC
 
+*** =hyperref= package
+#+BEGIN_SRC latex
+  \colorlet{blue}{blue!50!black}
+  \colorlet{red}{red!80!black}
+  \hypersetup{
+    xetex,
+    colorlinks=true,
+    urlcolor=red,
+    filecolor=blue,
+    linkcolor=red,
+    plainpages=false,
+    pdfpagelabels,
+    bookmarksnumbered,
+    pagebackref
+  }
+#+END_SRC
+
 *** Set font
 #+BEGIN_SRC latex
   \RequirePackage{eulervm}
@@ -172,6 +193,7 @@ corresponding author reference... Use =\symbolfoonote[0]{Footnote text}=.
   \DeclareFloatFont{tiny}{\tiny}% "scriptsize" is defined by floatrow, "tiny" not
   \floatsetup[table]{font=tiny}
 #+END_SRC
+
 *** Wider page size
 #+BEGIN_SRC latex
   \RequirePackage{a4wide}
@@ -181,9 +203,9 @@ corresponding author reference... Use =\symbolfoonote[0]{Footnote text}=.
 #+BEGIN_SRC latex
   \makechapterstyle{article-sans}{
     \setsecheadstyle{\sffamily\bfseries}
-    \setsubsecheadstyle{\normalsize\sffamily\itshape}
+    \setsubsecheadstyle{\color{black!75}\normalsize\sffamily}
     \setaftersubsubsecskip{-1em}
-    \setsubsubsecheadstyle{\small}
+    \setsubsubsecheadstyle{\small\itshape}
     \renewcommand{\contentsname}{}
     \renewcommand{\printchaptername}{}
     \renewcommand{\chapternamenum}{}
