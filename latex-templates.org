@@ -594,15 +594,15 @@ different booleans used in the nex section.
     pagebackref
   }
 #+END_SRC
-**** Template settings
-***** Colors
+*** Template settings
+**** Colors
 #+BEGIN_SRC latex
   \definecolor{red}{RGB}{221,42,43}
   \definecolor{green}{RGB}{105,182,40}
   \definecolor{blue}{RGB}{0,51,153}
   \definecolor{orange}{RGB}{192,128,64}
 #+END_SRC
-***** Fonts
+**** Fonts
 #+BEGIN_SRC latex
   \setmonofont[Scale=0.9]{Inconsolata}
   \setsansfont[Mapping=tex-text]{Myriad Pro}
@@ -621,13 +621,13 @@ different booleans used in the nex section.
     \sansmath
   }
 #+END_SRC
-***** Layout
-****** Geometry
+**** Layout
+***** Geometry
 #+BEGIN_SRC latex
   \RequirePackage{a4wide}
   \linespread{1.02}
 #+END_SRC
-****** Cover page
+***** Cover page
 #+BEGIN_SRC latex
   \newcommand{\HRule}{\rule{\linewidth}{1mm}}
   \renewcommand*{\maketitle}{%
@@ -646,43 +646,43 @@ different booleans used in the nex section.
     \end{flushright}}
   }
 #+END_SRC
-****** Footnote
+***** Footnote
 #+BEGIN_SRC latex
   \RequirePackage{fancyhdr}
   \renewcommand{\footnoterule}{\color{gray}%
     \vskip-\footruleskip\vskip-\footrulewidth%
-    \vspace{10pt}\hrule width\columnwidth height1.5pt \vspace{5pt} \color{gray}}
+    \vspace{10pt}\hrule width\columnwidth height0pt \vspace{5pt} \color{gray}}
   \renewcommand{\thefootnote}{\alph{footnote}}
   \interfootnotelinepenalty=10000
 #+END_SRC
-****** Caption
+***** Caption
 #+BEGIN_SRC latex
   \RequirePackage[margin=20pt,labelfont=bf,font=footnotesize,labelsep=endash]{caption}
 #+END_SRC
-***** Appearance tweaks
-****** Remove TOC dots
+**** Appearance tweaks
+***** Remove TOC dots
 #+BEGIN_SRC latex
   \renewcommand\@dotsep{10000}
 #+END_SRC
-****** Change TOC name
+***** Change TOC name
 #+BEGIN_SRC latex
 \renewcommand{\contentsname}{}
 #+END_SRC
-****** Change section colors
+***** Change section colors
 #+BEGIN_SRC latex
   \RequirePackage{titlesec}
   \renewcommand\thesection{}
   \renewcommand\thesubsection{\@arabic\c@section.\@arabic\c@subsection}
   \titleformat*{\section}{\usekomafont{sectioning}\usekomafont{section}\color{blue}}
 #+END_SRC
-***** New environment
-****** Remark
+**** New environment
+***** Remark
 #+BEGIN_SRC latex
   \newenvironment{remark}
                  {\begin{quote}\ding{47}\itshape\small}
                  {\end{quote}}
 #+END_SRC
-***** New command
+**** New command
 #+BEGIN_SRC latex
   \newcommand{\clearemptydoublepage}{\newpage{\pagestyle{empty}\cleardoublepage}}
 #+END_SRC
