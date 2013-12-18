@@ -143,6 +143,7 @@ This since to be needed if =sidewaystable= are used
 #+BEGIN_SRC latex
   \RequirePackage{xspace}
 #+END_SRC
+
 ** Generic new environment
 *** Remark
 #+BEGIN_SRC latex
@@ -317,11 +318,16 @@ corresponding author reference... Use =\symbolfoonote[0]{Footnote text}=.
     urlcolor=blue,
     filecolor=blue,
     linkcolor=red,
+    citecolor=red,
     plainpages=false,
     pdfpagelabels,
     bookmarksnumbered,
     pagebackref
   }
+#+END_SRC
+***** =prelim2e= package
+#+BEGIN_SRC latex
+\RequirePackage{prelim2e}
 #+END_SRC
 **** Set fonts
 #+BEGIN_SRC latex
@@ -461,10 +467,10 @@ footnote style of author/affiliation input.
       \end{minipage}
     \end{center}
     \vspace*{\stretch{2}}
-    \begin{center}
-      Document version 0.1\\
-      %% Document revision \SVNrevision
-    \end{center}
+    %% \begin{center}
+    %%   Document version 0.1\\
+    %%   %% Document revision \SVNrevision
+    %% \end{center}
     %% \pagestyle{plain}
     \newpage
   }
