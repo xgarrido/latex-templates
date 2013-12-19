@@ -372,108 +372,111 @@ footnote style of author/affiliation input.
 ***** Logo
 #+BEGIN_SRC latex
   \newcommand{\snlogo}{
-    \resizebox{!}{35mm}{
-      \begin{tikzpicture}[y=-1cm]
-        \tikzstyle{line}=[line width=3.5pt]
+     \ifthenelse{\boolean{snemo@nologo}}{}{
+       \resizebox{!}{35mm}{
+         \begin{tikzpicture}[y=-1cm]
+           \tikzstyle{line}=[line width=3.5pt]
 
-        \path[fill=white] (3.5,0.5) rectangle (16.5,13);
-        \draw[line,cap=round,sncolor] (15.77099,10.87346) +(-146:5.28649) arc (-146:-94:5.28649);
-        \draw[line,cap=round,sncolor] (14.21807,12.1247) +(-123:5.16183) arc (-123:-77:5.16183);
-        \draw[line] (5.94556,9.46111) +(139:0.23466) arc (139:319:0.23466);
-        \draw[line] (6.29889,9.15444) +(139:0.2332) arc (139:-41:0.2332);
-        \draw[line] (6.65333,8.85017) +(139:0.23393) arc (139:319:0.23393);
-        \draw[line] (7.00556,8.54222) +(139:0.23393) arc (139:-41:0.23393);
-        \draw[line] (7.36,8.23796) +(140:0.23321) arc (140:319:0.23321);
-        \draw[line] (7.71222,7.93) +(139:0.23466) arc (139:-41:0.23466);
-        \draw[line] (8.06667,7.62462) +(140:0.23321) arc (140:319:0.23321);
-        \draw[line] (5.94556,3.93889) +(-139:0.23466) arc (-139:-319:0.23466);
-        \draw[line] (6.29889,4.24556) +(-139:0.2332) arc (-139:41:0.2332);
-        \draw[line] (6.65333,4.54983) +(-139:0.23393) arc (-139:-319:0.23393);
-        \draw[line] (7.00556,4.85778) +(-139:0.23393) arc (-139:41:0.23393);
-        \draw[line] (7.36,5.16204) +(-140:0.23321) arc (-140:-319:0.23321);
-        \draw[line] (7.71222,5.47) +(-139:0.23466) arc (-139:41:0.23466);
-        \draw[line] (8.06667,5.77538) +(-140:0.23321) arc (-140:-319:0.23321);
+           \path[fill=white] (3.5,0.5) rectangle (16.5,13);
+           \draw[line,cap=round,sncolor] (15.77099,10.87346) +(-146:5.28649) arc (-146:-94:5.28649);
+           \draw[line,cap=round,sncolor] (14.21807,12.1247) +(-123:5.16183) arc (-123:-77:5.16183);
+           \draw[line] (5.94556,9.46111) +(139:0.23466) arc (139:319:0.23466);
+           \draw[line] (6.29889,9.15444) +(139:0.2332) arc (139:-41:0.2332);
+           \draw[line] (6.65333,8.85017) +(139:0.23393) arc (139:319:0.23393);
+           \draw[line] (7.00556,8.54222) +(139:0.23393) arc (139:-41:0.23393);
+           \draw[line] (7.36,8.23796) +(140:0.23321) arc (140:319:0.23321);
+           \draw[line] (7.71222,7.93) +(139:0.23466) arc (139:-41:0.23466);
+           \draw[line] (8.06667,7.62462) +(140:0.23321) arc (140:319:0.23321);
+           \draw[line] (5.94556,3.93889) +(-139:0.23466) arc (-139:-319:0.23466);
+           \draw[line] (6.29889,4.24556) +(-139:0.2332) arc (-139:41:0.2332);
+           \draw[line] (6.65333,4.54983) +(-139:0.23393) arc (-139:-319:0.23393);
+           \draw[line] (7.00556,4.85778) +(-139:0.23393) arc (-139:41:0.23393);
+           \draw[line] (7.36,5.16204) +(-140:0.23321) arc (-140:-319:0.23321);
+           \draw[line] (7.71222,5.47) +(-139:0.23466) arc (-139:41:0.23466);
+           \draw[line] (8.06667,5.77538) +(-140:0.23321) arc (-140:-319:0.23321);
 
-        \draw[line] (4.66667,9.66667) -- (15.36667,9.66667);
-        \draw[line] (4.66667,9.96667) -- (15.36667,9.96667);
-        \draw[line] (4.66667,10.26667) -- (15.36667,10.26667);
-        \draw[line] (4.66667,3.16667) -- (15.36667,3.16667);
-        \draw[line] (4.66667,3.46667) -- (15.36667,3.46667);
-        \draw[line] (4.66667,3.76667) -- (15.36667,3.76667);
+           \draw[line] (4.66667,9.66667) -- (15.36667,9.66667);
+           \draw[line] (4.66667,9.96667) -- (15.36667,9.96667);
+           \draw[line] (4.66667,10.26667) -- (15.36667,10.26667);
+           \draw[line] (4.66667,3.16667) -- (15.36667,3.16667);
+           \draw[line] (4.66667,3.46667) -- (15.36667,3.46667);
+           \draw[line] (4.66667,3.76667) -- (15.36667,3.76667);
 
-        \path[draw=sncolor,line,fill=white] (9.98667,6.56222) circle (2cm);
+           \path[draw=sncolor,line,fill=white] (9.98667,6.56222) circle (2cm);
 
-        \draw[line,cap=round] (9.91952,6.72683) +(149:1.52587) arc (149:229:1.52587);
-        \draw[line,cap=round] (9.96484,6.84433) +(-129:1.64987) arc (-129:-85:1.64987);
-        \draw[line,cap=round] (10.20558,6.59684) +(55:1.8469) arc (55:151:1.8469);
-        \draw[line,cap=round] (9.96256,6.58451) +(-85:1.39531) arc (-85:-33:1.39531);
-        \draw[line,cap=round] (10.05707,6.51492) +(-35:1.28299) arc (-35:31:1.28299);
-        \draw[line,cap=round] (10.09998,6.44356) +(35:1.28202) arc (35:97:1.28202);
-        \draw[line,cap=round] (10.09126,6.72875) +(99:1.00595) arc (99:170:1.00595);
-        \draw[line,cap=round] (10.03469,6.72368) +(169:0.95117) arc (169:237:0.95117);
-        \draw[line,cap=round] (9.94585,6.58108) +(-124:0.77764) arc (-124:-44:0.77764);
-        \draw[line,cap=round] (9.93399,6.50534) +(-41:0.72926) arc (-41:36:0.72926);
-        \draw[line,cap=round] (10.03246,6.57945) +(35:0.60217) arc (35:126:0.60217);
-        \draw[line,cap=round] (10.01821,6.63888) +(130:0.54491) arc (130:224:0.54491);
-        \draw[line,cap=round] (9.91514,6.60478) +(-121:0.45168) arc (-121:-56:0.45168);
-        \draw[line,cap=round] (10.00024,6.51523) +(-49:0.32865) arc (-49:43:0.32865);
-        \draw[line,cap=round] (10.00457,6.53792) +(44:0.3094) arc (44:156:0.3094);
-        \draw[line,cap=round] (9.85985,6.60767) +(162:0.13797) arc (162:337:0.13797);
+           \draw[line,cap=round] (9.91952,6.72683) +(149:1.52587) arc (149:229:1.52587);
+           \draw[line,cap=round] (9.96484,6.84433) +(-129:1.64987) arc (-129:-85:1.64987);
+           \draw[line,cap=round] (10.20558,6.59684) +(55:1.8469) arc (55:151:1.8469);
+           \draw[line,cap=round] (9.96256,6.58451) +(-85:1.39531) arc (-85:-33:1.39531);
+           \draw[line,cap=round] (10.05707,6.51492) +(-35:1.28299) arc (-35:31:1.28299);
+           \draw[line,cap=round] (10.09998,6.44356) +(35:1.28202) arc (35:97:1.28202);
+           \draw[line,cap=round] (10.09126,6.72875) +(99:1.00595) arc (99:170:1.00595);
+           \draw[line,cap=round] (10.03469,6.72368) +(169:0.95117) arc (169:237:0.95117);
+           \draw[line,cap=round] (9.94585,6.58108) +(-124:0.77764) arc (-124:-44:0.77764);
+           \draw[line,cap=round] (9.93399,6.50534) +(-41:0.72926) arc (-41:36:0.72926);
+           \draw[line,cap=round] (10.03246,6.57945) +(35:0.60217) arc (35:126:0.60217);
+           \draw[line,cap=round] (10.01821,6.63888) +(130:0.54491) arc (130:224:0.54491);
+           \draw[line,cap=round] (9.91514,6.60478) +(-121:0.45168) arc (-121:-56:0.45168);
+           \draw[line,cap=round] (10.00024,6.51523) +(-49:0.32865) arc (-49:43:0.32865);
+           \draw[line,cap=round] (10.00457,6.53792) +(44:0.3094) arc (44:156:0.3094);
+           \draw[line,cap=round] (9.85985,6.60767) +(162:0.13797) arc (162:337:0.13797);
 
-        %%\fontfamily{phv}\fontseries{b}
-        \sf\fontsize{30.0}{36.0}\selectfont{}
-        \path (10.1,11.8) node[text=sncolor,anchor=base] {c~o~l~l~a~b~o~r~a~t~i~o~n};
-        \path (10,2.28889) node[text=sncolor,anchor=base] {s~~u~~p~~e~~r~~n~~e~~m~~o};
+           %%\fontfamily{phv}\fontseries{b}
+           \sf\fontsize{30.0}{36.0}\selectfont{}
+           \path (10.1,11.8) node[text=sncolor,anchor=base] {c~o~l~l~a~b~o~r~a~t~i~o~n};
+           \path (10,2.28889) node[text=sncolor,anchor=base] {s~~u~~p~~e~~r~~n~~e~~m~~o};
 
-      \end{tikzpicture}%
-    }
+         \end{tikzpicture}%
+       }
+     }
   }
 #+END_SRC
 
 ***** Cover page
 #+BEGIN_SRC latex
-  \newcommand{\HRule}{\rule{\linewidth}{1mm}}
-  \renewcommand*{\maketitle}{}
-  \renewenvironment{abstract}{%
-    \color{sncolor}
-    \pagestyle{empty}
-    \vspace*{\stretch{2}}
-    \begin{flushright}
-      \HRule
-      \\[9mm]
-        {
-          \bf \Huge \@title
-        }
-        \\[15mm]
-        \large
-
-        \snlogo\hfill%
-        %%\includegraphics[height=35mm]{supernemo_logo} \hfill%
-        \parbox[b]{10cm}{\begin{flushright}
-            \@author
-        \end{flushright}}
-        \\[5mm]
+  \ifthenelse{\boolean{snemo@classic}}{
+    \newcommand{\HRule}{\rule{\linewidth}{1mm}}
+    \renewcommand*{\maketitle}{}
+    \renewenvironment{abstract}{%
+      \color{sncolor}
+      \pagestyle{empty}
+      \vspace*{\stretch{2}}
+      \begin{flushright}
         \HRule
         \\[9mm]
-    \end{flushright}
-    \begin{center}
-      \bf\large \abstractname
-    \end{center}
-    \begin{center}
-      \begin{minipage}[b]{12cm}
-        \small
-  }%
-  {%
-      \end{minipage}
-    \end{center}
-    \vspace*{\stretch{2}}
-    %% \begin{center}
-    %%   Document version 0.1\\
-    %%   %% Document revision \SVNrevision
-    %% \end{center}
-    %% \pagestyle{plain}
-    \newpage
-  }
+          {
+            \bf \Huge \@title
+          }
+          \\[15mm]
+          \large
+
+          \snlogo\hfill%
+          \parbox[b]{10cm}{\begin{flushright}
+              \@author
+          \end{flushright}}
+          \\[5mm]
+          \HRule
+          \\[9mm]
+      \end{flushright}
+      \begin{center}
+        \bf\large \abstractname
+      \end{center}
+      \begin{center}
+        \begin{minipage}[b]{12cm}
+          \small
+    }%
+    {%
+        \end{minipage}
+      \end{center}
+      \vspace*{\stretch{2}}
+      %% \begin{center}
+      %%   Document version 0.1\\
+      %%   %% Document revision \SVNrevision
+      %% \end{center}
+      %% \pagestyle{plain}
+      \newpage
+    }
+}
 #+END_SRC
 
 ***** Footnote
