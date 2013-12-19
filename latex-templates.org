@@ -477,7 +477,7 @@ footnote style of author/affiliation input.
       \vspace*{\stretch{2}}
       \if\@email\@empty
       \else
-      \footnote[0]{\ding{46} corresponding author \href{mailto:\@email}{\@email}
+      \footnote[0]{\ding{46} corresponding author \href{mailto:\@email}{\@email}}
       \fi
       \newpage
     }
