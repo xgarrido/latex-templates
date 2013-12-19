@@ -307,6 +307,7 @@ corresponding author reference... Use =\symbolfoonote[0]{Footnote text}=.
   }
   \DeclareBoolOption[false]{nologo}
   \DeclareBoolOption[false]{classic}
+  \DeclareBoolOption[false]{authblk}
   \ProcessKeyvalOptions*
 #+END_SRC
 **** Package requirements
@@ -355,7 +356,8 @@ corresponding author reference... Use =\symbolfoonote[0]{Footnote text}=.
 [[http://www.ctan.org/pkg/authblk][The package]] redefines the =\author= command to work as normal or to allow a
 footnote style of author/affiliation input.
 #+BEGIN_SRC latex
-  \RequirePackage{authblk}
+  \ifthenelse{\boolean{snemo@authblk}}{
+    \RequirePackage{authblk}}{}
 #+END_SRC
 
 #+BEGIN_SRC latex
@@ -434,6 +436,10 @@ footnote style of author/affiliation input.
 
 ***** Cover page
 #+BEGIN_SRC latex
+  \let\@email\@empty
+  \@ifundefined{email}{%
+    \newcommand\email[1]{\gdef\@email{#1}}}{}
+
   \ifthenelse{\boolean{snemo@classic}}{
     \newcommand{\HRule}{\rule{\linewidth}{1mm}}
     \renewcommand*{\maketitle}{}
@@ -469,22 +475,34 @@ footnote style of author/affiliation input.
         \end{minipage}
       \end{center}
       \vspace*{\stretch{2}}
-      %% \begin{center}
-      %%   Document version 0.1\\
-      %%   %% Document revision \SVNrevision
-      %% \end{center}
-      %% \pagestyle{plain}
+      \if\@email\@empty
+      \else
+      \footnote[0]{\ding{46} corresponding author \href{mailto:\@email}{\@email}
+      \fi
       \newpage
     }
-}
+  }{
+    \renewenvironment{abstract}{%
+      \if\@email\@empty
+      \else
+      \footnote[0]{\ding{46} corresponding author \href{mailto:\@email}{\color{gray}\@email}}
+      \fi
+    }
+  }
 #+END_SRC
 
 ***** Footnote
 #+BEGIN_SRC latex
   \RequirePackage{fancyhdr}
-  \renewcommand{\footnoterule}{\color{sncolor!90}%
-    \vskip-\footruleskip\vskip-\footrulewidth%
-    \vspace{10pt}\hrule width\columnwidth height1.5pt \vspace{5pt} \color{sncolor!90}}
+  \ifthenelse{\boolean{snemo@classic}}{
+    \renewcommand{\footnoterule}{\color{sncolor!90}%
+      \vskip-\footruleskip\vskip-\footrulewidth%
+      \vspace{10pt}\hrule width\columnwidth height1.5pt \vspace{5pt} \color{sncolor!90}}
+  }{
+    \renewcommand{\footnoterule}{%
+      \vskip-\footruleskip\vskip-\footrulewidth%
+      \vspace{10pt}\hrule width\columnwidth height0pt \vspace{5pt} \color{gray}}
+  }
   \renewcommand{\thefootnote}{\alph{footnote}}
   \interfootnotelinepenalty=10000
 #+END_SRC
