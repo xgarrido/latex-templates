@@ -350,6 +350,11 @@ corresponding author reference... Use =\symbolfoonote[0]{Footnote text}=.
 **** Color
 #+BEGIN_SRC latex
   \definecolor{sncolor}{rgb}{0,0,0}
+  \definecolor{red}{RGB}{221,42,43}
+  \definecolor{green}{RGB}{105,182,40}
+  \definecolor{blue}{RGB}{0,51,153}
+  \definecolor{orange}{RGB}{192,128,64}
+  \definecolor{gray}{gray}{0.7}
 #+END_SRC
 
 **** Authoring & bibliography
@@ -361,7 +366,10 @@ footnote style of author/affiliation input.
 #+END_SRC
 
 #+BEGIN_SRC latex
-  \RequirePackage[nottoc,notlof,notlot]{tocbibind}
+  \newcommand{\bibname}{References}
+  \RequirePackage[compress,numbers]{natbib}
+
+  %%\RequirePackage[nottoc,notlof,notlot]{tocbibind}
 #+END_SRC
 
 **** Geometry
@@ -510,6 +518,24 @@ footnote style of author/affiliation input.
 ***** Caption
 #+BEGIN_SRC latex
   \RequirePackage[margin=20pt,labelfont=bf,font=footnotesize,labelsep=endash]{caption}
+#+END_SRC
+
+**** Appearance tweaks
+***** Remove TOC dots
+#+BEGIN_SRC latex
+  \renewcommand\@dotsep{10000}
+#+END_SRC
+***** Change section colors
+#+BEGIN_SRC latex
+  \RequirePackage{titlesec}
+  \titleformat*{\section}{\usekomafont{sectioning}\usekomafont{section}\color{sncolor}}
+#+END_SRC
+***** SN@ilWare logo
+#+BEGIN_SRC latex
+  \RequirePackage{xspace}
+  \def\Snailware{\mbox{$\overline{\text{SN@il}}$%
+      \hspace{.05em}\protect\raisebox{.2ex}%
+             {$\protect\underline{\text{Ware}}$}}\xspace}
 #+END_SRC
 
 *** Notes
