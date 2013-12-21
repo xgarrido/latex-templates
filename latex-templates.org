@@ -160,7 +160,6 @@ This since to be needed if =sidewaystable= are used
 *** Bibliography
 #+BEGIN_SRC latex
   \renewenvironment{bibliography}{%
-    \section*{\bibname}% <-- this line was changed from \chapter* to \section*
     \@mkboth{\MakeUppercase\bibname}{\MakeUppercase\bibname}%
     \list{\@biblabel{\@arabic\c@enumiv}}%
          {\settowidth\labelwidth{\@biblabel{9}}%
@@ -179,7 +178,6 @@ This since to be needed if =sidewaystable= are used
         {\@latex@warning{Empty `thebibliography' environment}}%
         \endlist}
 #+END_SRC
-
 
 * Article styles
 ** Memoir article styles                                       :development:
