@@ -152,6 +152,12 @@ This since to be needed if =sidewaystable= are used
   \newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 #+END_SRC
 
+** Email handling
+#+BEGIN_SRC latex
+  \let\@email\@empty
+  \@ifundefined{email}{%
+    \newcommand\email[1]{\gdef\@email{#1}}}{}
+#+END_SRC
 ** Generic new environment
 *** Remark
 #+BEGIN_SRC latex
@@ -168,6 +174,7 @@ This since to be needed if =sidewaystable= are used
 *** Bibliography
 #+BEGIN_SRC latex
   \renewenvironment{bibliography}{%
+    \small
     \@mkboth{\MakeUppercase\bibname}{\MakeUppercase\bibname}%
     \list{\@biblabel{\@arabic\c@enumiv}}%
          {\settowidth\labelwidth{\@biblabel{9}}%
@@ -372,10 +379,8 @@ footnote style of author/affiliation input.
 #+END_SRC
 
 #+BEGIN_SRC latex
-  \newcommand{\bibname}{References}
   \RequirePackage[compress,numbers]{natbib}
-
-  %%\RequirePackage[nottoc,notlof,notlot]{tocbibind}
+  \RequirePackage[nottoc,notlof,notlot]{tocbibind}
 #+END_SRC
 
 **** Geometry
@@ -555,6 +560,7 @@ footnote style of author/affiliation input.
   \ProvidesPackage{supernemo-notes-style}[2013/10/16 v0.01 Bundling of SuperNEMO simulation style]
 #+END_SRC
 **** Package requirements
+***** =hyperref= package
 #+BEGIN_SRC latex
   \hypersetup{
     xetex,
@@ -567,6 +573,10 @@ footnote style of author/affiliation input.
     bookmarksnumbered,
     pagebackref
   }
+#+END_SRC
+***** =prelim2e= package
+#+BEGIN_SRC latex :tangle no
+\RequirePackage{prelim2e}
 #+END_SRC
 **** Fonts
 #+BEGIN_SRC latex
@@ -617,9 +627,9 @@ footnote style of author/affiliation input.
 ***** Footnote
 #+BEGIN_SRC latex
   \RequirePackage{fancyhdr}
-  \renewcommand{\footnoterule}{\color{blue!75}%
+  \renewcommand{\footnoterule}{%
     \vskip-\footruleskip\vskip-\footrulewidth%
-    \vspace{10pt}\hrule width\columnwidth height1.5pt \vspace{5pt} \color{blue!75}}
+    \vspace{10pt}\hrule width\columnwidth height0pt \vspace{5pt} \color{gray}}
   \renewcommand{\thefootnote}{\alph{footnote}}
   \interfootnotelinepenalty=10000
 #+END_SRC
@@ -767,6 +777,11 @@ different booleans used in the nex section.
   \renewcommand\thesubsection{\@arabic\c@section.\@arabic\c@subsection}
   \titleformat*{\section}{\usekomafont{sectioning}\usekomafont{section}\color{blue}}
 #+END_SRC
+***** Add new page at the end of section
+#+BEGIN_SRC latex
+  \let\stdsection\section
+  \renewcommand\section{\ifnum\c@section>0{\clearemptydoublepage}\else\fi\stdsection}
+#+END_SRC
 **** New command
 #+BEGIN_SRC latex
   \newcommand{\clearemptydoublepage}{\newpage{\pagestyle{empty}\cleardoublepage}}
@@ -789,11 +804,33 @@ letter. Then /personal data/ informations are set given the usecase
   \usepackage{graphicx}
   \usepackage[dvipdfm]{geometry}
   \usepackage{pst-barcode}
+  \hypersetup{
+    xetex,
+    colorlinks=true,
+    urlcolor=blue,
+    filecolor=blue,
+    linkcolor=red,
+    citecolor=red,
+    plainpages=false,
+    pdfpagelabels,
+    bookmarksnumbered,
+    pagebackref
+  }
 #+END_SRC
 *** Fonts
 #+NAME: kfonts
 #+BEGIN_SRC latex :results none :tangle no
   \setmainfont{GaramondNo8}
+#+END_SRC
+*** Colors
+#+NAME: kcolors
+#+BEGIN_SRC latex
+  \definecolor{sncolor}{rgb}{0,0,0}
+  \definecolor{red}{RGB}{221,42,43}
+  \definecolor{green}{RGB}{105,182,40}
+  \definecolor{blue}{RGB}{0,51,153}
+  \definecolor{orange}{RGB}{192,128,64}
+  \definecolor{gray}{HTML}{555555}
 #+END_SRC
 *** Lengths
 #+NAME: klengths
@@ -831,43 +868,54 @@ Shift the page body on the left to make room for personal data and logo.
 #+NAME: kheader
 #+BEGIN_SRC latex :results none :tangle no
   \firsthead{%
-   \fontsize{8}{9}\sffamily
-   \hspace*{\fill}%
-   \begin{picture}(0,0)%
-   \put(0,0){\parbox[t]{\useplength{infocolwidth}}{%
-   \vspace{\useplength{toaddrvpos}}%
-   \usekomavar{fromlogo}%
-   }%
-   }%
-   \put(0,0){\parbox[t]{\useplength{infocolwidth}}{%
-   \raggedright
-   \vspace{\useplength{refvpos}}%
-   \vspace{\useplength{refaftervskip}}%
-   \usekomavar{place}\usekomavar{placeseparator}\\
-   \usekomavar{date}\\[10\baselineskip]
-   \usekomavar{fromname}\\
-   \usekomavar{fromaddress}\\
-   [\baselineskip]
-   \Telefon~\usekomavar{fromphone}\\
-   \Letter~\usekomavar{fromemail}
-   }%
-  }%
-   \end{picture}%
-   \hspace*{\useplength{infocolwidth}}%
+    \fontsize{8}{9}\sffamily
+    \hspace*{\fill}%
+    \begin{picture}(0,0)%
+      \put(0,0){\parbox[t]{\useplength{infocolwidth}}{%
+          \vspace{\useplength{toaddrvpos}}%
+          \usekomavar{fromlogo}%
+        }%
+      }%
+      \put(0,0){\parbox[t]{\useplength{infocolwidth}}{%
+          \raggedright
+          \vspace{\useplength{refvpos}}%
+          \vspace{\useplength{refaftervskip}}%
+          \usekomavar{place}\usekomavar{placeseparator}\\
+          \usekomavar{date}\\[10\baselineskip]
+          \usekomavar{fromname}\\
+          \usekomavar{fromaddress}\\
+                     [\baselineskip]
+                     \Telefon~\usekomavar{fromphone}\\
+                     \Letter~\usekomavar{fromemail}
+        }%
+      }%
+    \end{picture}%
+    \hspace*{\useplength{infocolwidth}}%
   }%
 
   % avoid the display of the date in the default position
   \l@addto@macro\@firstheadfootfield{\setkomavar{date}{}}
 #+END_SRC
-
+*** Fancy footnote
+#+NAME: kfootnote
+#+BEGIN_SRC latex
+  \RequirePackage{fancyhdr}
+  \renewcommand{\footnoterule}{%
+    \vskip-\footruleskip\vskip-\footrulewidth%
+    \vspace{10pt}\hrule width\columnwidth height0pt \vspace{5pt} \color{gray}}
+  \renewcommand{\thefootnote}{\alph{footnote}}
+  \interfootnotelinepenalty=10000
+#+END_SRC
 *** Full layout
 #+NAME: klayout
 #+BEGIN_SRC latex :results none :tangle no
   <<kpackages>>
   <<kfonts>>
+  <<kcolors>>
   <<klengths>>
   <<kbody>>
   <<kheader>>
+  <<kfootnote>>
 #+END_SRC
 
 ** Personal data
@@ -1350,7 +1398,7 @@ up. Practically, everything can be done within this section.
     \definecolor{c6ec72e}{RGB}{110,199,46}
     \definecolor{c094268}{RGB}{9,66,104}
     \definecolor{c615e5e}{RGB}{97,94,94}
-    \tikzsetnextfilename{upsud_logo}
+    %%\tikzsetnextfilename{upsud_logo}
     \begin{tikzpicture}[y=0.80pt,x=0.80pt,yscale=-1, inner sep=0pt, outer sep=0pt]
       \begin{scope}[cm={{1.25,0.0,0.0,-1.25,(0.0,259.175)}}]
         \begin{scope}[scale=0.100]
@@ -1631,6 +1679,12 @@ up. Practically, everything can be done within this section.
   \renewcommand{\appendixname}{Backup slides}
 #+END_SRC
 
+**** Special quote environment
+#+BEGIN_SRC latex
+  \renewenvironment{quote}
+                   {\color{gray}\begin{tabular}{|p{10cm}}}
+                   {\end{tabular}}
+#+END_SRC
 **** Postamble
 #+BEGIN_SRC latex  :noweb yes
   <<generate_beamer_colors>>
