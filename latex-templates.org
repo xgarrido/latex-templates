@@ -152,6 +152,15 @@ This since to be needed if =sidewaystable= are used
   \newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 #+END_SRC
 
+*** underline package
+#+BEGIN_SRC latex
+  \RequirePackage{ulem}
+#+END_SRC
+*** cancel package
+This package allows to cancel a number in LaTeX math mode
+#+BEGIN_SRC latex
+  \RequirePackage{cancel}
+#+END_SRC
 ** Email handling
 #+BEGIN_SRC latex
   \let\@email\@empty
