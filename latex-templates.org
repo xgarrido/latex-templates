@@ -154,7 +154,7 @@ This since to be needed if =sidewaystable= are used
 
 *** underline package
 #+BEGIN_SRC latex
-  \RequirePackage{ulem}
+  \RequirePackage[normalem]{ulem}
 #+END_SRC
 *** cancel package
 This package allows to cancel a number in LaTeX math mode
