@@ -709,6 +709,11 @@ different booleans used in the nex section.
     pagebackref
   }
 #+END_SRC
+**** =esint= package
+[[http://www.ctan.org/pkg/esint][esint]] provides alternate integral symbol such as circle integrals
+#+BEGIN_SRC latex
+  \RequirePackage{esint}
+#+END_SRC
 *** Template settings
 **** Colors
 #+BEGIN_SRC latex
