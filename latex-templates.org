@@ -800,9 +800,22 @@ different booleans used in the nex section.
   \let\stdsection\section
   \renewcommand\section{\ifnum\c@section>0{\clearemptydoublepage}\else\fi\stdsection}
 #+END_SRC
-**** New command
+**** New commands
 #+BEGIN_SRC latex
   \newcommand{\clearemptydoublepage}{\newpage{\pagestyle{empty}\cleardoublepage}}
+#+END_SRC
+
+Mathemactical & physics related commands
+#+BEGIN_SRC latex
+  \newcommand{\vv}[1]{\overrightarrow{#1}}
+  \renewcommand{\div}{\ensuremath{\text{div}}}
+  \newcommand{\rot}{\ensuremath{\vv{\text{rot}}}}
+  \newcommand{\grad}{\ensuremath{\vv{\text{grad}}}}
+  \newcommand{\ket}[1]{\ensuremath{|#1\rangle}\xspace}
+  \newcommand{\bra}[1]{\ensuremath{\langle #1|}\xspace}
+  \newcommand{\psh}[2]{\ensuremath{\langle #1|#2\rangle}\xspace}
+  \newcommand{\cmark}{\ding{51}}
+  \newcommand{\xmark}{\ding{55}}
 #+END_SRC
 
 * KOMA/LaTeX letter styles
