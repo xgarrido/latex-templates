@@ -122,11 +122,20 @@ each =tikzpicture=. =tikz/external= looks if the pdf exist and if not, export it
   \input "|mkdir -p latex.d"
   \input "|mkdir -p /tmp/latex.d"
 #+END_SRC
+*** pgfplot package
+#+BEGIN_SRC latex
+  \RequirePackage{pgfplots}
+#+END_SRC
+*** textpos package
+#+BEGIN_SRC latex
+  \RequirePackage[absolute]{textpos}
+#+END_SRC
 *** rotating package
 This since to be needed if =sidewaystable= are used
 #+BEGIN_SRC latex
   \RequirePackage{rotating}
 #+END_SRC
+
 *** Bold math package
 #+BEGIN_SRC latex
   \RequirePackage{bm}
@@ -260,6 +269,10 @@ corresponding author reference... Use =\symbolfoonote[0]{Footnote text}=.
   \RequirePackage{a4wide}
 #+END_SRC
 
+*** Remove paragraph indent
+#+BEGIN_SRC latex
+  \setlength{\parindent}{0cm}
+#+END_SRC
 *** Chapter style
 #+BEGIN_SRC latex
   \makechapterstyle{article-sans}{
@@ -562,7 +575,6 @@ footnote style of author/affiliation input.
 :PROPERTIES:
 :TANGLE: supernemo-note-style.sty
 :END:
-
 **** Basics
 #+BEGIN_SRC latex
   \NeedsTeXFormat{LaTeX2e}
@@ -786,7 +798,7 @@ different booleans used in the nex section.
 #+END_SRC
 ***** Change TOC name
 #+BEGIN_SRC latex
-\renewcommand{\contentsname}{}
+  \renewcommand{\contentsname}{}
 #+END_SRC
 ***** Change section colors
 #+BEGIN_SRC latex
