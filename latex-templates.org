@@ -800,6 +800,10 @@ different booleans used in the nex section.
 #+BEGIN_SRC latex
   \renewcommand{\contentsname}{}
 #+END_SRC
+***** Add newpage at the end of TOC
+#+BEGIN_SRC latex
+  \g@addto@macro\tableofcontents{\clearemptydoublepage}
+#+END_SRC
 ***** Change section colors
 #+BEGIN_SRC latex
   \RequirePackage{titlesec}
