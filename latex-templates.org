@@ -212,6 +212,11 @@ This package allows to cancel a number in LaTeX math mode
         \endlist}
 #+END_SRC
 
+** New commands
+#+BEGIN_SRC latex
+  \newcommand{\clearemptydoublepage}{\newpage{\pagestyle{empty}\cleardoublepage}}
+#+END_SRC
+
 * Article styles
 ** Memoir article styles                                       :development:
 :PROPERTIES:
@@ -764,18 +769,32 @@ different booleans used in the nex section.
   \newcommand{\HRule}{\rule{\linewidth}{1mm}}
   \renewcommand*{\maketitle}{%
     {\color{blue}
-    \pagestyle{empty}
-    \vspace*{\stretch{2}}
-    \begin{flushright}
-      \HRule
-      \\[9mm]
-        {
-          \bf\sffamily \Huge \@title
-        }
-        \\[5mm]
-        \HRule
-        \\[9mm]
-    \end{flushright}}
+      \begingroup
+      \hbox{
+        \hspace*{0.2\textwidth}
+        \rule{1mm}{\textheight}
+        \hspace*{0.05\textwidth}
+        \parbox[b]{0.75\textwidth}{
+          {\noindent\bf\sffamily\Huge\@title}\\[2\baselineskip]
+          {\sffamily\Large\@author}
+          \vspace{0.75\textheight}
+      }}
+      \endgroup
+    }
+    \thispagestyle{empty}
+    \clearemptydoublepage
+    %% \pagestyle{empty}
+    %% \vspace*{\stretch{2}}
+    %% \begin{flushright}
+    %%   \HRule
+    %%   \\[9mm]
+    %%     {
+    %%       \bf\sffamily \Huge \@title
+    %%     }
+    %%     \\[5mm]
+    %%     \HRule
+    %%     \\[9mm]
+    %% \end{flushright}}
   }
 #+END_SRC
 ***** Footnote
@@ -817,11 +836,7 @@ different booleans used in the nex section.
   \renewcommand\section{\ifnum\c@section>0{\clearemptydoublepage}\else\fi\stdsection}
 #+END_SRC
 **** New commands
-#+BEGIN_SRC latex
-  \newcommand{\clearemptydoublepage}{\newpage{\pagestyle{empty}\cleardoublepage}}
-#+END_SRC
-
-Mathemactical & physics related commands
+***** Mathemactical & physics related commands
 #+BEGIN_SRC latex
   \newcommand{\vv}[1]{\overrightarrow{#1}}
   \renewcommand{\div}{\ensuremath{\text{div}}}
