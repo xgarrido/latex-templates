@@ -213,8 +213,16 @@ This package allows to cancel a number in LaTeX math mode
 #+END_SRC
 
 ** New commands
+*** Clearing odd pages
 #+BEGIN_SRC latex
-  \newcommand{\clearemptydoublepage}{\newpage{\pagestyle{empty}\cleardoublepage}}
+  \RequirePackage{changepage}
+  \newcommand\clearemptydoublepage{%
+    \checkoddpage
+    \ifthenelse{\boolean{oddpage}}%
+               {\null\clearpage}%
+               {\null\clearpage\thispagestyle{empty} \null \clearpage}%
+  }
+  %%\newcommand{\clearemptydoublepage}{\newpage{\cleardoubleemptypage\thispagestyle{empty}}
 #+END_SRC
 
 * Article styles
@@ -776,8 +784,13 @@ different booleans used in the nex section.
         \hspace*{0.05\textwidth}
         \parbox[b]{0.75\textwidth}{
           {\noindent\bf\sffamily\Huge\@title}\\[2\baselineskip]
-          {\sffamily\Large\@author}
-          \vspace{0.75\textheight}
+          %% {\sffamily\Large\@author}
+          \vspace{0.5\textheight}
+          \begin{flushright}
+            \color{gray}
+            \@author
+          \end{flushright}
+
       }}
       \endgroup
     }
