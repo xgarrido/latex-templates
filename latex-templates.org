@@ -900,7 +900,10 @@ letter. Then /personal data/ informations are set given the usecase
 *** Fonts
 #+NAME: kfonts
 #+BEGIN_SRC latex :results none :tangle no
-  \setmainfont{GaramondNo8}
+  \setsansfont[Mapping=tex-text]{Myriad Pro}
+  \setmonofont[Mapping=tex-text,Scale=MatchLowercase]{Inconsolata}
+  \setromanfont[Mapping=tex-text, Numbers=OldStyle]{Minion Pro}
+  %%\setmainfont{GaramondNo8}
 #+END_SRC
 *** Colors
 #+NAME: kcolors
@@ -1006,7 +1009,7 @@ Shift the page body on the left to make room for personal data and logo.
 
 #+BEGIN_SRC latex
   \ProvidesFile{english.lco}[]
-  \usepackage[english]{babel}
+  \RequirePackage[english]{babel}
 #+END_SRC
 
 #+BEGIN_SRC latex :noweb yes
@@ -1036,7 +1039,7 @@ Shift the page body on the left to make room for personal data and logo.
 
 #+BEGIN_SRC latex
   \ProvidesFile{french.lco}[]
-  \usepackage[frenchb]{babel}
+  \RequirePackage[frenchb]{babel}
 #+END_SRC
 
 #+BEGIN_SRC latex :noweb yes
