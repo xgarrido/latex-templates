@@ -739,6 +739,11 @@ different booleans used in the nex section.
 #+BEGIN_SRC latex
   \RequirePackage{esint}
 #+END_SRC
+**** =esvect= package
+Better mathematics vector arrow.
+#+BEGIN_SRC latex
+  \RequirePackage{esvect}
+#+END_SRC
 *** Template settings
 **** Colors
 #+BEGIN_SRC latex
@@ -851,7 +856,7 @@ different booleans used in the nex section.
 **** New commands
 ***** Mathemactical & physics related commands
 #+BEGIN_SRC latex
-  \newcommand{\vv}[1]{\overrightarrow{#1}}
+  %%\newcommand{\vv}[1]{\overrightarrow{#1}}
   \renewcommand{\div}{\ensuremath{\text{div}}}
   \newcommand{\rot}{\ensuremath{\vv{\text{rot}}}}
   \newcommand{\grad}{\ensuremath{\vv{\text{grad}}}}
