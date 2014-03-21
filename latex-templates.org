@@ -219,8 +219,8 @@ This package allows to cancel a number in LaTeX math mode
   \newcommand\clearemptydoublepage{%
     \checkoddpage
     \ifthenelse{\boolean{oddpage}}%
-               {\null\clearpage}%
                {\null\clearpage\thispagestyle{empty} \null \clearpage}%
+               {\null\clearpage}%
   }
   %%\newcommand{\clearemptydoublepage}{\newpage{\cleardoubleemptypage\thispagestyle{empty}}
 #+END_SRC
@@ -800,7 +800,7 @@ Better mathematics vector arrow.
       \endgroup
     }
     \thispagestyle{empty}
-    \clearemptydoublepage
+    \clearpage
     %% \pagestyle{empty}
     %% \vspace*{\stretch{2}}
     %% \begin{flushright}
@@ -837,10 +837,6 @@ Better mathematics vector arrow.
 #+BEGIN_SRC latex
   \renewcommand{\contentsname}{}
 #+END_SRC
-***** Add newpage at the end of TOC
-#+BEGIN_SRC latex
-  \g@addto@macro\tableofcontents{\clearemptydoublepage}
-#+END_SRC
 ***** Change section colors
 #+BEGIN_SRC latex
   \RequirePackage{titlesec}
@@ -850,8 +846,7 @@ Better mathematics vector arrow.
 #+END_SRC
 ***** Add new page at the end of section
 #+BEGIN_SRC latex
-  \let\stdsection\section
-  \renewcommand\section{\ifnum\c@section>0{\clearemptydoublepage}\else\fi\stdsection}
+  \newcommand{\sectionbreak}{\clearemptydoublepage}
 #+END_SRC
 **** New commands
 ***** Mathemactical & physics related commands
