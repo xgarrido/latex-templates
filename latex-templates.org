@@ -128,7 +128,7 @@ each =tikzpicture=. =tikz/external= looks if the pdf exist and if not, export it
 #+END_SRC
 *** textpos package
 #+BEGIN_SRC latex
-  \RequirePackage[absolute]{textpos}
+  \RequirePackage[absolute,overlay]{textpos}
 #+END_SRC
 *** rotating package
 This since to be needed if =sidewaystable= are used
@@ -1050,7 +1050,7 @@ Shift the page body on the left to make room for personal data and logo.
   \setkomavar{fromurl}{}
   %%\setkomavar{fromlogo}{\includegraphics[width=3cm]{logo_upsud_bw}}
   \setkomavar{place}{Orsay}
-  \setkomavar{signature}{Xavier Garrido\\Maître de Conférence à l'Université Paris-Sud}
+  \setkomavar{signature}{Xavier Garrido\\Maître de conférences à l'Université Paris-Sud 11}
 #+END_SRC
 
 #+BEGIN_SRC latex
@@ -1134,7 +1134,7 @@ Shift the page body on the left to make room for personal data and logo.
 #+END_SRC
 *** Parsing options
 Here we parse result of =ProcessKeyvalOptions= done previously in order to set
-different booleans used in the nex section.
+different booleans used in the next section.
 #+BEGIN_SRC latex
   \RequirePackage{ifthen}
   \newboolean{has_driver_name}
@@ -1243,7 +1243,7 @@ First, make title frame plain (no page number, not footline...)
 Also add a logo if any
 #+BEGIN_SRC latex
   \ifthenelse{\boolean{cb@notitlelogo}}{}{
-    \titlegraphic{\resizebox{!}{15mm}{\logo}}}
+    \titlegraphic{\logo}}
 #+END_SRC
 
 Set =subtitle= font to =\scriptsize=
@@ -1311,11 +1311,12 @@ in order to keep the total page number unchanged.
 #+END_SRC
 *** Adding logo to frametitle
 #+BEGIN_SRC latex
-  \RequirePackage[absolute,overlay]{textpos}
+  %% \RequirePackage[absolute,overlay]{textpos}
   \ifthenelse{\boolean{cb@noheaderlogo}}{}{
+    \newcommand{\headerlogo}{}
     \addtobeamertemplate{frametitle}{}{%
       \begin{textblock}{14}(13.9,0.25)
-        \resizebox{!}{8mm}{\logo}
+        \headerlogo
       \end{textblock}
     }
   }
@@ -1477,7 +1478,8 @@ up. Practically, everything can be done within this section.
     \definecolor{c094268}{RGB}{9,66,104}
     \definecolor{c615e5e}{RGB}{97,94,94}
     %%\tikzsetnextfilename{upsud_logo}
-    \begin{tikzpicture}[y=0.80pt,x=0.80pt,yscale=-1, inner sep=0pt, outer sep=0pt]
+    \resizebox{!}{15mm}{
+      \begin{tikzpicture}[y=0.80pt,x=0.80pt,yscale=-1, inner sep=0pt, outer sep=0pt]
       \begin{scope}[cm={{1.25,0.0,0.0,-1.25,(0.0,259.175)}}]
         \begin{scope}[scale=0.100]
           \path[fill=c6ec72e,nonzero rule] (1065.3800,1989.9500) .. controls
@@ -1636,7 +1638,9 @@ up. Practically, everything can be done within this section.
         \end{scope}
       \end{scope}
     \end{tikzpicture}
+    }
   }
+\renewcommand{\headerlogo}{\resizebox{!}{6mm}{\logo}}
 #+END_SRC
 **** Colors
 #+BEGIN_SRC latex
@@ -1666,10 +1670,10 @@ up. Practically, everything can be done within this section.
 #+END_SRC
 **** Logo
 #+BEGIN_SRC latex
-  \newcommand{\snlogo}{
-    \resizebox{!}{15mm}{
+  \renewcommand{\logo}{
+    \resizebox{!}{30mm}{
       \begin{tikzpicture}[y=-1cm]
-        \tikzstyle{line}=[line width=3.5pt]
+        \tikzstyle{line}=[blue,line width=3.5pt]
 
         \path[fill=white] (3.5,0.5) rectangle (16.5,13);
         \draw[line,cap=round] (15.77099,10.87346) +(-146:5.28649) arc (-146:-94:5.28649);
@@ -1716,12 +1720,13 @@ up. Practically, everything can be done within this section.
         \draw[line,cap=round] (9.85985,6.60767) +(162:0.13797) arc (162:337:0.13797);
 
         \sf\bf\fontsize{40.0}{36.0}\selectfont{}
-        \path (10.1,11.8)  node[anchor=base] {collaboration};
-        \path (10,2.48889) node[anchor=base] {SuperNEMO};
+        \path (10.1,11.8)  node[anchor=base,blue] {collaboration};
+        \path (10,2.48889) node[anchor=base,blue] {SuperNEMO};
 
       \end{tikzpicture}%
     }
   }
+  \renewcommand{\headerlogo}{\resizebox{!}{12mm}{\logo}}
 #+END_SRC
 
 **** Colors
