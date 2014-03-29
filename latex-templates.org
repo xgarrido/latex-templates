@@ -126,10 +126,6 @@ each =tikzpicture=. =tikz/external= looks if the pdf exist and if not, export it
 #+BEGIN_SRC latex
   \RequirePackage{pgfplots}
 #+END_SRC
-*** textpos package
-#+BEGIN_SRC latex
-  \RequirePackage[absolute,overlay]{textpos}
-#+END_SRC
 *** rotating package
 This since to be needed if =sidewaystable= are used
 #+BEGIN_SRC latex
@@ -1184,6 +1180,11 @@ different booleans used in the next section.
   \RequirePackage[eulergreek,EULERGREEK]{sansmath}
   \sansmath
 #+END_SRC
+**** textpos package
+#+BEGIN_SRC latex
+  \RequirePackage[absolute,overlay]{textpos}
+#+END_SRC
+
 *** Default themes
 #+BEGIN_SRC latex
   \usetheme{default}
