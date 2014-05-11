@@ -747,6 +747,7 @@ Better mathematics vector arrow.
   \definecolor{green}{RGB}{105,182,40}
   \definecolor{blue}{RGB}{0,51,153}
   \definecolor{orange}{RGB}{192,128,64}
+  \colorlet{default}{blue}
 #+END_SRC
 **** Fonts
 #+BEGIN_SRC latex
@@ -1738,7 +1739,8 @@ up. Practically, everything can be done within this section.
 #+BEGIN_SRC latex
   \definecolor{red}{RGB}{221,42,43}
   \definecolor{green}{RGB}{105,182,40}
-  \definecolor{blue}{RGB}{51,51,179}
+  %%\definecolor{blue}{RGB}{51,51,179}
+  \definecolor{blue}{RGB}{0,51,153}
   \definecolor{orange}{RGB}{192,128,64}
   \definecolor{gray}{gray}{0.7}
 
