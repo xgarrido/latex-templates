@@ -786,11 +786,14 @@ Better mathematics vector arrow.
         \hspace*{0.05\textwidth}
         \parbox[b]{0.75\textwidth}{
           {\noindent\bf\sffamily\Huge\@title}\\[2\baselineskip]
-          %% {\sffamily\Large\@author}
           \vspace{0.5\textheight}
           \begin{flushright}
             \color{gray}
-            \small\bf\sffamily\@author\xspace\ding{46}\xspace\@email
+            \small\bf\sffamily\@author
+            \if\@email\@empty
+            \else
+            \ding{46} \href{mailto:\@email}{\color{gray}\@email}
+            \fi
           \end{flushright}
 
       }}
