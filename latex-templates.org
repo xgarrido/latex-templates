@@ -790,7 +790,7 @@ Better mathematics vector arrow.
           \vspace{0.5\textheight}
           \begin{flushright}
             \color{gray}
-            \@author
+            \small\bf\sffamily\@author\xspace\ding{46}\xspace\@email
           \end{flushright}
 
       }}
@@ -798,18 +798,6 @@ Better mathematics vector arrow.
     }
     \thispagestyle{empty}
     \clearpage
-    %% \pagestyle{empty}
-    %% \vspace*{\stretch{2}}
-    %% \begin{flushright}
-    %%   \HRule
-    %%   \\[9mm]
-    %%     {
-    %%       \bf\sffamily \Huge \@title
-    %%     }
-    %%     \\[5mm]
-    %%     \HRule
-    %%     \\[9mm]
-    %% \end{flushright}}
   }
 #+END_SRC
 ***** Footnote
@@ -846,7 +834,7 @@ Better mathematics vector arrow.
   \newcommand{\sectionbreak}{\clearemptydoublepage}
 #+END_SRC
 **** New commands
-***** Mathemactical & physics related commands
+***** Mathematical & physics related commands
 #+BEGIN_SRC latex
   %%\newcommand{\vv}[1]{\overrightarrow{#1}}
   \renewcommand{\div}{\ensuremath{\text{div}}}
@@ -859,6 +847,30 @@ Better mathematics vector arrow.
   \newcommand{\xmark}{\ding{55}}
 #+END_SRC
 
+***** Question environment
+#+BEGIN_SRC latex
+  \RequirePackage[framemethod=tikz]{mdframed}
+  \newmdenv[%
+    hidealllines=true,leftline=true,
+    skipabove=12,skipbelow=12pt,
+    innertopmargin=0.4em,%
+    innerbottommargin=0.4em,%
+    innerrightmargin=0.7em,%
+    rightmargin=0.7em,%
+    innerleftmargin=1.7em,%
+    leftmargin=0.7em,%
+    middlelinewidth=.2em,%
+    linecolor=default,%
+    fontcolor=default,%
+  ]{question}
+  %% \newmdenv[innerlinewidth=0.5pt,
+  %%   roundcorner=4pt,
+  %%   linecolor=default,
+  %%   innerleftmargin=6pt,
+  %%   innerrightmargin=6pt,
+  %%   innertopmargin=6pt,
+  %%   innerbottommargin=6pt]{question}
+#+END_SRC
 * KOMA/LaTeX letter styles
 
 This part holds some LaTeX styles for cover letter. This is mainly inspired by
