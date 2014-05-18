@@ -166,6 +166,17 @@ This package allows to cancel a number in LaTeX math mode
 #+BEGIN_SRC latex
   \RequirePackage{cancel}
 #+END_SRC
+*** =relsize=
+#+BEGIN_SRC latex
+  \RequirePackage{relsize}
+#+END_SRC
+*** Font Awesome
+#+BEGIN_SRC latex
+  \newfontfamily{\FA}{FontAwesome}
+  \newcommand*{\faicon}[1]{{\FA\csname faicon@#1\endcsname}}
+  \expandafter\def\csname faicon@github-alt\endcsname{\symbol{"F113}}\def\faGithubAlt{{\FA\csname faicon@github-alt\endcsname}\xspace}
+  \expandafter\def\csname faicon@external-link\endcsname{\symbol{"F08E}}\def\faExternalLink{{\FA\csname faicon@external-link\endcsname}\xspace}
+#+END_SRC
 ** Email handling
 #+BEGIN_SRC latex
   \let\@email\@empty
@@ -1113,7 +1124,7 @@ Shift the page body on the left to make room for personal data and logo.
       echo '  \if\@email\@empty'
       echo '  --\,\insertshortauthor\hfill'
       echo '  \else'
-      echo '  \ding{46} \href{mailto:\@email}{\color{generic3}\@email}\hfill'
+      echo '  \ding{46} \orighref{mailto:\@email}{\color{generic3}\@email}\hfill'
       echo '  \fi'
       echo '  \insertpagenumber\,/\,\insertpresentationendpage'
       echo '  \kern1em'
@@ -1769,15 +1780,16 @@ up. Practically, everything can be done within this section.
   \hypersetup{
     xetex,
     colorlinks=true,
-    urlcolor=blue,
-    filecolor=blue,
-    linkcolor=blue,
+    urlcolor=gray!75!black,
+    filecolor=gray!75!black,
+    linkcolor=gray!75!black,
     plainpages=false,
     pdfpagelabels,
     bookmarksnumbered,
     pagebackref
   }
-
+  \let\orighref\href
+  \renewcommand{\href}[2]{\orighref{#1}{#2\,\smaller[2]{\faExternalLink}}}
 #+END_SRC
 **** Changing appendix name
 #+BEGIN_SRC latex
