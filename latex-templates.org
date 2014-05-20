@@ -1680,10 +1680,11 @@ up. Practically, everything can be done within this section.
   \definecolor{green}{RGB}{132,184,24}
   \definecolor{blue}{RGB}{0,72,112}
   \definecolor{gray}{RGB}{107,108,110}
+  \colorlet{default}{blue}
 
   \colorlet{generic0}{green}
   \colorlet{generic1}{green}
-  \colorlet{generic2}{blue}
+  \colorlet{generic2}{default}
   \colorlet{generic3}{gray}
 #+END_SRC
 **** Changing appendix name
@@ -1769,10 +1770,11 @@ up. Practically, everything can be done within this section.
   \definecolor{blue}{RGB}{0,51,153}
   \definecolor{orange}{RGB}{192,128,64}
   \definecolor{gray}{gray}{0.7}
+  \colorlet{default}{blue}
 
   \colorlet{generic0}{red}
   \colorlet{generic1}{green}
-  \colorlet{generic2}{blue}
+  \colorlet{generic2}{default}
   \colorlet{generic3}{gray}
 #+END_SRC
 **** Change =hyperref= setup
