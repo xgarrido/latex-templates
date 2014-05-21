@@ -1115,7 +1115,7 @@ Shift the page body on the left to make room for personal data and logo.
       echo '  \else'
       echo '  \ding{46} \href{mailto:\@email}{\color{generic3}\@email}\hfill'
       echo '  \fi'
-     echo '  \insertpagenumber\,/\,\insertpresentationendpage'
+     echo '  \insertframenumber\,/\,\inserttotalframenumber'
       echo '  \kern1em\vskip-1pt'
       <<generate_line>>
   elif [ "${style}" == "snemo" ]; then
@@ -1126,13 +1126,13 @@ Shift the page body on the left to make room for personal data and logo.
       echo '  \else'
       echo '  \ding{46} \orighref{mailto:\@email}{\color{generic3}\@email}\hfill'
       echo '  \fi'
-      echo '  \insertpagenumber\,/\,\insertpresentationendpage'
+      echo '  \insertframenumber\,/\,\inserttotalframenumber'
       echo '  \kern1em'
       #echo '  \progressbar@progressbar'
   elif [ "${style}" == "cpp_teaching" ]; then
       echo '  \usebeamerfont{page number in head/foot}'
       echo '  \hspace{1em}\inserttitle\hfill'
-      echo '  \insertpagenumber'
+      echo '  \insertframenumber'
       echo '  \kern1em\vskip2pt'
       <<generate_line>>
   fi
