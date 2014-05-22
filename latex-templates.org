@@ -814,6 +814,10 @@ Better mathematics vector arrow.
     \clearpage
   }
 #+END_SRC
+***** Remove paragraph indent
+#+BEGIN_SRC latex
+  \setlength{\parindent}{0cm}
+#+END_SRC
 ***** Footnote
 #+BEGIN_SRC latex
   \RequirePackage{fancyhdr}
