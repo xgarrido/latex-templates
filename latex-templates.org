@@ -1376,9 +1376,11 @@ environment, otherwise a =minipage= is defined.
       \begin{center}
         \begin{minipage}[c]{\IfNoValueOrEmptyTF{#1}{0.9\linewidth}{#1}}}{
       \begin{textblock}{\IfNoValueOrEmptyTF{#1}{10}{#1}}(#4,#5)}
+    \setbeamercolor{itemize item}{fg=\IfNoValueOrEmptyTF{#2}{lbtuc.fg}{#2.fg}}
+    \setbeamercolor{itemize subitem}{fg=\IfNoValueOrEmptyTF{#2}{lbtuc.fg}{#2.fg}}
     \begin{beamerboxesrounded}[upper=\IfNoValueOrEmptyTF{#2}{lbtuc}{#2}, lower=\IfNoValueOrEmptyTF{#2}{lbtuc}{#2}, shadow=false]
-      {\IfNoValueOrEmptyTF{#3}{}{#3}\IfNoValueOrEmptyTF{#6}{}{#6}}
-      \IfNoValueOrEmptyTF{#3}{}{#3}
+                     {\IfNoValueOrEmptyTF{#3}{}{#3}\IfNoValueOrEmptyTF{#6}{}{#6}}
+                     \IfNoValueOrEmptyTF{#3}{}{#3}
   }{
     \end{beamerboxesrounded}
     \IfNoValueOrEmptyTF{#4}{\end{minipage}\end{center}}{\end{textblock}}
