@@ -404,12 +404,13 @@ corresponding author reference... Use =\symbolfoonote[0]{Footnote text}=.
 
 **** Color
 #+BEGIN_SRC latex
-  \definecolor{sncolor}{rgb}{0,0,0}
   \definecolor{red}{RGB}{221,42,43}
   \definecolor{green}{RGB}{105,182,40}
   \definecolor{blue}{RGB}{0,51,153}
   \definecolor{orange}{RGB}{192,128,64}
   \definecolor{gray}{gray}{0.7}
+  \definecolor{default}{rgb}{0,0,0}
+  \colorlet[sncolor}{default}
 #+END_SRC
 
 **** Authoring & bibliography
