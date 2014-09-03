@@ -410,7 +410,7 @@ corresponding author reference... Use =\symbolfoonote[0]{Footnote text}=.
   \definecolor{orange}{RGB}{192,128,64}
   \definecolor{gray}{gray}{0.7}
   \definecolor{default}{rgb}{0,0,0}
-  \colorlet[sncolor}{default}
+  \colorlet{sncolor}{default}
 #+END_SRC
 
 **** Authoring & bibliography
