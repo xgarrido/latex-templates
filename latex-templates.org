@@ -586,7 +586,6 @@ footnote style of author/affiliation input.
 #+END_SRC
 ***** SN@ilWare logo
 #+BEGIN_SRC latex
-  \RequirePackage{xspace}
   \def\Snailware{\mbox{$\overline{\text{SN@il}}$%
       \hspace{.05em}\protect\raisebox{.2ex}%
              {$\protect\underline{\text{Ware}}$}}\xspace}
@@ -695,7 +694,6 @@ footnote style of author/affiliation input.
 #+END_SRC
 ***** SN@ilWare logo
 #+BEGIN_SRC latex
-  \RequirePackage{xspace}
   \def\Snailware{\mbox{$\overline{\text{SN@il}}$%
       \hspace{.05em}\protect\raisebox{.2ex}%
              {$\protect\underline{\text{Ware}}$}}\xspace}
@@ -1120,7 +1118,7 @@ Shift the page body on the left to make room for personal data and logo.
       echo '  \else'
       echo '  \ding{46} \href{mailto:\@email}{\color{generic3}\@email}\hfill'
       echo '  \fi'
-     echo '  \insertframenumber\,/\,\inserttotalframenumber'
+      echo '  \insertframenumber\,/\,\inserttotalframenumber'
       echo '  \kern1em\vskip-1pt'
       <<generate_line>>
   elif [ "${style}" == "snemo" ]; then
@@ -1309,6 +1307,9 @@ Then define the custom beamer template
       \ifthenelse{\boolean{cb@noauthor}}{}{
         \begin{beamercolorbox}[sep=8pt,center,#1]{author}
           \usebeamerfont{author}\usebeamercolor[bg]{title}\insertauthor
+          \if\@email\@empty\else
+          $\;$\ding{46} \@email
+          \fi
         \end{beamercolorbox}
       }
       \begin{beamercolorbox}[sep=8pt,center,#1]{institute}
@@ -1379,9 +1380,11 @@ environment, otherwise a =minipage= is defined.
       \begin{textblock}{\IfNoValueOrEmptyTF{#1}{10}{#1}}(#4,#5)}
     \setbeamercolor{itemize item}{fg=\IfNoValueOrEmptyTF{#2}{lbtuc.fg}{#2.fg}}
     \setbeamercolor{itemize subitem}{fg=\IfNoValueOrEmptyTF{#2}{lbtuc.fg}{#2.fg}}
+    \IfNoValueOrEmptyTF{#3}{}{%
+      \setbeamertemplate{itemize/enumerate body begin}{#3}
+      \setbeamertemplate{itemize/enumerate subbody begin}{#3}}
     \begin{beamerboxesrounded}[upper=\IfNoValueOrEmptyTF{#2}{lbtuc}{#2}, lower=\IfNoValueOrEmptyTF{#2}{lbtuc}{#2}, shadow=false]
-                     {\IfNoValueOrEmptyTF{#3}{}{#3}\IfNoValueOrEmptyTF{#6}{}{#6}}
-                     \IfNoValueOrEmptyTF{#3}{}{#3}
+      {\IfNoValueOrEmptyTF{#3}{}{#3}\IfNoValueOrEmptyTF{#6}{}{#6}}\IfNoValueOrEmptyTF{#3}{}{#3}
   }{
     \end{beamerboxesrounded}
     \IfNoValueOrEmptyTF{#4}{\end{minipage}\end{center}}{\end{textblock}}
