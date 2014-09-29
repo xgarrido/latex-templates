@@ -172,10 +172,17 @@ This package allows to cancel a number in LaTeX math mode
 #+END_SRC
 *** Font Awesome
 #+BEGIN_SRC latex
+  \ifxetex
   \newfontfamily{\FA}{FontAwesome}
   \newcommand*{\faicon}[1]{{\FA\csname faicon@#1\endcsname}}
   \expandafter\def\csname faicon@github-alt\endcsname{\symbol{"F113}}\def\faGithubAlt{{\FA\csname faicon@github-alt\endcsname}\xspace}
   \expandafter\def\csname faicon@external-link\endcsname{\symbol{"F08E}}\def\faExternalLink{{\FA\csname faicon@external-link\endcsname}\xspace}
+  \fi
+#+END_SRC
+*** =fixltx2e= package
+Following this [[http://tex.stackexchange.com/questions/74114/dont-work-with-toc][discussion]], the use of =\(\)= sithin section is not /robust/.
+#+BEGIN_SRC latex
+  %%\RequirePackage{fixltx2e}
 #+END_SRC
 ** Email handling
 #+BEGIN_SRC latex
@@ -272,9 +279,11 @@ corresponding author reference... Use =\symbolfoonote[0]{Footnote text}=.
 *** Set font
 #+BEGIN_SRC latex
   \RequirePackage{eulervm}
+  \ifxetex
   \setsansfont[Mapping=tex-text]{Myriad Pro}
   \setmonofont[Mapping=tex-text,Scale=MatchLowercase]{Inconsolata}
   \setromanfont[Mapping=tex-text, Numbers=OldStyle]{Minion Pro}
+  \fi
 #+END_SRC
 
 *** Smaller table font size
@@ -387,6 +396,7 @@ corresponding author reference... Use =\symbolfoonote[0]{Footnote text}=.
 #+END_SRC
 **** Set fonts
 #+BEGIN_SRC latex
+  \ifxetex
   \setmonofont[Scale=0.9]{Inconsolata}
   \RequirePackage{mathpazo}
 
@@ -400,6 +410,7 @@ corresponding author reference... Use =\symbolfoonote[0]{Footnote text}=.
     \setsansfont[Mapping=tex-text]{Myriad Pro}
     \setromanfont[Mapping=tex-text, Numbers=OldStyle]{Minion Pro}
   }
+  \fi
 #+END_SRC
 
 **** Color
@@ -621,9 +632,11 @@ footnote style of author/affiliation input.
 #+END_SRC
 **** Fonts
 #+BEGIN_SRC latex
+  \ifxetex
   \setmonofont[Scale=0.9]{Inconsolata}
   \setsansfont[Mapping=tex-text]{Myriad Pro}
   \setromanfont[Mapping=tex-text, Numbers=OldStyle]{Minion Pro}
+  \fi
   \RequirePackage[eulergreek,EULERGREEK]{sansmath}
   \RequirePackage{upgreek}
   \sansmath
@@ -761,6 +774,7 @@ Better mathematics vector arrow.
 #+END_SRC
 **** Fonts
 #+BEGIN_SRC latex
+  \ifxetex
   \setmonofont[Scale=0.9]{Inconsolata}
   \setsansfont[Mapping=tex-text]{Myriad Pro}
   \RequirePackage{mathpazo}
@@ -777,6 +791,7 @@ Better mathematics vector arrow.
     \RequirePackage[eulergreek,EULERGREEK]{sansmath}
     \sansmath
   }
+  \fi
 #+END_SRC
 **** Layout
 ***** Geometry
@@ -921,10 +936,12 @@ letter. Then /personal data/ informations are set given the usecase
 *** Fonts
 #+NAME: kfonts
 #+BEGIN_SRC latex :results none :tangle no
+  \ifxetex
   \setsansfont[Mapping=tex-text]{Myriad Pro}
   \setmonofont[Mapping=tex-text,Scale=MatchLowercase]{Inconsolata}
   \setromanfont[Mapping=tex-text, Numbers=OldStyle]{Minion Pro}
   %%\setmainfont{GaramondNo8}
+  \fi
 #+END_SRC
 *** Colors
 #+NAME: kcolors
@@ -1258,8 +1275,10 @@ called within =postamble= part of [[Template settings]]
 
 *** Font
 #+BEGIN_SRC latex
+  \ifxetex
   \setmonofont[Scale=0.9]{Inconsolata}
   \newfontfamily{\Handwritten}{Gunny Handwriting}
+  \fi
   \setbeamerfont{page number in head/foot}{size=\tiny}
 #+END_SRC
 *** Beamer options
