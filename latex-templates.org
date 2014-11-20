@@ -50,12 +50,12 @@ your LaTeX document.
 Options can be passed to =org-preamble= style file within =\usepackage[options]=
 call. For the time being, I have only copied/pasted how to declare such options
 but do not use it.
-#+BEGIN_SRC latex :tangle no
+#+BEGIN_SRC latex
   \RequirePackage{ifthen}
-  \newboolean{@fr} %
-  \setboolean{@fr}{false} %
-  \DeclareOption{fr}{
-    \setboolean{@fr}{true}
+  \newboolean{@nominted} %
+  \setboolean{@nominted}{false} %
+  \DeclareOption{nominted}{
+    \setboolean{@nominted}{true}
   }
   \ProcessOptions
 #+END_SRC
@@ -70,7 +70,9 @@ but do not use it.
 using the powerful Pygments library. The package also provides options to
 customize the highlighted source code output using =fancyvrb=.
 #+BEGIN_SRC latex
-  \RequirePackage[cache]{minted}
+  \ifthenelse{\boolean{@nominted}}{}{
+    \RequirePackage[cache]{minted}
+  }
 #+END_SRC
 
 *** Unicode typesettings aka XeTeX
@@ -183,6 +185,10 @@ This package allows to cancel a number in LaTeX math mode
 Following this [[http://tex.stackexchange.com/questions/74114/dont-work-with-toc][discussion]], the use of =\(\)= sithin section is not /robust/.
 #+BEGIN_SRC latex
   %%\RequirePackage{fixltx2e}
+#+END_SRC
+*** =upgreek=
+#+BEGIN_SRC latex
+  \RequirePackage{upgreek}
 #+END_SRC
 ** Email handling
 #+BEGIN_SRC latex
@@ -1861,7 +1867,9 @@ exported to =$TEXMFHOME= to make them available from everywhere.
 | $TEXMFHOME/tex/latex/commonstuff                 | custom-beamer.sty           |
 
 ** Script to do the export
-#+NAME: export_script(dirs=style_files[,0], files=style_files[,1])
+#+NAME: export_script
+#+HEADER: :var dirs=style_files[,0]
+#+HEADER: :var files=style_files[,1]
 #+BEGIN_SRC sh :shebang #!/bin/bash
   if [ ! -d $TEXMFHOME ]; then
       echo "ERROR: No TEXMFHOME installation !"
