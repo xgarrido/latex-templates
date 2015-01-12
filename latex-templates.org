@@ -1874,7 +1874,7 @@ up. Practically, everything can be done within this section.
 #+END_SRC
 
 ** Postamble
-#+BEGIN_SRC latex  :noweb yes
+#+BEGIN_SRC latex :noweb yes
   <<generate_colored_box>>
 #+END_SRC
 
