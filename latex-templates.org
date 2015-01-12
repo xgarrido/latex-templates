@@ -1277,6 +1277,8 @@ called within =postamble= part of [[Template settings]]
   \setbeamercolor{lotuc}{fg=orange,bg=orange!10}
   \setbeamercolor{lwuc}{fg=blue,bg=white}
   \setbeamercolor{hidden}{fg=white,bg=white}
+  \setbeamercolor{transparent}{fg=gray!30}
+  \setbeamercolor{none}{fg=black}
 #+END_SRC
 
 *** Font
@@ -1396,7 +1398,8 @@ headline. The parameters are the following one :
 
 The last parameters, if specified, are used within a =textblock=
 environment, otherwise a =minipage= is defined.
-#+BEGIN_SRC latex
+#+NAME: generate_colored_box
+#+BEGIN_SRC latex :results output :tangle no
   \newcommand{\IfNoValueOrEmptyTF}[3]{\IfNoValueTF{#1}{#2}{\if\relax\detokenize{#1}\relax#2\else#3\fi}}
   \RequirePackage{xparse}
   \NewDocumentEnvironment{cbox}{o o o o o d()}{
@@ -1404,8 +1407,11 @@ environment, otherwise a =minipage= is defined.
       \begin{center}
         \begin{minipage}[c]{\IfNoValueOrEmptyTF{#1}{0.9\linewidth}{#1}}}{
       \begin{textblock}{\IfNoValueOrEmptyTF{#1}{10}{#1}}(#4,#5)}
+    \ifnum\pdfstrcmp{#2}{none}=0
+    \else
     \setbeamercolor{itemize item}{fg=\IfNoValueOrEmptyTF{#2}{lbtuc.fg}{#2.fg}}
     \setbeamercolor{itemize subitem}{fg=\IfNoValueOrEmptyTF{#2}{lbtuc.fg}{#2.fg}}
+    \fi
     \IfNoValueOrEmptyTF{#3}{}{%
       \setbeamertemplate{itemize/enumerate body begin}{#3}
       \setbeamertemplate{itemize/enumerate subbody begin}{#3}}
@@ -1420,8 +1426,11 @@ environment, otherwise a =minipage= is defined.
       \begin{center}
         \begin{minipage}[c]{\IfNoValueOrEmptyTF{#1}{0.9\linewidth}{#1}}}{
       \begin{textblock}{\IfNoValueOrEmptyTF{#1}{10}{#1}}(#4,#5)}
+    \ifnum\pdfstrcmp{#2}{none}=0
+    \else
     \setbeamercolor{itemize item}{fg=\IfNoValueOrEmptyTF{#2}{lbtuc.fg}{#2.fg}}
     \setbeamercolor{itemize subitem}{fg=\IfNoValueOrEmptyTF{#2}{lbtuc.fg}{#2.fg}}
+    \fi
     \IfNoValueOrEmptyTF{#3}{}{%
       \setbeamertemplate{itemize/enumerate body begin}{#3}
       \setbeamertemplate{itemize/enumerate subbody begin}{#3}}
@@ -1863,6 +1872,12 @@ up. Practically, everything can be done within this section.
   <<generate_beamer_colors>>
   }{}
 #+END_SRC
+
+** Postamble
+#+BEGIN_SRC latex  :noweb yes
+  <<generate_colored_box>>
+#+END_SRC
+
 * Exporting styles
 :PROPERTIES:
 :TANGLE: latex-templates.sh
