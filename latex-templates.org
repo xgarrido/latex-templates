@@ -898,9 +898,9 @@ Better mathematics vector arrow.
     innerleftmargin=1.7em,%
     leftmargin=0.7em,%
     middlelinewidth=.2em,%
-    linecolor=default,%
-    fontcolor=default,%
-  ]{QUESTION}
+    linecolor=default!90,%
+    fontcolor=default!90,%
+  ]{question}
   %% \newmdenv[innerlinewidth=0.5pt,
   %%   roundcorner=4pt,
   %%   linecolor=default,
@@ -1403,25 +1403,6 @@ environment, otherwise a =minipage= is defined.
   \newcommand{\IfNoValueOrEmptyTF}[3]{\IfNoValueTF{#1}{#2}{\if\relax\detokenize{#1}\relax#2\else#3\fi}}
   \RequirePackage{xparse}
   \NewDocumentEnvironment{cbox}{o o o o o d()}{
-    \IfNoValueOrEmptyTF{#4}{
-      \begin{center}
-        \begin{minipage}[c]{\IfNoValueOrEmptyTF{#1}{0.9\linewidth}{#1}}}{
-      \begin{textblock}{\IfNoValueOrEmptyTF{#1}{10}{#1}}(#4,#5)}
-    \ifnum\pdfstrcmp{#2}{none}=0
-    \else
-    \setbeamercolor{itemize item}{fg=\IfNoValueOrEmptyTF{#2}{lbtuc.fg}{#2.fg}}
-    \setbeamercolor{itemize subitem}{fg=\IfNoValueOrEmptyTF{#2}{lbtuc.fg}{#2.fg}}
-    \fi
-    \IfNoValueOrEmptyTF{#3}{}{%
-      \setbeamertemplate{itemize/enumerate body begin}{#3}
-      \setbeamertemplate{itemize/enumerate subbody begin}{#3}}
-    \begin{beamerboxesrounded}[upper=\IfNoValueOrEmptyTF{#2}{lbtuc}{#2}, lower=\IfNoValueOrEmptyTF{#2}{lbtuc}{#2}, shadow=false]
-      {\IfNoValueOrEmptyTF{#3}{}{#3}\IfNoValueOrEmptyTF{#6}{}{#6}}\IfNoValueOrEmptyTF{#3}{}{#3}
-  }{
-    \end{beamerboxesrounded}
-    \IfNoValueOrEmptyTF{#4}{\end{minipage}\end{center}}{\end{textblock}}
-  }
-  \NewDocumentEnvironment{CBOX}{o o o o o d()}{
     \IfNoValueOrEmptyTF{#4}{
       \begin{center}
         \begin{minipage}[c]{\IfNoValueOrEmptyTF{#1}{0.9\linewidth}{#1}}}{
