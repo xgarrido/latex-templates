@@ -809,7 +809,8 @@ Better mathematics vector arrow.
 #+BEGIN_SRC latex
   \newcommand{\HRule}{\rule{\linewidth}{1mm}}
   \renewcommand*{\maketitle}{%
-    {\color{blue}
+    {
+      \color{blue}
       \begingroup
       \hbox{
         \hspace*{0.2\textwidth}
@@ -1110,6 +1111,7 @@ Shift the page body on the left to make room for personal data and logo.
 :PROPERTIES:
 :TANGLE: custom-beamer.sty
 :END:
+
 ** Special progress bar in footline
 #+NAME: generate_line
 #+HEADERS: :var color="gray"
@@ -1141,7 +1143,7 @@ Shift the page body on the left to make room for personal data and logo.
       echo '  \else'
       echo '  \ding{46} \href{mailto:\@email}{\color{generic3}\@email}\hfill'
       echo '  \fi'
-      echo '  \insertframenumber\,/\,\inserttotalframenumber'
+      echo '  \insertframenumber\,/\,\insertpresentationendframe'
       echo '  \kern1em\vskip-1pt'
       <<generate_line>>
   elif [ "${style}" == "snemo" ]; then
@@ -1152,7 +1154,7 @@ Shift the page body on the left to make room for personal data and logo.
       echo '  \else'
       echo '  \ding{46} \orighref{mailto:\@email}{\color{generic3}\@email}\hfill'
       echo '  \fi'
-      echo '  \insertframenumber\,/\,\inserttotalframenumber'
+      echo '  \insertframenumber\,/\,\insertpresentationendframe'
       echo '  \kern1em'
       #echo '  \progressbar@progressbar'
   elif [ "${style}" == "cpp_teaching" ]; then
@@ -1357,9 +1359,8 @@ This tweak is used to include =appendix= page with the name style as =title=
 page. First, rename the =appendix= name :
 #+BEGIN_SRC latex
   \renewcommand{\appendix}{
-    \begin{frame}[plain]{}
-      \partpage
-    \end{frame}
+    \partpage
+    \addtocounter{framenumber}{-1}
   }
 #+END_SRC
 
@@ -1459,6 +1460,12 @@ piece of code can not be included into the [[C++ teaching style]].
 Remove navigation symbols
 #+BEGIN_SRC latex
   \beamertemplatenavigationsymbolsempty
+#+END_SRC
+
+Count total number of frame without appendix ones
+#+BEGIN_SRC latex
+  \def\insertpresentationendframe{\inserttotalframenumber}
+  \g@addto@macro{\appendix}{\immediate\write\@auxout{\string\@writefile{nav}{\noexpand\headcommand{\noexpand\def\noexpand\insertpresentationendframe{\the\c@framenumber}}}}}
 #+END_SRC
 
 Add special footline with a slick progress bar
