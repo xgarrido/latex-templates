@@ -220,21 +220,21 @@ Following [[http://tex.stackexchange.com/questions/113564/error-using-environmen
 *** Bibliography
 #+BEGIN_SRC latex
   \renewenvironment{bibliography}{%
-    \small
-    \@mkboth{\MakeUppercase\bibname}{\MakeUppercase\bibname}%
-    \list{\@biblabel{\@arabic\c@enumiv}}%
-         {\settowidth\labelwidth{\@biblabel{9}}%
-           \leftmargin\labelwidth
-           \advance\leftmargin\labelsep
-           \@openbib@code
-           \usecounter{enumiv}%
-           \let\p@enumiv\@empty
-           \renewcommand\theenumiv{\@arabic\c@enumiv}}%
-         \sloppy
-         \clubpenalty4000
-         \@clubpenalty \clubpenalty
-         \widowpenalty4000%
-         \sfcode`\.\@m}{%
+  \small
+  \@mkboth{\MakeUppercase\bibname}{\MakeUppercase\bibname}%
+  \list{\@biblabel{\@arabic\c@enumiv}}%
+       {\settowidth\labelwidth{\@biblabel{9}}%
+         \leftmargin\labelwidth
+         \advance\leftmargin\labelsep
+         \@openbib@code
+         \usecounter{enumiv}%
+         \let\p@enumiv\@empty
+         \renewcommand\theenumiv{\@arabic\c@enumiv}}%
+       \sloppy
+       \clubpenalty4000
+       \@clubpenalty \clubpenalty
+       \widowpenalty4000%
+       \sfcode`\.\@m}{%
     \def\@noitemerr
         {\@latex@warning{Empty `thebibliography' environment}}%
         \endlist}
@@ -401,12 +401,8 @@ corresponding author reference... Use =\symbolfoonote[0]{Footnote text}=.
     plainpages=false,
     pdfpagelabels,
     bookmarksnumbered,
-    pagebackref
+    pagebackref=true
   }
-#+END_SRC
-***** =prelim2e= package
-#+BEGIN_SRC latex
-\RequirePackage{prelim2e}
 #+END_SRC
 **** Set fonts
 #+BEGIN_SRC latex
@@ -637,12 +633,8 @@ footnote style of author/affiliation input.
     plainpages=false,
     pdfpagelabels,
     bookmarksnumbered,
-    pagebackref
+    pagebackref=true
   }
-#+END_SRC
-***** =prelim2e= package
-#+BEGIN_SRC latex :tangle no
-\RequirePackage{prelim2e}
 #+END_SRC
 **** Fonts
 #+BEGIN_SRC latex
