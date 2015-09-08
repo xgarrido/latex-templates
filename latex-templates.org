@@ -1111,6 +1111,35 @@ Shift the page body on the left to make room for personal data and logo.
   \endinput
 #+END_SRC
 
+*** Private
+:PROPERTIES:
+:TANGLE: private.lco
+:END:
+
+#+BEGIN_SRC latex
+  \ProvidesFile{private.lco}[]
+  \RequirePackage[frenchb]{babel}
+#+END_SRC
+
+#+BEGIN_SRC latex :noweb yes
+  <<klayout>>
+#+END_SRC
+
+#+BEGIN_SRC latex
+  \setkomavar{fromname}{Xavier Garrido}
+  \setkomavar{fromaddress}{13 rue Marx Dormoy\\94230 Cachan}
+  \setkomavar{fromemail}{xavier.garrido@gmail.com}
+  \setkomavar{fromphone}{+33 6 71 13 81 45}
+  \setkomavar{fromfax}{}
+  \setkomavar{fromurl}{}
+  \setkomavar{place}{Cachan}
+  \setkomavar{signature}{Xavier Garrido}
+#+END_SRC
+
+#+BEGIN_SRC latex
+  \endinput
+#+END_SRC
+
 * Beamer styles
 :PROPERTIES:
 :TANGLE: custom-beamer.sty
