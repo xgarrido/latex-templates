@@ -453,6 +453,10 @@ footnote style of author/affiliation input.
   \linespread{1.02}
 #+END_SRC
 
+**** Minted lexer
+#+BEGIN_SRC latex
+  \usemintedstyle{snemo}
+#+END_SRC
 **** Layout
 ***** Logo
 #+BEGIN_SRC latex
