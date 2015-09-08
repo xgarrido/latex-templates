@@ -1916,6 +1916,7 @@ exported to =$TEXMFHOME= to make them available from everywhere.
 | $TEXMFHOME/tex/latex/commonstuff                 | teaching-classes-style.sty  |
 | $TEXMFHOME/tex/latex/commonstuff/koma-letter-lco | english.lco                 |
 | $TEXMFHOME/tex/latex/commonstuff/koma-letter-lco | french.lco                  |
+| $TEXMFHOME/tex/latex/commonstuff/koma-letter-lco | private.lco                 |
 | $TEXMFHOME/tex/latex/commonstuff                 | custom-beamer.sty           |
 
 ** Script to do the export
