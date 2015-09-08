@@ -1866,7 +1866,7 @@ up. Practically, everything can be done within this section.
   \hypersetup{
     xetex,
     colorlinks=true,
-    urlcolor=gray!75!black,
+    %% urlcolor=gray!75!black,
     filecolor=gray!75!black,
     linkcolor=gray!75!black,
     plainpages=false,
@@ -1875,7 +1875,7 @@ up. Practically, everything can be done within this section.
     pagebackref
   }
   \let\orighref\href
-  \renewcommand{\href}[2]{\orighref{#1}{#2\,\smaller[2]{\faExternalLink}}}
+  \renewcommand{\href}[2]{\orighref{#1}{#2\,\smaller[2]{\textcolor{gray!75!black}{\faExternalLink}}}}
 #+END_SRC
 **** Changing appendix name
 #+BEGIN_SRC latex
