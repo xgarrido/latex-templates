@@ -121,8 +121,8 @@ each =tikzpicture=. =tikz/external= looks if the pdf exist and if not, export it
   %%    -halt-on-error -interaction=batchmode
   %%    -jobname "\image" "\texsource"}}
   %%\tikzexternalize[prefix=latex.d/]
-  \input "|mkdir -p latex.d"
-  \input "|mkdir -p /tmp/latex.d"
+  \immediate\write18{mkdir -p latex.d}
+  \immediate\write18{mkdir -p /tmp/latex.d}
 #+END_SRC
 *** pgfplot package
 #+BEGIN_SRC latex
@@ -772,6 +772,10 @@ different booleans used in the nex section.
 Better mathematics vector arrow.
 #+BEGIN_SRC latex
   \RequirePackage{esvect}
+#+END_SRC
+**** =mathtools= package
+#+BEGIN_SRC latex
+  \RequirePackage{mathtools}
 #+END_SRC
 *** Template settings
 **** Colors
