@@ -1132,7 +1132,7 @@ Shift the page body on the left to make room for personal data and logo.
 
 #+BEGIN_SRC latex
   \setkomavar{fromname}{Xavier Garrido}
-  \setkomavar{fromaddress}{13 rue Marx Dormoy\\94230 Cachan}
+  \setkomavar{fromaddress}{10 bis rue du Lunain\\94230 Cachan}
   \setkomavar{fromemail}{xavier.garrido@gmail.com}
   \setkomavar{fromphone}{+33 6 71 13 81 45}
   \setkomavar{fromfax}{}
