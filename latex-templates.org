@@ -1325,7 +1325,7 @@ called within =postamble= part of [[Template settings]]
 #+BEGIN_SRC latex
   \ifxetex
   \setmonofont[Scale=0.9]{Inconsolata}
-  \newfontfamily{\Handwritten}{Gunny Handwriting}
+  %% \newfontfamily{\Handwritten}{Gunny Handwriting}
   \fi
   \setbeamerfont{page number in head/foot}{size=\tiny}
 #+END_SRC
@@ -2111,8 +2111,7 @@ up. Practically, everything can be done within this section.
   \setbeamercolor{author}{fg=gray}
   \setbeamerfont{author}{series=,size=\normalsize}
   \setbeamercolor{institute}{fg=gray}
-  \newcommand{\headerlogo}{}
-  \setbeamertemplate{frametitle}[default][\hfill]
+  \setbeamertemplate{frametitle}[default][right,rightskip=\the\dimexpr\beamer@rightmargin-0.8cm\relax]
   \ifthenelse{\boolean{cb@noheaderlogo}}{}{
     \addtobeamertemplate{frametitle}{}{%
       \begin{textblock}{14}(0.0,0.5)
