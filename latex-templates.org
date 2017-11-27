@@ -1200,7 +1200,6 @@ Shift the page body on the left to make room for personal data and logo.
       echo '  \hspace{1em}\inserttitle\hfill'
       echo '  \insertframenumber'
       echo '  \kern1em\vskip2pt'
-      <<generate_line>>
   fi
   echo '}'
 #+END_SRC
@@ -1319,6 +1318,7 @@ called within =postamble= part of [[Template settings]]
   \setbeamercolor{hidden}{fg=white,bg=white}
   \setbeamercolor{transparent}{fg=gray!30}
   \setbeamercolor{none}{fg=black}
+  \setbeamercolor{white}{fg=white, bg=black}
 #+END_SRC
 
 *** Font
