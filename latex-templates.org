@@ -897,20 +897,51 @@ Better mathematics vector arrow.
 
 ***** Question environment
 #+BEGIN_SRC latex
+  \expandafter\def\csname faicon@fa-question-circle\endcsname{\symbol{"F059}}\def\faQuestionCircle{{\FA\csname faicon@fa-question-circle\endcsname}\xspace}
+  \newcommand{\questionmark}{\raisebox{-1pt}{\faQuestionCircle}\textbf{\textsf{question}}}
   \RequirePackage[framemethod=tikz]{mdframed}
   \newmdenv[%
-    hidealllines=true,leftline=true,
-    skipabove=12,skipbelow=12pt,
+    singleextra={
+      \fill[default] (P) rectangle ([xshift=-15pt]P|-O);
+      \node[overlay,anchor=north west,rotate=-90,font=\color{white},yshift=1pt] at (P) {\questionmark};
+    },
+    firstextra={
+      \fill[default] (P) rectangle ([xshift=-15pt]P|-O);
+      \node[overlay,anchor=north west,rotate=-90,font=\color{white},yshift=1pt] at (P) {\questionmark};
+    },
+    secondextra={
+      \fill[default] (P) rectangle ([xshift=-15pt]P|-O);
+      \node[overlay,anchor=north west,rotate=-90,font=\color{white},yshift=1pt] at (P) {\questionmark};
+    },
+    backgroundcolor=default!2,
+    %% roundcorner=5pt,
+    %% hidealllines=true,
+    %% topline=true,
+    linecolor=default,
+    skipabove=12pt,skipbelow=12pt,
     innertopmargin=0.4em,%
     innerbottommargin=0.4em,%
-    innerrightmargin=0.7em,%
+    innerrightmargin=2.7em,%
     rightmargin=0.7em,%
     innerleftmargin=1.7em,%
     leftmargin=0.7em,%
-    middlelinewidth=.2em,%
-    linecolor=default!90,%
-    fontcolor=default!90,%
+    middlelinewidth=.1em
   ]{question}
+
+  %% \RequirePackage[framemethod=tikz]{mdframed}
+  %% \newmdenv[%
+  %%   hidealllines=true,leftline=true,
+  %%   skipabove=12,skipbelow=12pt,
+  %%   innertopmargin=0.4em,%
+  %%   innerbottommargin=0.4em,%
+  %%   innerrightmargin=0.7em,%
+  %%   rightmargin=0.7em,%
+  %%   innerleftmargin=1.7em,%
+  %%   leftmargin=0.7em,%
+  %%   middlelinewidth=.2em,%
+  %%   linecolor=default!90,%
+  %%   fontcolor=default!90,%
+  %% ]{question}
   %% \newmdenv[innerlinewidth=0.5pt,
   %%   roundcorner=4pt,
   %%   linecolor=default,
