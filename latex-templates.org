@@ -884,6 +884,7 @@ Better mathematics vector arrow.
 **** New commands
 ***** Mathematical & physics related commands
 #+BEGIN_SRC latex
+  \renewcommand{\d}{\text{d}}
   %%\newcommand{\vv}[1]{\overrightarrow{#1}}
   \renewcommand{\div}{\ensuremath{\text{div}}}
   \newcommand{\rot}{\ensuremath{\vv{\text{rot}}}}
@@ -1181,59 +1182,6 @@ Shift the page body on the left to make room for personal data and logo.
 :TANGLE: custom-beamer.sty
 :END:
 
-** Special progress bar in footline
-#+NAME: generate_line
-#+HEADERS: :var color="gray"
-#+BEGIN_SRC sh :results output :tangle no
-  echo '  \color{'$color'}% to color the progressbar'
-  echo '  \hspace*{-\beamer@leftmargin}%'
-  echo '  \rule{\beamer@leftmargin}{2pt}%'
-  echo '  \rlap{\rule{\dimexpr'
-  echo '      \beamer@startpageofframe\dimexpr'
-  echo '      \beamer@rightmargin+\textwidth\relax/\beamer@endpageofdocument}{1pt}}'
-  echo '  % next empty line is mandatory!'
-  echo ' '
-  echo '  \vspace{.0\baselineskip}'
-  echo '         {}'
-#+END_SRC
-
-#+NAME: generate_footline
-#+HEADERS: :var style="default" :var color="gray"
-#+BEGIN_SRC sh :results output :tangle no :noweb yes
-  echo '\let\@email\@empty'
-  echo '\@ifundefined{email}{%'
-  echo '  \newcommand\email[1]{\gdef\@email{#1}}}{}'
-  echo '\defbeamertemplate{footline}{cbfootline}{%'
-  if [ "${style}" == "ddpfo" ]; then
-      echo '  \usebeamerfont{page number in head/foot}'
-      echo '  \hspace{1em}\insertshortdate\,'
-      echo '  \if\@email\@empty'
-      echo '  --\,\insertshortauthor\hfill'
-      echo '  \else'
-      echo '  \ding{46} \href{mailto:\@email}{\color{generic3}\@email}\hfill'
-      echo '  \fi'
-      echo '  \insertframenumber\,/\,\insertpresentationendframe'
-      echo '  \kern1em\vskip-1pt'
-      <<generate_line>>
-  elif [ "${style}" == "snemo" ]; then
-      echo '  \usebeamerfont{page number in head/foot}'
-      echo '  \hspace{1em}\insertshortdate\,'
-      echo '  \if\@email\@empty'
-      echo '  --\,\insertshortauthor\hfill'
-      echo '  \else'
-      echo '  \ding{46} \orighref{mailto:\@email}{\color{generic3}\@email}\hfill'
-      echo '  \fi'
-      echo '  \insertframenumber\,/\,\insertpresentationendframe'
-      echo '  \kern1em'
-      #echo '  \progressbar@progressbar'
-  elif [ "${style}" == "upsud" ]; then
-      echo '  \usebeamerfont{page number in head/foot}'
-      echo '  \hspace{1em}\inserttitle\hfill'
-      echo '  \insertframenumber'
-      echo '  \kern1em\vskip2pt'
-  fi
-  echo '}'
-#+END_SRC
 ** Beamer general settings
 *** Basics
 #+BEGIN_SRC latex
@@ -1356,7 +1304,7 @@ called within =postamble= part of [[Template settings]]
 #+BEGIN_SRC latex
   \ifxetex
   \setmonofont[Scale=0.9]{Inconsolata}
-  %% \newfontfamily{\Handwritten}{Gunny Handwriting}
+  \newfontfamily{\Handwritten}{Gunny Rewritten}
   \fi
   \setbeamerfont{page number in head/foot}{size=\tiny}
 #+END_SRC
@@ -1540,44 +1488,17 @@ Count total number of frame without appendix ones
 
 Add special footline with a slick progress bar
 #+BEGIN_SRC latex :noweb yes
-  \def\progressbar@progressbar{} % the progress bar
-  \newcount\progressbar@tmpcounta% auxiliary counter
-  \newcount\progressbar@tmpcountb% auxiliary counter
-  \newdimen\progressbar@pbht %progressbar height
-  \newdimen\progressbar@pbwd %progressbar width
-  \newdimen\progressbar@tmpdim % auxiliary dimension
-
-  \progressbar@pbwd=\linewidth
-  \progressbar@pbht=1pt
-
-  % the progress bar
-  \def\progressbar@progressbar{%
-    \tikzexternaldisable
-
-    \progressbar@tmpcounta=\insertframenumber
-    \progressbar@tmpcountb=\inserttotalframenumber
-    \progressbar@tmpdim=\progressbar@pbwd
-    \multiply\progressbar@tmpdim by \progressbar@tmpcounta
-    \divide\progressbar@tmpdim by \progressbar@tmpcountb
-
-    \begin{tikzpicture}[very thin]
-      \draw[generic3,line width=\progressbar@pbht] (0pt, 0pt) -- ++ (1.25\progressbar@tmpdim,0pt);
-    \end{tikzpicture}%
-  }
   \ifthenelse{\boolean{has_driver_name}}{
-    \ifthenelse{\boolean{cb@ddpfo}}{
-      <<generate_footline(style="ddpfo", color="generic3")>>
-    }{}
-    \ifthenelse{\boolean{cb@snemo}}{
-      <<generate_footline(style="snemo", color="generic3")>>
-    }{}
-    \ifthenelse{\boolean{cb@upsud}}{
-      <<generate_footline(style="upsud", color="generic3")>>
+    \defbeamertemplate{footline}{cbfootline}{%
+      \usebeamerfont{page number in head/foot}
+      \hspace{1em}\insertsubtitle$-$\insertdate\hfill\insertframenumber\hspace{1em}
+      \vspace{1pt}
     }{}
     \setbeamertemplate{footline}[cbfootline]{}
-    \setbeamercolor{footline}{use=structure, fg=generic3, bg=structure.bg}
+    \setbeamercolor{footline}{use=structure, fg=gray!75, bg=structure.bg}
   }{}
 #+END_SRC
+
 *** Footnote
 Redefine footnote template for beamer
 #+BEGIN_SRC latex

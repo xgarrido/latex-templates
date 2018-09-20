@@ -3,7 +3,7 @@ EMACS = emacs
 
 BATCH = $(EMACS) --batch -Q --eval '(require (quote org))'			\
 	--eval '(org-babel-do-load-languages (quote org-babel-load-languages)   \
-		(quote((sh . t))))'						\
+		(quote((shell . t))))'						\
 	--eval '(setq org-confirm-babel-evaluate nil)'                          \
 	--eval "(setq org-babel-use-quick-and-dirty-noweb-expansion t)"
 
