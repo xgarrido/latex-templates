@@ -33,7 +33,7 @@ You can also tweak what you really want to be exported by changing the [[style_f
 
 * Org preamble
 :PROPERTIES:
-:TANGLE: org-preamble.sty
+:HEADER-ARGS: :tangle org-preamble.sty
 :END:
 
 This section defines =org= preamble and settings for documents exported from
@@ -257,7 +257,7 @@ Following [[http://tex.stackexchange.com/questions/113564/error-using-environmen
 * Article styles
 ** Memoir article styles                                       :development:
 :PROPERTIES:
-:TANGLE: memoir-article-style.sty
+:HEADER-ARGS: :tangle memoir-article-style.sty
 :END:
 
 Some article styles and page layout tweaks for the [[http://www.ctan.org/tex-archive/macros/latex/contrib/memoir/][memoir]] LaTeX class.
@@ -368,7 +368,7 @@ corresponding author reference... Use =\symbolfoonote[0]{Footnote text}=.
 ** SuperNEMO article style
 *** DocDB article
 :PROPERTIES:
-:TANGLE: supernemo-article-style.sty
+:HEADER-ARGS: :tangle supernemo-article-style.sty
 :END:
 
 **** Basics
@@ -619,7 +619,7 @@ footnote style of author/affiliation input.
 
 *** Notes
 :PROPERTIES:
-:TANGLE: supernemo-note-style.sty
+:HEADER-ARGS: :tangle supernemo-note-style.sty
 :END:
 **** Basics
 #+BEGIN_SRC latex
@@ -725,7 +725,7 @@ footnote style of author/affiliation input.
 
 ** Teaching classes
 :PROPERTIES:
-:TANGLE: teaching-classes-style.sty
+:HEADER-ARGS: :tangle teaching-classes-style.sty
 :END:
 *** Basics
 #+BEGIN_SRC latex
@@ -899,7 +899,8 @@ Better mathematics vector arrow.
 ***** Question environment
 #+BEGIN_SRC latex
   \expandafter\def\csname faicon@fa-question-circle\endcsname{\symbol{"F059}}\def\faQuestionCircle{{\FA\csname faicon@fa-question-circle\endcsname}\xspace}
-  \newcommand{\questionmark}{\raisebox{-1pt}{\faQuestionCircle}\textbf{\textsf{question}}}
+  %% \newcommand{\questionmark}{\raisebox{-1pt}{\faQuestionCircle}\textbf{\textsf{question}}}
+  \newcommand{\questionmark}{\raisebox{-1pt}{}}
   \RequirePackage[framemethod=tikz]{mdframed}
   \newmdenv[%
     singleextra={
@@ -926,7 +927,8 @@ Better mathematics vector arrow.
     rightmargin=0.7em,%
     innerleftmargin=1.7em,%
     leftmargin=0.7em,%
-    middlelinewidth=.1em
+    middlelinewidth=.1em,
+    font=\sffamily
   ]{question}
 
   %% \RequirePackage[framemethod=tikz]{mdframed}
@@ -1090,7 +1092,7 @@ Shift the page body on the left to make room for personal data and logo.
 ** Personal data
 *** English
 :PROPERTIES:
-:TANGLE: english.lco
+:HEADER-ARGS: :tangle english.lco
 :END:
 
 #+BEGIN_SRC latex
@@ -1120,7 +1122,7 @@ Shift the page body on the left to make room for personal data and logo.
 
 *** French
 :PROPERTIES:
-:TANGLE: french.lco
+:HEADER-ARGS: :tangle french.lco
 :END:
 
 #+BEGIN_SRC latex
@@ -1150,7 +1152,7 @@ Shift the page body on the left to make room for personal data and logo.
 
 *** Private
 :PROPERTIES:
-:TANGLE: private.lco
+:HEADER-ARGS: :tangle private.lco
 :END:
 
 #+BEGIN_SRC latex
@@ -1179,7 +1181,7 @@ Shift the page body on the left to make room for personal data and logo.
 
 * Beamer styles
 :PROPERTIES:
-:TANGLE: custom-beamer.sty
+:HEADER-ARGS: :tangle custom-beamer.sty
 :END:
 
 ** Beamer general settings
@@ -1390,7 +1392,7 @@ in order to keep the total page number unchanged.
     \begin{centering}
       \vskip1em\par
       \begin{beamercolorbox}[sep=16pt,center,#1]{part title}
-        \usebeamerfont{part title}\appendixname\par
+        \usebeamerfont{part title}\bfseries\appendixname\par
       \end{beamercolorbox}
     \end{centering}
   }
@@ -2135,7 +2137,7 @@ up. Practically, everything can be done within this section.
 
 * Exporting styles
 :PROPERTIES:
-:TANGLE: latex-templates.sh
+:HEADER-ARGS: :tangle latex-templates.sh
 :END:
 
 Given the generation of LaTeX styles from the previous items, the files are
