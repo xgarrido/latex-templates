@@ -1079,7 +1079,7 @@ Shift the page body on the left to make room for personal data and logo.
 #+END_SRC
 *** Full layout
 #+NAME: klayout
-#+BEGIN_SRC latex :results none :tangle no
+#+BEGIN_SRC latex :noweb yes
   <<kpackages>>
   <<kfonts>>
   <<kcolors>>
