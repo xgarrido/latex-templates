@@ -825,18 +825,17 @@ Better mathematics vector arrow.
         \hspace*{0.2\textwidth}
         \rule{1mm}{\textheight}
         \hspace*{0.05\textwidth}
-        \parbox[b]{0.75\textwidth}{
+        \parbox[b]{0.8\textwidth}{
           {\noindent\bfseries\sffamily\Huge\@title}\\[2\baselineskip]
           \vspace{0.5\textheight}
-          \begin{flushright}
+
+          \parbox[b]{0.55\textwidth}{
             \color{gray}
             \small\bfseries\sffamily\@author
             \if\@email\@empty
             \else
             \ding{46} \href{mailto:\@email}{\color{gray}\@email}
-            \fi
-          \end{flushright}
-
+            \fi}
       }}
       \endgroup
     }
