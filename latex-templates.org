@@ -174,12 +174,7 @@ This package allows to cancel a number in LaTeX math mode
 #+END_SRC
 *** Font Awesome
 #+BEGIN_SRC latex
-  \ifxetex
-  \newfontfamily{\FA}{FontAwesome}
-  \newcommand*{\faicon}[1]{{\FA\csname faicon@#1\endcsname}}
-  \expandafter\def\csname faicon@github-alt\endcsname{\symbol{"F113}}\def\faGithubAlt{{\FA\csname faicon@github-alt\endcsname}\xspace}
-  \expandafter\def\csname faicon@external-link\endcsname{\symbol{"F08E}}\def\faExternalLink{{\FA\csname faicon@external-link\endcsname}\xspace}
-  \fi
+  \RequirePackage{fontawesome5}
 #+END_SRC
 *** =fixltx2e= package
 Following this [[http://tex.stackexchange.com/questions/74114/dont-work-with-toc][discussion]], the use of =\(\)= sithin section is not /robust/.
@@ -607,8 +602,8 @@ footnote style of author/affiliation input.
 #+END_SRC
 ***** Change section colors
 #+BEGIN_SRC latex
-  \RequirePackage{titlesec}
-  \titleformat*{\section}{\usekomafont{sectioning}\usekomafont{section}\color{sncolor}}
+  \RequirePackage{sectsty}
+  \sectionfont{\clearemptydoublepage\color{sncolor}}
 #+END_SRC
 ***** SN@ilWare logo
 #+BEGIN_SRC latex
@@ -709,12 +704,12 @@ footnote style of author/affiliation input.
 #+END_SRC
 ***** Change TOC name
 #+BEGIN_SRC latex
-\renewcommand{\contentsname}{}
+  \AtBeginDocument{\renewcommand{\contentsname}{}}
 #+END_SRC
 ***** Change section colors
 #+BEGIN_SRC latex
-  \RequirePackage{titlesec}
-  \titleformat*{\section}{\usekomafont{sectioning}\usekomafont{section}\color{blue}}
+  \RequirePackage{sectsty}
+  \sectionfont{\clearemptydoublepage\color{blue}}
 #+END_SRC
 ***** SN@ilWare logo
 #+BEGIN_SRC latex
@@ -867,18 +862,14 @@ Better mathematics vector arrow.
 #+END_SRC
 ***** Change TOC name
 #+BEGIN_SRC latex
-  \renewcommand{\contentsname}{}
+  \AtBeginDocument{\renewcommand{\contentsname}{}}
 #+END_SRC
 ***** Change section colors
 #+BEGIN_SRC latex
-  \RequirePackage{titlesec}
+  \RequirePackage{sectsty}
+  \sectionfont{\clearemptydoublepage\color{blue}}
   \renewcommand\thesection{}
   \renewcommand\thesubsection{\@arabic\c@section.\@arabic\c@subsection}
-  \titleformat*{\section}{\usekomafont{sectioning}\usekomafont{section}\color{blue}}
-#+END_SRC
-***** Add new page at the end of section
-#+BEGIN_SRC latex
-  \newcommand{\sectionbreak}{\clearemptydoublepage}
 #+END_SRC
 **** New commands
 ***** Mathematical & physics related commands
@@ -897,8 +888,7 @@ Better mathematics vector arrow.
 
 ***** Question environment
 #+BEGIN_SRC latex
-  \expandafter\def\csname faicon@fa-question-circle\endcsname{\symbol{"F059}}\def\faQuestionCircle{{\FA\csname faicon@fa-question-circle\endcsname}\xspace}
-  %% \newcommand{\questionmark}{\raisebox{-1pt}{\faQuestionCircle}\textbf{\textsf{question}}}
+  \newcommand{\questionmark}{\raisebox{-1pt}{\faQuestionCircle}\textbf{\textsf{question}}}
   \newcommand{\questionmark}{\raisebox{-1pt}{}}
   \RequirePackage[framemethod=tikz]{mdframed}
   \newmdenv[%
@@ -1842,7 +1832,7 @@ up. Practically, everything can be done within this section.
     pagebackref
   }
   \let\orighref\href
-  \renewcommand{\href}[2]{\orighref{#1}{#2\,\smaller[2]{\textcolor{gray!75!black}{\faExternalLink}}}}
+  \renewcommand{\href}[2]{\orighref{#1}{#2\,\smaller[2]{\textcolor{gray!75!black}{\faExternalLink*}}}}
 #+END_SRC
 **** Changing appendix name
 #+BEGIN_SRC latex
