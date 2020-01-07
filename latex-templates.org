@@ -507,7 +507,7 @@ footnote style of author/affiliation input.
            \draw[line,cap=round] (9.85985,6.60767) +(162:0.13797) arc (162:337:0.13797);
 
            %%\fontfamily{phv}\fontseries{b}
-           \sf\fontsize{30.0}{36.0}\selectfont{}
+           \sffamily\fontsize{30.0}{36.0}\selectfont{}
            \path (10.1,11.8) node[text=sncolor,anchor=base] {c~o~l~l~a~b~o~r~a~t~i~o~n};
            \path (10,2.28889) node[text=sncolor,anchor=base] {s~~u~~p~~e~~r~~n~~e~~m~~o};
 
