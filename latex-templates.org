@@ -888,7 +888,7 @@ Better mathematics vector arrow.
 
 ***** Question environment
 #+BEGIN_SRC latex
-  \newcommand{\questionmark}{\raisebox{-1pt}{\faQuestionCircle}\textbf{\textsf{question}}}
+  %% \newcommand{\questionmark}{\raisebox{-1pt}{\faQuestionCircle}\textbf{\textsf{question}}}
   \newcommand{\questionmark}{\raisebox{-1pt}{}}
   \RequirePackage[framemethod=tikz]{mdframed}
   \newmdenv[%
@@ -1102,7 +1102,7 @@ Shift the page body on the left to make room for personal data and logo.
   \setkomavar{fromurl}{}
   %%\setkomavar{fromlogo}{\includegraphics[width=3cm]{logo_upsud_bw}}
   \setkomavar{place}{Orsay}
-  \setkomavar{signature}{Xavier Garrido\\Assistant professor at University Paris-Sud}
+  \setkomavar{signature}{Xavier Garrido\\Assistant professor at University Paris-Saclay}
 #+END_SRC
 
 #+BEGIN_SRC latex
@@ -1132,7 +1132,7 @@ Shift the page body on the left to make room for personal data and logo.
   \setkomavar{fromurl}{}
   %%\setkomavar{fromlogo}{\includegraphics[width=3cm]{logo_upsud_bw}}
   \setkomavar{place}{Orsay}
-  \setkomavar{signature}{Xavier Garrido\\Maître de conférences à l'Université Paris-Sud 11}
+  \setkomavar{signature}{Xavier Garrido\\Maître de conférences à l'Université Paris-Saclay}
 #+END_SRC
 
 #+BEGIN_SRC latex
