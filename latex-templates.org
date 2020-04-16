@@ -276,7 +276,7 @@ corresponding author reference... Use =\symbolfoonote[0]{Footnote text}=.
   \hypersetup{
     xetex,
     colorlinks=true,
-    urlcolor=red,
+    urlcolor=gray,
     filecolor=blue,
     linkcolor=red,
     plainpages=false,
@@ -284,6 +284,11 @@ corresponding author reference... Use =\symbolfoonote[0]{Footnote text}=.
     bookmarksnumbered,
     pagebackref
   }
+  \urlstyle{tt}
+  \let\orighref\href
+  \renewcommand{\href}[2]{\orighref{#1}{#2\,\scalebox{0.75}{\faExternalLink*}}}
+  \let\origurl\url
+  \renewcommand{\url}[1]{{\relsize{-1}\origurl{#1}\,\textcolor{gray}{\scalebox{0.65}{\faExternalLink*}}}}
 #+END_SRC
 
 *** Set font
@@ -305,7 +310,7 @@ corresponding author reference... Use =\symbolfoonote[0]{Footnote text}=.
 
 *** Wider page size
 #+BEGIN_SRC latex
-  \RequirePackage{a4wide}
+  %%\RequirePackage{a4wide}
 #+END_SRC
 
 *** Remove paragraph indent
@@ -314,50 +319,59 @@ corresponding author reference... Use =\symbolfoonote[0]{Footnote text}=.
 #+END_SRC
 *** Chapter style
 #+BEGIN_SRC latex
-  \makechapterstyle{article-sans}{
-    \setsecheadstyle{\sffamily\bfseries}
-    \setsubsecheadstyle{\color{black!75}\normalsize\sffamily}
-    \setaftersubsubsecskip{-1em}
-    \setsubsubsecheadstyle{\small\itshape}
-    \renewcommand{\contentsname}{}
-    \renewcommand{\printchaptername}{}
-    \renewcommand{\chapternamenum}{}
-    \renewcommand{\chapnumfont}{\chaptitlefont}
-    \renewcommand{\printchapternum}{\chapnumfont \thechapter\space}
-    \renewcommand{\afterchapternum}{}
-    \renewcommand{\printchaptername}{\secheadstyle}
-    \renewcommand{\cftchapterfont}{\normalfont\sffamily}
-    \renewcommand{\cftchapterpagefont}{\normalfont\sffamily}
-    \renewcommand{\cftchapterpresnum}{\sffamily}
-    %\renewcommand{\cftchapterleader}{}
-    %\renewcommand{\cftchapterafterpnum}{\cftparfillskip}
-    \captiontitlefont{\small}
-    %\settocdepth{chapter}
-    \maxsecnumdepth{chapter}
-    \setsecnumdepth{chapter}
+    \makechapterstyle{article-sans}{
+      \setsecheadstyle{\sffamily\bfseries}
+      \setsubsecheadstyle{\color{black!75}\normalsize\sffamily}
+      \setaftersubsubsecskip{-1em}
+      \setsubsubsecheadstyle{\small\itshape}
+      \renewcommand{\contentsname}{}
+      %% \renewcommand{\printchaptername}{}
+      %% \renewcommand{\chapternamenum}{}
+      %% \renewcommand{\chapnumfont}{\chaptitlefont}
+      %% \renewcommand{\printchapternum}{\chapnumfont \thechapter\space}
+      %% \renewcommand{\afterchapternum}{}
+      %% \renewcommand{\printchaptername}{\secheadstyle}
+      %% \renewcommand{\cftchapterfont}{\normalfont\sffamily}
+      %% \renewcommand{\cftchapterpagefont}{\normalfont\sffamily}
+      %% \renewcommand{\cftchapterpresnum}{\sffamily}
 
-    %% reduce skip after section heading
-    \setaftersecskip{1.7ex}
+      %% \renewcommand{\cftchapterleader}{}
+      %% \renewcommand{\cftchapterafterpnum}{\cftparfillskip}
+      \captiontitlefont{\small}
+      %\settocdepth{chapter}
+      \maxsecnumdepth{chapter}
+      \setsecnumdepth{chapter}
 
-    %% set name of bibliography to 'references'
-    %%\renewcommand{\bibname}{\mdseries\Large\sffamily References}
+      %% reduce skip after section heading
+      \setaftersecskip{1.7ex}
 
-    % % Title flush left
-    \pretitle{\par\vskip 3em
-      \begin{flushleft}\LARGE\sffamily\bfseries}
-    \posttitle{\end{flushleft}\par\vskip 0.5em}
-    \preauthor{\begin{flushleft}\Large}
-    \postauthor{\end{flushleft}}
-    \predate{\begin{flushleft}\normalsize}
-    \postdate{\end{flushleft}}
+      %% set name of bibliography to 'references'
+      %%\renewcommand{\bibname}{\mdseries\Large\sffamily References}
 
-    %% 'abstract' bigger skip from title
-    %%\addto\captionsamerican{\renewcommand*{\abstractname}{}}
-    \renewcommand{\abstractnamefont}{\normalfont\scriptsize}
-    \renewcommand{\abstracttextfont}{\normalfont\scriptsize}
-    \abstractrunin
-  }
-\chapterstyle{article-sans}
+      % % Title flush left
+      \pretitle{\par\vskip 3em
+        \begin{flushleft}\LARGE\sffamily\bfseries}
+      \posttitle{\end{flushleft}\par\vskip 0.5em}
+      \preauthor{\begin{flushleft}\Large}
+      \postauthor{\end{flushleft}}
+      \predate{\begin{flushleft}\normalsize}
+      \postdate{\end{flushleft}\vskip -10em}
+
+      %% 'abstract' bigger skip from title
+      %%\addto\captionsamerican{\renewcommand*{\abstractname}{}}
+      \renewcommand{\abstractnamefont}{\normalfont\scriptsize}
+      \renewcommand{\abstracttextfont}{\normalfont\scriptsize}
+      \abstractrunin
+    }
+  \chapterstyle{article-sans}
+#+END_SRC
+
+*** Solarized
+#+BEGIN_SRC latex
+  \usemintedstyle{solarizedlight}
+  \definecolor{solarizedbg}{RGB}{253,246,227}
+  %% \setminted{bgcolor=solarizedbg!80}
+  \setminted{bgcolor=gray!10}
 #+END_SRC
 
 ** SuperNEMO article style
@@ -676,7 +690,7 @@ footnote style of author/affiliation input.
       \HRule
       \\[9mm]
         {
-          \bf\sffamily \Huge \@title
+          \bfseries\sffamily \Huge \@title
         }
         \\[5mm]
         \HRule
@@ -885,7 +899,42 @@ Better mathematics vector arrow.
   \newcommand{\cmark}{\ding{51}}
   \newcommand{\xmark}{\ding{55}}
 #+END_SRC
+***** snippet environment
+#+BEGIN_SRC latex
+  \usepackage[cache]{minted}
+  \usemintedstyle{solarizedlight}
 
+  \newcommand{\codemark}{\raisebox{-1pt}{}}
+  \RequirePackage[framemethod=tikz]{mdframed}
+  \newmdenv[%
+    singleextra={
+      \fill[gray] (P) rectangle ([xshift=-15pt]P|-O);
+      \node[overlay,anchor=north west,rotate=-90,font=\color{white},yshift=1pt] at (P) {\codemark};
+    },
+    firstextra={
+      \fill[gray] (P) rectangle ([xshift=-15pt]P|-O);
+      \node[overlay,anchor=north west,rotate=-90,font=\color{white},yshift=1pt] at (P) {\codemark};
+    },
+    secondextra={
+      \fill[gray] (P) rectangle ([xshift=-15pt]P|-O);
+      \node[overlay,anchor=north west,rotate=-90,font=\color{white},yshift=1pt] at (P) {\codemark};
+    },
+    backgroundcolor=white,
+    %% roundcorner=5pt,
+    %% hidealllines=true,
+    %% topline=true,
+    linecolor=gray,
+    skipabove=12pt,skipbelow=12pt,
+    innertopmargin=0.4em,%
+    innerbottommargin=0.4em,%
+    innerrightmargin=2.7em,%
+    rightmargin=0.7em,%
+    innerleftmargin=1.7em,%
+    leftmargin=0.7em,%
+    middlelinewidth=.1em,
+    font=\sffamily
+  ]{snippet}
+#+END_SRC
 ***** Question environment
 #+BEGIN_SRC latex
   %% \newcommand{\questionmark}{\raisebox{-1pt}{\faQuestionCircle}\textbf{\textsf{question}}}
