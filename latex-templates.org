@@ -368,7 +368,7 @@ corresponding author reference... Use =\symbolfoonote[0]{Footnote text}=.
 
 *** Solarized
 #+BEGIN_SRC latex
-  \usemintedstyle{solarizedlight}
+  \usemintedstyle{solarized}
   \definecolor{solarizedbg}{RGB}{253,246,227}
   %% \setminted{bgcolor=solarizedbg!80}
   \setminted{bgcolor=gray!10}
@@ -902,7 +902,7 @@ Better mathematics vector arrow.
 ***** snippet environment
 #+BEGIN_SRC latex
   \usepackage[cache]{minted}
-  \usemintedstyle{solarizedlight}
+  \usemintedstyle{gruvbox-light}
 
   \newcommand{\codemark}{\raisebox{-1pt}{}}
   \RequirePackage[framemethod=tikz]{mdframed}
@@ -1054,7 +1054,7 @@ letter. Then /personal data/ informations are set given the usecase
   \ifdim \textwidth<0.666\paperwidth
    \@setplength{infocolwidth}{.22222\paperwidth}%
   \else
-   \@setplength{infocolwidth}{0.1667\paperwidth}%
+   \@setplength{infocolwidth}{0.1867\paperwidth}%
    \fi
 #+END_SRC
 
@@ -1144,8 +1144,8 @@ Shift the page body on the left to make room for personal data and logo.
 
 #+BEGIN_SRC latex
   \setkomavar{fromname}{Xavier Garrido}
-  \setkomavar{fromaddress}{Laboratoire de l'Accélérateur Linéaire\\Centre Scientifique d'Orsay\\91898 Orsay Cedex}
-  \setkomavar{fromemail}{garrido@lal.in2p3.fr}
+  \setkomavar{fromaddress}{Laboratoire de physique des 2 infinis - Irène Joliot-Curie\\Centre Scientifique d'Orsay\\91898 Orsay Cedex}
+  \setkomavar{fromemail}{xavier.garrido@ijclab.in2p3.fr}
   \setkomavar{fromphone}{+33 1 64 46 84 28}
   \setkomavar{fromfax}{}
   \setkomavar{fromurl}{}
@@ -1174,8 +1174,8 @@ Shift the page body on the left to make room for personal data and logo.
 
 #+BEGIN_SRC latex
   \setkomavar{fromname}{Xavier Garrido}
-  \setkomavar{fromaddress}{Laboratoire de l'Accélérateur Linéaire\\Centre Scientifique d'Orsay\\91898 Orsay Cedex}
-  \setkomavar{fromemail}{garrido@lal.in2p3.fr}
+  \setkomavar{fromaddress}{Laboratoire de physique des 2 infinis - Irène Joliot-Curie\\Centre Scientifique d'Orsay\\91898 Orsay Cedex}
+  \setkomavar{fromemail}{xavier.garrido@ijclab.in2p3.fr}
   \setkomavar{fromphone}{+33 1 64 46 84 28}
   \setkomavar{fromfax}{}
   \setkomavar{fromurl}{}
@@ -1531,7 +1531,7 @@ Add special footline with a slick progress bar
   \ifthenelse{\boolean{has_driver_name}}{
     \defbeamertemplate{footline}{cbfootline}{%
       \usebeamerfont{page number in head/foot}
-      \hspace{1em}\insertsubtitle$-$\insertdate\hfill\insertframenumber\hspace{1em}
+      \hspace{1em}\inserttitle$-$\insertdate\hfill\insertframenumber\hspace{1em}
       \vspace{1pt}
     }{}
     \setbeamertemplate{footline}[cbfootline]{}
@@ -2159,7 +2159,7 @@ up. Practically, everything can be done within this section.
     pagebackref
   }
   \let\orighref\href
-  \renewcommand{\href}[2]{\orighref{#1}{#2\,\scalebox{0.75}{\faExternalLink}}}
+  \renewcommand{\href}[2]{\orighref{#1}{#2\,\scalebox{0.75}{\faExternalLink*}}}
   %%\renewcommand{\url}[1]{\tikz[overlay]\node[draw=blue,inner sep=1pt, anchor=text, rectangle, rounded corners=1pt, blue] {\smaller[0.75]{\origurl{\texttt{#1}}}};\phantom{#1}}
 #+END_SRC
 **** Postamble
