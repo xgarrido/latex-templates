@@ -764,9 +764,9 @@ different booleans used in the nex section.
   \hypersetup{
     xetex,
     colorlinks=true,
-    urlcolor=blue,
-    filecolor=blue,
-    linkcolor=blue,
+    urlcolor=default,
+    filecolor=default,
+    linkcolor=default,
     plainpages=false,
     pdfpagelabels,
     bookmarksnumbered,
@@ -828,7 +828,7 @@ Better mathematics vector arrow.
   \newcommand{\HRule}{\rule{\linewidth}{1mm}}
   \renewcommand*{\maketitle}{%
     {
-      \color{blue}
+      \color{default}
       \begingroup
       \hbox{
         \hspace*{0.2\textwidth}
@@ -881,7 +881,7 @@ Better mathematics vector arrow.
 ***** Change section colors
 #+BEGIN_SRC latex
   \RequirePackage{sectsty}
-  \sectionfont{\clearemptydoublepage\color{blue}}
+  \sectionfont{\clearemptydoublepage\color{default}}
   \renewcommand\thesection{}
   \renewcommand\thesubsection{\@arabic\c@section.\@arabic\c@subsection}
 #+END_SRC
@@ -1195,7 +1195,7 @@ Shift the page body on the left to make room for personal data and logo.
 
 #+BEGIN_SRC latex
   \ProvidesFile{private.lco}[]
-  \RequirePackage[frenchb]{babel}
+  \RequirePackage[french]{babel}
 #+END_SRC
 
 #+BEGIN_SRC latex :noweb yes
